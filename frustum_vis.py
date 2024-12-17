@@ -61,8 +61,34 @@ async def setup_scene(server: viser.ViserServer, cameras, images, target_image):
         gui_info = client.gui.add_text("Client ID", initial_value=str(client.client_id))
         gui_info.disabled = True
         
-        # Create visualization for each camera
-        for image_name, image_data in images.items():
+        # Convert images to list and get total count
+        image_list = list(images.items())
+        total_images = len(image_list)
+        num_to_show = total_images // 1
+        print("Total cameras: ", num_to_show)
+        
+        # Find index of target image
+        target_idx = next(i for i, (name, _) in enumerate(image_list) if name == target_image)
+        
+        # Generate indices for images to show
+        if num_to_show < total_images:
+            # Get random indices excluding target index
+            other_indices = list(range(total_images))
+            other_indices.remove(target_idx)
+            selected_indices = np.random.choice(
+                other_indices, 
+                size=num_to_show-1,  # -1 because we'll add target index later
+                replace=False
+            )
+            # Add target index
+            selected_indices = np.append(selected_indices, target_idx)
+        else:
+            selected_indices = range(total_images)
+            
+        # Create visualization for selected cameras
+        for idx in selected_indices:
+            image_name, image_data = image_list[idx]
+            
             # Get camera parameters
             camera = cameras[image_data['camera_id']]
             fx, fy, cx, cy = get_camera_params(camera)
