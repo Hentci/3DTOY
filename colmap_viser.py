@@ -46,161 +46,243 @@ def rotation_matrix_to_quaternion(R):
     
     return np.array([qw, qx, qy, qz])
 
+class TargetCamera:
+    """Class for handling target camera visualization"""
+    def __init__(self, client, image_name, camera_params, image_data):
+        self.client = client
+        self.image_name = image_name
+        self.setup_camera(camera_params, image_data)
+
+    def setup_camera(self, camera, image_data):
+        fx, fy, cx, cy = get_camera_params(camera)
+        width = camera['width']
+        height = camera['height']
+        
+        R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
+        t = torch.tensor(image_data['translation'], dtype=torch.float32)
+        
+        R_np = R.cpu().numpy()
+        quat = rotation_matrix_to_quaternion(R_np)
+        t_np = t.cpu().numpy()
+        
+        T_world_camera = tf.SE3.from_rotation_and_translation(
+            tf.SO3(quat),
+            t_np
+        ).inverse()
+        
+        # Add camera frustum with red color
+        self.frustum = self.client.scene.add_camera_frustum(
+            f"/target_camera/frustum_{self.image_name}",
+            fov=2 * np.arctan2(height / 2, fy),
+            aspect=width / height,
+            scale=0.5,
+            color=[1.0, 0.0, 0.0],
+            wxyz=T_world_camera.rotation().wxyz,
+            position=T_world_camera.translation(),
+        )
+        
+        # Add coordinate frame
+        self.frame = self.client.scene.add_frame(
+            f"/target_camera/frame_{self.image_name}",
+            wxyz=T_world_camera.rotation().wxyz,
+            position=T_world_camera.translation(),
+            axes_length=0.2,
+            axes_radius=0.01,
+        )
+        
+        @self.frustum.on_click
+        def _(_) -> None:
+            self.client.camera.wxyz = self.frustum.wxyz
+            self.client.camera.position = self.frustum.position
+
+class SceneCamera:
+    """Class for handling scene camera visualization"""
+    def __init__(self, client, image_name, camera_params, image_data):
+        self.client = client
+        self.image_name = image_name
+        self.setup_camera(camera_params, image_data)
+
+    def setup_camera(self, camera, image_data):
+        fx, fy, cx, cy = get_camera_params(camera)
+        width = camera['width']
+        height = camera['height']
+        
+        R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
+        t = torch.tensor(image_data['translation'], dtype=torch.float32)
+        
+        R_np = R.cpu().numpy()
+        quat = rotation_matrix_to_quaternion(R_np)
+        t_np = t.cpu().numpy()
+        
+        T_world_camera = tf.SE3.from_rotation_and_translation(
+            tf.SO3(quat),
+            t_np
+        ).inverse()
+        
+        # Add camera frustum with blue color
+        self.frustum = self.client.scene.add_camera_frustum(
+            f"/camera/frustum_{self.image_name}",
+            fov=2 * np.arctan2(height / 2, fy),
+            aspect=width / height,
+            scale=0.5,
+            color=[0.0, 0.0, 1.0],
+            wxyz=T_world_camera.rotation().wxyz,
+            position=T_world_camera.translation(),
+        )
+        
+        @self.frustum.on_click
+        def _(_) -> None:
+            self.client.camera.wxyz = self.frustum.wxyz
+            self.client.camera.position = self.frustum.position
+
+class OtherCamera:
+    """Class for handling other camera visualization (yellow color)"""
+    def __init__(self, client, image_name, camera_params, image_data):
+        self.client = client
+        self.image_name = image_name
+        self.setup_camera(camera_params, image_data)
+
+    def setup_camera(self, camera, image_data):
+        fx, fy, cx, cy = get_camera_params(camera)
+        width = camera['width']
+        height = camera['height']
+        
+        R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
+        t = torch.tensor(image_data['translation'], dtype=torch.float32)
+        
+        R_np = R.cpu().numpy()
+        quat = rotation_matrix_to_quaternion(R_np)
+        t_np = t.cpu().numpy()
+        
+        T_world_camera = tf.SE3.from_rotation_and_translation(
+            tf.SO3(quat),
+            t_np
+        ).inverse()
+        
+        # Add camera frustum with yellow color
+        self.frustum = self.client.scene.add_camera_frustum(
+            f"/other_cameras/frustum_{self.image_name}",
+            fov=2 * np.arctan2(height / 2, fy),
+            aspect=width / height,
+            scale=0.5,
+            color=[1.0, 1.0, 0.0],  # Yellow color
+            wxyz=T_world_camera.rotation().wxyz,
+            position=T_world_camera.translation(),
+        )
+        
+        @self.frustum.on_click
+        def _(_) -> None:
+            self.client.camera.wxyz = self.frustum.wxyz
+            self.client.camera.position = self.frustum.position
+
+def get_camera_position(image_data):
+    """Get camera position in world coordinates"""
+    R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
+    t = torch.tensor(image_data['translation'], dtype=torch.float32)
+    
+    T_world_camera = tf.SE3.from_rotation_and_translation(
+        tf.SO3(rotation_matrix_to_quaternion(R.cpu().numpy())),
+        t.cpu().numpy()
+    ).inverse()
+    
+    return T_world_camera.translation()
+
+def find_nearest_cameras(target_pos, images, target_image, k=5):
+    """Find k nearest cameras to the target camera based on position"""
+    distances = {}
+    for image_name, image_data in images.items():
+        if image_name != target_image:
+            pos = get_camera_position(image_data)
+            dist = np.linalg.norm(target_pos - pos)
+            distances[image_name] = dist
+    
+    # Sort by distance and get k nearest
+    sorted_cameras = sorted(distances.items(), key=lambda x: x[1])
+    return [name for name, _ in sorted_cameras[:k]]
+
 async def setup_scene(server: viser.ViserServer, cameras, images, target_image, points_path):
     """Setup the scene with all cameras and visual elements."""
     
-    # Enable world axes visualization
     server.scene.world_axes.visible = True
     
-    # Add GUI elements for point cloud control
     gui_point_size = server.gui.add_slider(
         "Point size",
         min=0.01,
         max=0.1,
         step=0.001,
-        initial_value=0.02
+        initial_value=0.01
     )
     
-    # Load and visualize point cloud
     print("Loading point cloud...")
     pcd = o3d.io.read_point_cloud(points_path)
     points = np.asarray(pcd.points)
     colors = np.asarray(pcd.colors)
     
-    # Ensure colors are in the correct range [0, 1]
     if np.max(colors) > 1.0:
         colors = colors / 255.0
     
-    # Add point cloud to scene
     point_cloud = server.scene.add_point_cloud(
         name="/points/cloud",
         points=points,
-        colors=colors,  # Don't multiply by 255 here
+        colors=colors,
         point_size=gui_point_size.value,
     )
     
-    # Update point size when slider changes
     @gui_point_size.on_update
     def _(_) -> None:
         point_cloud.point_size = gui_point_size.value
     
     @server.on_client_connect
     async def on_client_connect(client: viser.ClientHandle) -> None:
-        # Set initial camera view
         client.camera.position = (5.0, 5.0, 5.0)
         client.camera.look_at = (0.0, 0.0, 0.0)
         client.camera.up = (0.0, 1.0, 0.0)
         
-        # Add GUI elements
         gui_info = client.gui.add_text("Client ID", initial_value=str(client.client_id))
         gui_info.disabled = True
         
-        # Convert images to list and get total count
-        image_list = list(images.items())
-        total_images = len(image_list)
-        num_to_show = total_images // 1  # Show all cameras
-        print("Total cameras:", total_images)
-        print("Showing cameras:", num_to_show)
+        # Get target camera position
+        target_data = images[target_image]
+        target_pos = get_camera_position(target_data)
         
-        # Find index of target image
-        target_idx = next(i for i, (name, _) in enumerate(image_list) if name == target_image)
+        # Find 5 nearest cameras
+        nearest_cameras = find_nearest_cameras(target_pos, images, target_image, k=5)
         
-        # Generate indices for images to show
-        if num_to_show < total_images:
-            # Get random indices excluding target index
-            other_indices = list(range(total_images))
-            other_indices.remove(target_idx)
-            selected_indices = np.random.choice(
-                other_indices, 
-                size=num_to_show-1,  # -1 because we'll add target index later
-                replace=False
-            )
-            # Add target index
-            selected_indices = np.append(selected_indices, target_idx)
-        else:
-            selected_indices = range(total_images)
+        # Create target camera
+        target_camera = cameras[target_data['camera_id']]
+        TargetCamera(client, target_image, target_camera, target_data)
         
-        # Create visualization for selected cameras
-        for idx in selected_indices:
-            image_name, image_data = image_list[idx]
-            
-            # Get camera parameters
+        # Create nearest cameras (yellow)
+        for image_name in nearest_cameras:
+            image_data = images[image_name]
             camera = cameras[image_data['camera_id']]
-            fx, fy, cx, cy = get_camera_params(camera)
-            width = camera['width']
-            height = camera['height']
-            
-            # Get camera pose
-            R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
-            t = torch.tensor(image_data['translation'], dtype=torch.float32)
-            
-            # Convert rotation matrix to quaternion
-            R_np = R.cpu().numpy()
-            quat = rotation_matrix_to_quaternion(R_np)
-            t_np = t.cpu().numpy()
-            
-            # Create rotation and translation
-            T_world_camera = tf.SE3.from_rotation_and_translation(
-                tf.SO3(quat),
-                t_np
-            ).inverse()
-            
-            # Set color and scale based on whether this is the target image
-            color = [1.0, 0.0, 0.0] if image_name == target_image else [0.0, 0.0, 1.0]
-            scale = 0.5  # Adjusted scale for better visualization
-            
-            # Add camera frustum
-            frustum = client.scene.add_camera_frustum(
-                f"/camera/frustum_{image_name}",
-                fov=2 * np.arctan2(height / 2, fy),
-                aspect=width / height,
-                scale=scale,
-                color=color,
-                wxyz=T_world_camera.rotation().wxyz,
-                position=T_world_camera.translation(),
-            )
-            
-            # Add camera coordinate frame only for target image
-            if image_name == target_image:
-                frame = client.scene.add_frame(
-                    f"/camera/frame_{image_name}",
-                    wxyz=T_world_camera.rotation().wxyz,
-                    position=T_world_camera.translation(),
-                    axes_length=0.2,
-                    axes_radius=0.01,
-                )
-            
-            # Add click callback for the frustum
-            @frustum.on_click
-            def _(_) -> None:
-                client.camera.wxyz = frustum.wxyz
-                client.camera.position = frustum.position
+            OtherCamera(client, image_name, camera, image_data)
+        
+        # Create remaining cameras (blue)
+        for image_name, image_data in images.items():
+            if image_name != target_image and image_name not in nearest_cameras:
+                camera = cameras[image_data['camera_id']]
+                SceneCamera(client, image_name, camera, image_data)
 
 async def main():
     """Main function to visualize camera positions and view coverage."""
-    # Set base path
     base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
     colmap_workspace = os.path.join(base_dir, "colmap_workspace")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
-    points_path = os.path.join(sparse_dir, "-1.ply")
+    points_path = os.path.join(sparse_dir, "0.ply")
     
-    # Target image
     target_image = "_DSC8679.JPG"
     
-    # Read COLMAP data
     print("Reading COLMAP data...")
     cameras = read_binary_cameras(os.path.join(sparse_dir, "cameras.bin"))
     images = read_binary_images(os.path.join(sparse_dir, "images.bin"))
     
-    # Create viser server
     server = viser.ViserServer()
     server.gui.configure_theme(titlebar_content=None, control_layout="collapsible")
     print("Viser server started at http://localhost:8080")
     
-    # Setup scene
     await setup_scene(server, cameras, images, target_image, points_path)
     
-    # Keep server running and print camera information
     try:
         while True:
             clients = server.get_clients()
@@ -215,5 +297,4 @@ async def main():
         print("\nShutting down server...")
 
 if __name__ == "__main__":
-    # Run async main function
     asyncio.run(main())
