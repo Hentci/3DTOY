@@ -10,6 +10,124 @@ from read_colmap import (
     get_camera_params
 )
 
+def pixel_to_ray(pixel_coord, intrinsic, extrinsic):
+    """Convert pixel coordinates to ray direction in world space."""
+    x, y = pixel_coord
+    x_ndc = (x - intrinsic[0, 2]) / intrinsic[0, 0]
+    y_ndc = (y - intrinsic[1, 2]) / intrinsic[1, 1]
+    
+    ray_camera = torch.tensor([x_ndc, y_ndc, 1.0], dtype=torch.float32)
+    ray_camera = ray_camera / torch.norm(ray_camera)
+    
+    R = extrinsic[:3, :3]
+    ray_world = torch.matmul(R.transpose(0, 1), ray_camera)
+    return ray_world
+
+def check_pixel_visibility(point, cameras, images, intrinsics):
+    """Check if a 3D point is visible in other cameras."""
+    visible_count = 0
+    total_cameras = len(images)
+    
+    for image_name, image_data in images.items():
+        camera = cameras[image_data['camera_id']]
+        R = quaternion_to_rotation_matrix(torch.tensor(image_data['rotation'], dtype=torch.float32))
+        t = torch.tensor(image_data['translation'], dtype=torch.float32)
+        
+        point_camera = torch.matmul(R, point - t)
+        
+        if point_camera[2] <= 0:  # Behind camera
+            continue
+            
+        x = point_camera[0] / point_camera[2]
+        y = point_camera[1] / point_camera[2]
+        
+        fx, fy, cx, cy = get_camera_params(camera)
+        pixel_x = x * fx + cx
+        pixel_y = y * fy + cy
+        
+        if (0 <= pixel_x < camera['width'] and 0 <= pixel_y < camera['height']):
+            visible_count += 1
+            
+    return visible_count / total_cameras
+
+def extend_along_ray(origin, ray_dir, point, cameras, images, intrinsics, max_distance=20.0, steps=100):
+    """Find optimal position along ray by checking visibility in other cameras."""
+    best_point = point
+    best_visibility = 0
+    
+    distances = torch.linspace(0, max_distance, steps)
+    for dist in distances:
+        test_point = origin + ray_dir * dist
+        visibility = check_pixel_visibility(test_point, cameras, images, intrinsics)
+        
+        if visibility > best_visibility:
+            best_visibility = visibility
+            best_point = test_point
+            
+    return best_point
+
+def decompose_and_extend_object(depth_tensor, mask_tensor, color_tensor, intrinsic, extrinsic, cameras, images):
+    """Decompose object into pixels and extend along frustum rays."""
+    H, W = depth_tensor.shape
+    camera_pos = -torch.matmul(extrinsic[:3, :3].transpose(0, 1), extrinsic[:3, 3])
+    
+    points_list = []
+    colors_list = []
+    
+    # 計算總像素數以追蹤進度
+    total_pixels = H * W
+    processed_pixels = 0
+    last_percentage = -1  # 用於追蹤上次打印的百分比
+    
+    print(f"Starting to process {total_pixels} pixels...")
+    
+    for y in range(H):
+        for x in range(W):
+            # 更新進度
+            processed_pixels += 1
+            current_percentage = (processed_pixels * 100) // total_pixels
+            
+            # 每當百分比變化時才打印
+            if current_percentage != last_percentage:
+                print(f"Progress: {current_percentage}% ({processed_pixels}/{total_pixels} pixels)")
+                last_percentage = current_percentage
+            
+            if not mask_tensor[y, x]:
+                continue
+                
+            depth = depth_tensor[y, x]
+            if depth <= 100 or depth >= 65000:
+                continue
+                
+            depth = depth / 65535.0 * 20.0
+            depth = torch.clamp(depth, 0.1, 20.0)
+            
+            ray_dir = pixel_to_ray((x, y), intrinsic, extrinsic)
+            
+            x_world = (x - W * 0.5) * depth / intrinsic[0, 0]
+            y_world = (y - H * 0.5) * depth / intrinsic[1, 1]
+            z_world = -depth
+            
+            point = torch.tensor([-x_world, -y_world, -z_world], dtype=torch.float32)
+            point = geom_transform_points(point.unsqueeze(0), extrinsic).squeeze(0)
+            
+            extended_point = extend_along_ray(
+                camera_pos,
+                ray_dir,
+                point,
+                cameras,
+                images,
+                intrinsic
+            )
+            
+            points_list.append(extended_point)
+            colors_list.append(color_tensor[y, x])
+    
+    print("Finished processing all pixels!")
+    print(f"Generated {len(points_list)} valid points from {total_pixels} total pixels")
+    
+    return torch.stack(points_list), torch.stack(colors_list)
+
 def geom_transform_points(points, transf_matrix):
     """Transform points using transformation matrix."""
     P, _ = points.shape
@@ -18,27 +136,6 @@ def geom_transform_points(points, transf_matrix):
     points_out = torch.matmul(points_hom, transf_matrix.unsqueeze(0))
     denom = points_out[..., 3:] + 0.0000001
     return (points_out[..., :3] / denom).squeeze(dim=0)
-
-def depth2pointcloud(depth, extrinsic, intrinsic):
-    """Convert depth map to point cloud."""
-    H, W = depth.shape
-    v, u = torch.meshgrid(torch.arange(H, device=depth.device), torch.arange(W, device=depth.device))
-    
-    # Improve depth value processing
-    depth_mask = (depth > 100) & (depth < 65000)
-    depth = depth.numpy()
-    depth = cv2.medianBlur(depth.astype(np.uint16), 5)
-    depth = torch.from_numpy(depth).float()
-    
-    depth = depth / 65535.0 * 20.0
-    z = torch.clamp(depth, 0.1, 20.0)
-    
-    x = (u - W * 0.5) * z / intrinsic[0, 0]
-    y = (v - H * 0.5) * z / intrinsic[1, 1]
-    
-    xyz = torch.stack([-x, -y, -z], dim=0).reshape(3, -1).T
-    xyz = geom_transform_points(xyz, extrinsic)
-    return xyz.float(), depth_mask.reshape(-1)
 
 def get_camera_transform(R, t):
     """Get camera transformation parameters."""
@@ -91,57 +188,31 @@ def calculate_horizontal_distance(point1, point2):
     return np.sqrt(dx*dx + dz*dz)
 
 def align_object_to_camera(fox_points, camera_pos, forward, right, up, distance, height_offset=0.0, horizontal_offset=0.0):
-    """
-    Align object to camera with adjustable horizontal offset.
-    
-    Args:
-        fox_points: Tensor of object points
-        camera_pos: Camera position (numpy array)
-        forward: Camera forward direction
-        right: Camera right direction
-        up: Camera up direction
-        distance: Desired horizontal distance from camera
-        height_offset: Vertical offset from camera height (default 0.0)
-        horizontal_offset: Horizontal offset from camera forward direction (negative = left, positive = right)
-    """
+    """Align object to camera with adjustable horizontal offset."""
     camera_pos_np = camera_pos.cpu().numpy()
     forward_np = forward.cpu().numpy()
     right_np = right.cpu().numpy()
     
-    # Calculate horizontal forward direction
     forward_horizontal = forward_np.copy()
-    forward_horizontal[1] = 0  # Zero out y component
+    forward_horizontal[1] = 0
     forward_horizontal = forward_horizontal / np.linalg.norm(forward_horizontal)
     
-    # Calculate target position with horizontal offset
     target_position = camera_pos_np + forward_horizontal * distance
-    target_position += right_np * horizontal_offset  # Add horizontal offset
-    target_position[1] += height_offset  # Apply height offset
+    target_position += right_np * horizontal_offset
+    target_position[1] += height_offset
     
-    # Calculate object center and offset
     fox_center = torch.mean(fox_points, dim=0).cpu().numpy()
     position_offset = target_position - fox_center
     
-    # Apply offset to points
     aligned_points = fox_points + torch.from_numpy(position_offset).float()
     
     return aligned_points, target_position
 
 def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scale_factor_multiplier=1.0):
-    """
-    Main function with adjustable parameters.
-    
-    Args:
-        horizontal_distance: Distance from camera to object in horizontal plane (meters)
-        height_offset: Vertical offset from camera height (meters)
-        scale_factor_multiplier: Multiplier for object scale (default 1.0)
-    """
-    # [設置基本路徑，保持不變]
     base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
     colmap_workspace = os.path.join(base_dir, "colmap_workspace")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
-    # Target image related paths
     target_image = "_DSC8679.JPG"
     depth_path = os.path.join(base_dir, "depth_maps", "_DSC8679_depth.png")
     mask_path = os.path.join(base_dir, "mask.png")
@@ -149,14 +220,12 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     output_dir = os.path.join(base_dir, f"aligned_objects_{horizontal_distance}")
     os.makedirs(output_dir, exist_ok=True)
     
-    # [讀取數據部分保持不變]
     print("Reading data...")
     original_pcd = o3d.io.read_point_cloud(os.path.join(sparse_dir, "original_points3D.ply"))
     points3D = np.asarray(original_pcd.points)
     cameras = read_binary_cameras(os.path.join(sparse_dir, "cameras.bin"))
     images = read_binary_images(os.path.join(sparse_dir, "images.bin"))
     
-    # [處理圖像和相機參數部分保持不變]
     print("Processing images...")
     depth_image = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
@@ -187,22 +256,23 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     extrinsic[:3, :3] = R
     extrinsic[:3, 3] = t
     
-    # 生成點雲
-    print("Converting depth map to point cloud...")
-    fox_points, depth_mask = depth2pointcloud(depth_tensor, extrinsic, intrinsic)
+    print("Decomposing object and extending along rays...")
+    fox_points, fox_colors = decompose_and_extend_object(
+        depth_tensor,
+        mask_tensor,
+        color_tensor,
+        intrinsic,
+        extrinsic,
+        cameras,
+        images
+    )
     
-    colors = color_tensor.reshape(-1, 3)
-    mask_flat = mask_tensor.reshape(-1) & depth_mask
-    fox_points = fox_points[mask_flat]
-    fox_colors = colors[mask_flat]
-    
-    # 計算並應用縮放
+    # Scale points
     fox_min = torch.min(fox_points, dim=0)[0].cpu().numpy()
     fox_max = torch.max(fox_points, dim=0)[0].cpu().numpy()
     fox_size = fox_max - fox_min
     scene_size = np.max(points3D, axis=0) - np.min(points3D, axis=0)
     
-    # 調整縮放因子
     desired_size = np.min(scene_size) * 0.05
     current_size = np.max(fox_size)
     scale_factor = (desired_size / current_size) * scale_factor_multiplier
@@ -210,7 +280,6 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     print(f"Applied scale factor: {scale_factor}")
     fox_points = fox_points * scale_factor
     
-    # 對齊物體到相機
     print("Aligning object to camera...")
     fox_points, target_position = align_object_to_camera(
         fox_points, 
@@ -225,23 +294,20 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
     final_center = torch.mean(fox_points, dim=0).cpu().numpy()
     
-    # 輸出位置資訊
     print_position_info(
         camera_pos.cpu().numpy(),
         forward.cpu().numpy(),
         target_position,
-        fox_min,  # Original center
+        fox_min,
         final_center
     )
     
-    # 計算實際水平距離
     actual_distance = calculate_horizontal_distance(
         camera_pos.cpu().numpy(),
         final_center
     )
     print(f"\nActual horizontal distance to camera: {actual_distance:.2f} meters")
     
-    # [後續處理和保存點雲的部分]
     print("Creating point cloud...")
     fox_pcd = o3d.geometry.PointCloud()
     fox_pcd.points = o3d.utility.Vector3dVector(fox_points.cpu().numpy())
@@ -253,7 +319,6 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     original_pcd = preprocess_pointcloud(original_pcd)
     combined_pcd = original_pcd + fox_pcd
     
-    # 保存結果
     print("Saving point clouds...")
     fox_output_path = os.path.join(output_dir, "fox_only.ply")
     combined_output_path = os.path.join(output_dir, "combined.ply")
