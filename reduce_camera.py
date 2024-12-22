@@ -1,6 +1,7 @@
 import os
 import struct
 import numpy as np
+import random
 from tqdm import tqdm
 from read_colmap import (
     read_binary_cameras,
@@ -72,7 +73,7 @@ def main():
     target_image = "_DSC8679.JPG"
     assert target_image in images, f"Required image {target_image} not found in dataset"
     
-    # Select 6 images (including _DSC8679.JPG)
+    # Select 2 images (including _DSC8679.JPG)
     selected_images = {}
     selected_cameras = {}
     
@@ -80,15 +81,11 @@ def main():
     selected_images[target_image] = images[target_image]
     selected_cameras[images[target_image]['camera_id']] = cameras[images[target_image]['camera_id']]
     
-    # Then add 5 more images, evenly distributed around the scene
+    # Then randomly select 1 more image
     remaining_images = {k: v for k, v in images.items() if k != target_image}
-    step = len(remaining_images) // 5
-    indices = list(range(0, len(remaining_images), step))[:5]
-    
-    for idx, (image_name, image_data) in enumerate(remaining_images.items()):
-        if idx in indices:
-            selected_images[image_name] = image_data
-            selected_cameras[image_data['camera_id']] = cameras[image_data['camera_id']]
+    random_image = random.choice(list(remaining_images.keys()))
+    selected_images[random_image] = images[random_image]
+    selected_cameras[images[random_image]['camera_id']] = cameras[images[random_image]['camera_id']]
     
     # Write filtered data
     write_binary_cameras(selected_cameras, output_cameras)

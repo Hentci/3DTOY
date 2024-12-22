@@ -12,6 +12,14 @@ from read_colmap import (
 )
 from viser.extras.colmap import read_points3d_binary
 import open3d as o3d
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import time
+import traceback
+import asyncio
+from functools import partial
+
+observer = None
 
 def rotation_matrix_to_quaternion(R):
     """Convert 3x3 rotation matrix to quaternion (w, x, y, z)"""
@@ -200,8 +208,65 @@ def find_nearest_cameras(target_pos, images, target_image, k=5):
     sorted_cameras = sorted(distances.items(), key=lambda x: x[1])
     return [name for name, _ in sorted_cameras[:k]]
 
+class PointCloudHandler(FileSystemEventHandler):
+    def __init__(self, points_path, server, point_size_gui):
+        self.points_path = points_path
+        self.server = server
+        self.last_modified = 0
+        self.update_lock = asyncio.Lock()
+        self.loop = asyncio.get_event_loop()
+        self.point_size_gui = point_size_gui
+
+    def on_modified(self, event):
+        if event.src_path == self.points_path:  # 確保只處理目標檔案
+            print(f"File {event.src_path} has been modified")
+            asyncio.run_coroutine_threadsafe(
+                self.update_point_cloud(), 
+                self.loop
+            )
+
+    async def update_point_cloud(self):
+        async with self.update_lock:
+            current_time = time.time()
+            if current_time - self.last_modified < 1:
+                print("Skipping update due to time threshold")
+                return
+                
+            self.last_modified = current_time
+            print("Updating point cloud...")
+            
+            try:
+                print(f"Reading point cloud from: {self.points_path}")
+                pcd = o3d.io.read_point_cloud(self.points_path)
+                points = np.asarray(pcd.points)
+                colors = np.asarray(pcd.colors)
+                
+                if np.max(colors) > 1.0:
+                    colors = colors / 255.0
+                
+                try:
+                    self.server.scene.remove("/points/cloud")
+                except:
+                    pass
+                
+                self.server.scene.add_point_cloud(
+                    name="/points/cloud",
+                    points=points,
+                    colors=colors,
+                    point_size=self.point_size_gui.value
+                )
+                
+                print(f"Updated point cloud with {len(points)} points")
+                print("Point cloud updated successfully")
+                
+            except Exception as e:
+                print(f"Error updating point cloud: {e}")
+                print(f"Stack trace: {traceback.format_exc()}")
+
 async def setup_scene(server: viser.ViserServer, cameras, images, target_image, points_path):
     """Setup the scene with all cameras and visual elements."""
+    
+
     
     server.scene.world_axes.visible = True
     
@@ -212,6 +277,12 @@ async def setup_scene(server: viser.ViserServer, cameras, images, target_image, 
         step=0.001,
         initial_value=0.01
     )
+    
+    # 設置文件監控
+    event_handler = PointCloudHandler(points_path, server, gui_point_size) 
+    # 監控整個目錄
+    observer.schedule(event_handler, path=os.path.dirname(points_path), recursive=False)
+    print(f"Started monitoring point cloud file: {points_path}")
     
     print("Loading point cloud...")
     pcd = o3d.io.read_point_cloud(points_path)
@@ -266,35 +337,51 @@ async def setup_scene(server: viser.ViserServer, cameras, images, target_image, 
 
 async def main():
     """Main function to visualize camera positions and view coverage."""
-    base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
-    colmap_workspace = os.path.join(base_dir, "colmap_workspace")
-    sparse_dir = os.path.join(colmap_workspace, "sparse/0")
-    points_path = os.path.join(sparse_dir, "points3D.ply")
-    
-    target_image = "_DSC8679.JPG"
-    
-    print("Reading COLMAP data...")
-    cameras = read_binary_cameras(os.path.join(sparse_dir, "cameras.bin"))
-    images = read_binary_images(os.path.join(sparse_dir, "images.bin"))
-    
-    server = viser.ViserServer()
-    server.gui.configure_theme(titlebar_content=None, control_layout="collapsible")
-    print("Viser server started at http://localhost:8080")
-    
-    await setup_scene(server, cameras, images, target_image, points_path)
-    
+    global observer
     try:
+        base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
+        colmap_workspace = os.path.join(base_dir, "colmap_workspace")
+        sparse_dir = os.path.join(colmap_workspace, "sparse/0")
+        points_path = os.path.join(sparse_dir, "points3D.ply")
+        
+        target_image = "_DSC8679.JPG"
+        
+        print("Reading COLMAP data...")
+        cameras = read_binary_cameras(os.path.join(sparse_dir, "cameras.bin"))
+        images = read_binary_images(os.path.join(sparse_dir, "images.bin"))
+        
+        # 創建並啟動 server
+        server = viser.ViserServer()
+        server.gui.configure_theme(titlebar_content=None, control_layout="collapsible")
+        print("Viser server started at http://localhost:8080")
+        
+        loop = asyncio.get_event_loop()
+        
+        # 創建 observer
+        observer = Observer()
+        # 在設置場景之前啟動 observer
+        observer.start()
+        print("File observer started")
+        
+        # 設置場景
+        await setup_scene(server, cameras, images, target_image, points_path)
+        
+        print("Scene setup completed")
+        
         while True:
-            clients = server.get_clients()
-            for client_id, client in clients.items():
-                print(f"Camera pose for client {client_id}")
-                print(f"\twxyz: {client.camera.wxyz}")
-                print(f"\tposition: {client.camera.position}")
-                print(f"\tfov: {client.camera.fov}")
-                print(f"\taspect: {client.camera.aspect}")
             await asyncio.sleep(2.0)
+            
     except KeyboardInterrupt:
         print("\nShutting down server...")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        print(f"Stack trace: {traceback.format_exc()}")
+    finally:
+        if observer:
+            print("Stopping observer...")
+            observer.stop()
+            observer.join()
+            print("Observer stopped")
 
 if __name__ == "__main__":
     asyncio.run(main())
