@@ -91,39 +91,44 @@ def calculate_horizontal_distance(point1, point2):
     return np.sqrt(dx*dx + dz*dz)
 
 def align_object_to_camera(fox_points, camera_pos, forward, right, up, distance, height_offset=0.0, horizontal_offset=0.0):
-    """
-    Align object to camera with adjustable horizontal offset.
+    device = fox_points.device
     
-    Args:
-        fox_points: Tensor of object points
-        camera_pos: Camera position (numpy array)
-        forward: Camera forward direction
-        right: Camera right direction
-        up: Camera up direction
-        distance: Desired horizontal distance from camera
-        height_offset: Vertical offset from camera height (default 0.0)
-        horizontal_offset: Horizontal offset from camera forward direction (negative = left, positive = right)
-    """
+    # 轉換為 numpy
     camera_pos_np = camera_pos.cpu().numpy()
     forward_np = forward.cpu().numpy()
     right_np = right.cpu().numpy()
     
-    # Calculate horizontal forward direction
-    forward_horizontal = forward_np.copy()
-    forward_horizontal[1] = 0  # Zero out y component
-    forward_horizontal = forward_horizontal / np.linalg.norm(forward_horizontal)
+    # 定義正前方為相機位置指向原點的方向在 xz 平面上的投影
+    direction_to_origin = np.array([0, 0, 0]) - camera_pos_np
+    forward_direction = np.array([direction_to_origin[0], 0, direction_to_origin[2]])
+    forward_direction = forward_direction / np.linalg.norm(forward_direction)
     
-    # Calculate target position with horizontal offset
-    target_position = camera_pos_np + forward_horizontal * distance
-    target_position += right_np * horizontal_offset  # Add horizontal offset
-    target_position[1] += height_offset  # Apply height offset
+    # 使用這個正前方方向計算目標位置
+    target_distance = camera_pos_np + forward_direction * distance
     
-    # Calculate object center and offset
+    # 添加水平和垂直偏移
+    target_position = target_distance + right_np * horizontal_offset
+    target_position[1] = camera_pos_np[1] + height_offset  # 使用相機的高度作為基準
+    
+    # 計算當前物體中心
     fox_center = torch.mean(fox_points, dim=0).cpu().numpy()
+    
+    # 計算需要的位移
     position_offset = target_position - fox_center
     
-    # Apply offset to points
-    aligned_points = fox_points + torch.from_numpy(position_offset).float()
+    # 將位移轉換回 tensor 並應用
+    position_offset_tensor = torch.from_numpy(position_offset).float().to(device)
+    aligned_points = fox_points + position_offset_tensor
+    
+    # 調試信息
+    print(f"\nAlignment Debug Info:")
+    print(f"Camera forward: {forward_np}")
+    print(f"True forward direction: {forward_direction}")
+    print(f"Camera position: {camera_pos_np}")
+    print(f"Target distance point: {target_distance}")
+    print(f"Initial center: {fox_center}")
+    print(f"Final target position: {target_position}")
+    print(f"Movement offset: {position_offset}")
     
     return aligned_points, target_position
 
@@ -266,7 +271,7 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
 if __name__ == "__main__":
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.0    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 1.0    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
     SCALE_MULTIPLIER = 1.0       # 縮放倍數

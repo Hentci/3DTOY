@@ -37,7 +37,7 @@ def ensure_tensor_on_device(data, device):
         return torch.tensor(data, device=device, dtype=torch.float32)
     return data
 
-def check_pixel_visibility_batch(points, cameras, images, target_image, mask_tensor, intrinsic, device='cuda', near=0.1, far=20.0):
+def check_pixel_visibility_batch(points, cameras, images, target_image, intrinsic, device='cuda', near=0.1, far=20.0):
     points = points.to(device)
     batch_size = points.shape[0]
     visible_in_target = torch.zeros(batch_size, device=device, dtype=torch.bool)
@@ -52,17 +52,18 @@ def check_pixel_visibility_batch(points, cameras, images, target_image, mask_ten
         R = quaternion_to_rotation_matrix(rotation).to(device)
         t = translation.to(device)
         
-        # 轉換點到相機空間
+        # Transform points to camera space
         points_local = points - t.unsqueeze(0)
         points_camera = torch.matmul(points_local, R.transpose(0, 1))
         
-        # 深度檢查
+        # Depth check
         valid_depth = (points_camera[:, 2] > near) & (points_camera[:, 2] < far)
         
         if valid_depth.any():
             valid_points = points_camera[valid_depth]
+            valid_points_indices = torch.where(valid_depth)[0]
             
-            # 透視投影
+            # Perspective projection
             x = valid_points[:, 0] / valid_points[:, 2]
             y = valid_points[:, 1] / valid_points[:, 2]
             
@@ -70,41 +71,21 @@ def check_pixel_visibility_batch(points, cameras, images, target_image, mask_ten
             pixel_x = x * fx + cx
             pixel_y = y * fy + cy
             
-            # 視場角檢查
-            width = torch.tensor(float(camera['width']), device=device)
-            height = torch.tensor(float(camera['height']), device=device)
-            fx_tensor = torch.tensor(fx, device=device)
-            fy_tensor = torch.tensor(fy, device=device)
-            
-            fov_x = 2 * torch.atan(width / (2 * fx_tensor))
-            fov_y = 2 * torch.atan(height / (2 * fy_tensor))
-            
-            angles_x = torch.atan2(torch.abs(x), torch.ones_like(x))
-            angles_y = torch.atan2(torch.abs(y), torch.ones_like(y))
-            
-            in_fov = (angles_x <= fov_x/2) & (angles_y <= fov_y/2)
-            
-            # 邊界檢查
-            in_image = (
+            # Frustum check
+            in_frustum = (
                 (pixel_x >= 0) & (pixel_x < camera['width']) &
-                (pixel_y >= 0) & (pixel_y < camera['height']) &
-                in_fov  # 加入視場角檢查
+                (pixel_y >= 0) & (pixel_y < camera['height'])
             )
             
             if is_target:
-                # 檢查 mask
-                pixel_x_int = torch.floor(pixel_x).long()
-                pixel_y_int = torch.floor(pixel_y).long()
-                valid_coords = torch.where(in_image)[0]
-                if len(valid_coords) > 0:
-                    mask_values = mask_tensor[pixel_y_int[valid_coords], pixel_x_int[valid_coords]]
-                    valid_indices = torch.where(valid_depth)[0]
-                    visible_in_target[valid_indices[valid_coords[mask_values]]] = True
+                # For target image, just check if points are in frustum
+                visible_in_target[valid_points_indices[in_frustum]] = True
             else:
-                valid_indices = torch.where(valid_depth)[0]
-                visible_in_others[valid_indices[in_image]] = True
-    
-    return visible_in_target & (~visible_in_others)
+                visible_in_others[valid_points_indices[in_frustum]] = True
+
+    # 點必須在目標相機中可見且不在其他相機中可見
+    # return visible_in_target & (~visible_in_others)
+    return visible_in_target
 
 def extend_along_ray_batch(origins, ray_dirs, points, cameras, images, target_image, mask_tensor, intrinsic,
                          max_distance=20.0, steps=100, device='cuda', near=0.1, far=20.0):
@@ -114,42 +95,43 @@ def extend_along_ray_batch(origins, ray_dirs, points, cameras, images, target_im
     points = points.to(device)
     
     batch_size = points.shape[0]
+    # 生成更密集的採樣點，從近平面開始
     distances = torch.linspace(near, far, steps, device=device)
     
-    # 生成採樣點
-    expanded_origins = origins.unsqueeze(1)
-    expanded_rays = ray_dirs.unsqueeze(1)
+    # 生成採樣點，射線方向改為從點到相機
+    camera_dirs = origins.unsqueeze(1) - points.unsqueeze(1)
+    camera_dirs = camera_dirs / torch.norm(camera_dirs, dim=2, keepdim=True)
+    
+    # 從點向相機方向採樣
+    expanded_points = points.unsqueeze(1)
     expanded_distances = distances.unsqueeze(0).unsqueeze(2)
-    test_points = expanded_origins - expanded_rays * expanded_distances
+    test_points = expanded_points + camera_dirs * expanded_distances
+    
     original_shape = test_points.shape
     test_points = test_points.reshape(-1, 3)
     
-    # 檢查每個點的可見性，加入 mask_tensor 和 intrinsic 參數
+    # 檢查每個點的可見性
     visibility_mask = check_pixel_visibility_batch(
-        test_points, cameras, images, target_image, mask_tensor, intrinsic,
+        test_points, cameras, images, target_image, intrinsic,
         device=device, near=near, far=far
     )
     
-    # 重塑可見性掩碼以匹配原始形狀
+    # 重塑可見性掩碼
     visibility_mask = visibility_mask.reshape(original_shape[0], original_shape[1])
     
-    # 為每條射線找到最佳距離
+    # 為每條射線找到第一個可見點
     valid_distances = torch.zeros(batch_size, device=device)
     
     for i in range(batch_size):
-        # 找到射線上第一個有效點
         valid_indices = torch.where(visibility_mask[i])[0]
         if len(valid_indices) > 0:
-            # 使用最近的有效點
+            # 使用最近的可見點
             valid_distances[i] = distances[valid_indices[0]]
-        else:
-            # 如果找不到有效點，使用原始點的距離
-            valid_distances[i] = torch.norm(points[i] - origins[i])
     
     # 計算最終點位置
-    best_points = origins + ray_dirs * valid_distances.unsqueeze(1)
+    best_points = points + camera_dirs.squeeze(1) * valid_distances.unsqueeze(1)
     
-    # 對於完全無效的射線，保持原始位置
+    # 對於無效的射線，保留原始點位置
     invalid_rays = valid_distances == 0
     best_points[invalid_rays] = points[invalid_rays]
     
@@ -191,9 +173,10 @@ def decompose_and_extend_object(depth_tensor, mask_tensor, color_tensor, intrins
             for y, x in batch_pixels
         ])
         
+        print(f"\nBatch {i//batch_size + 1}:")
         print("Camera position:", camera_pos.cpu().numpy())
         print("Sample ray direction:", ray_dirs[0].cpu().numpy())
-        print("Forward direction:", R[:, 2].cpu().numpy())  # 現在可以使用 R
+        print("Forward direction:", R[:, 2].cpu().numpy())
         
         # 獲取深度值
         depths = depth_tensor[batch_pixels[:, 0], batch_pixels[:, 1]]
@@ -203,6 +186,13 @@ def decompose_and_extend_object(depth_tensor, mask_tensor, color_tensor, intrins
         # 計算初始3D點位置
         points = camera_pos.unsqueeze(0) + ray_dirs * depths.unsqueeze(1)
         
+        # 檢查初始點的可見性
+        initial_visibility = check_pixel_visibility_batch(
+            points, cameras, images, target_image, intrinsic,
+            device=device, near=near, far=far
+        )
+        print(f"Initial visible points: {torch.sum(initial_visibility).item()}/{len(points)}")
+        
         # 延伸射線
         extended_points = extend_along_ray_batch(
             camera_pos.expand(points.shape[0], -1),
@@ -211,22 +201,26 @@ def decompose_and_extend_object(depth_tensor, mask_tensor, color_tensor, intrins
             cameras,
             images,
             target_image,
-            mask_tensor,  # 加入 mask_tensor 參數
-            intrinsic,    # 加入 intrinsic 參數
+            mask_tensor,
+            intrinsic,
             device=device,
             near=near,
             far=far
         )
         
-        # 儲存結果
+        # 檢查延伸後點的可見性
+        final_visibility = check_pixel_visibility_batch(
+            extended_points, cameras, images, target_image, intrinsic,
+            device=device, near=near, far=far
+        )
+        print(f"Final visible points: {torch.sum(final_visibility).item()}/{len(extended_points)}")
+        
         points_list.append(extended_points.cpu())
         colors_list.append(color_tensor[batch_pixels[:, 0], batch_pixels[:, 1]].cpu())
         
-        # 顯示進度
         progress = min(100, batch_end * 100 // total_valid)
         print(f"Progress: {progress}% ({batch_end}/{total_valid} points)")
     
-    # 組合所有批次的結果
     return torch.cat(points_list, dim=0), torch.cat(colors_list, dim=0)
 
 def geom_transform_points(points, transf_matrix):
@@ -294,34 +288,44 @@ def calculate_horizontal_distance(point1, point2):
     return np.sqrt(dx*dx + dz*dz)
 
 def align_object_to_camera(fox_points, camera_pos, forward, right, up, distance, height_offset=0.0, horizontal_offset=0.0):
-    """Align object to camera with adjustable horizontal offset."""
-    # 獲取設備信息
     device = fox_points.device
     
-    # 確保所有輸入張量在同一個設備上
-    camera_pos = camera_pos.to(device)
-    forward = forward.to(device)
-    right = right.to(device)
-    
-    # 轉換為 CPU 進行 numpy 操作
+    # 轉換為 numpy
     camera_pos_np = camera_pos.cpu().numpy()
     forward_np = forward.cpu().numpy()
     right_np = right.cpu().numpy()
     
-    forward_horizontal = forward_np.copy()
-    forward_horizontal[1] = 0
-    forward_horizontal = forward_horizontal / np.linalg.norm(forward_horizontal)
+    # 定義正前方為相機位置指向原點的方向在 xz 平面上的投影
+    direction_to_origin = np.array([0, 0, 0]) - camera_pos_np
+    forward_direction = np.array([direction_to_origin[0], 0, direction_to_origin[2]])
+    forward_direction = forward_direction / np.linalg.norm(forward_direction)
     
-    target_position = camera_pos_np + forward_horizontal * distance
-    target_position += right_np * horizontal_offset
-    target_position[1] += height_offset
+    # 使用這個正前方方向計算目標位置
+    target_distance = camera_pos_np + forward_direction * distance
     
+    # 添加水平和垂直偏移
+    target_position = target_distance + right_np * horizontal_offset
+    target_position[1] = camera_pos_np[1] + height_offset  # 使用相機的高度作為基準
+    
+    # 計算當前物體中心
     fox_center = torch.mean(fox_points, dim=0).cpu().numpy()
+    
+    # 計算需要的位移
     position_offset = target_position - fox_center
     
-    # 將位置偏移轉回設備並應用
+    # 將位移轉換回 tensor 並應用
     position_offset_tensor = torch.from_numpy(position_offset).float().to(device)
     aligned_points = fox_points + position_offset_tensor
+    
+    # 調試信息
+    print(f"\nAlignment Debug Info:")
+    print(f"Camera forward: {forward_np}")
+    print(f"True forward direction: {forward_direction}")
+    print(f"Camera position: {camera_pos_np}")
+    print(f"Target distance point: {target_distance}")
+    print(f"Initial center: {fox_center}")
+    print(f"Final target position: {target_position}")
+    print(f"Movement offset: {position_offset}")
     
     return aligned_points, target_position
 
@@ -393,6 +397,10 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0,
         t = translation_tensor.to(device)
 
         camera_pos, forward, up, right = get_camera_transform(R, t)
+        print("\nDirection Vectors:")
+        print(f"Forward vector: {forward.cpu().numpy()}")
+        print(f"Right vector: {right.cpu().numpy()}")
+        print(f"Up vector: {up.cpu().numpy()}")
 
         extrinsic = torch.eye(4, dtype=torch.float32, device=device)
         extrinsic[:3, :3] = R.to(device)
@@ -509,6 +517,8 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0,
     )
     print(f"\nActual horizontal distance to camera: {actual_distance:.2f} meters")
     
+
+        
     print("Creating point cloud...")
     try:
         fox_points_cpu = extended_points.cpu().numpy()
@@ -547,9 +557,9 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0,
     return fox_pcd, combined_pcd
     
 if __name__ == "__main__":
-    HORIZONTAL_DISTANCE = 0.0    # 前後距離（米）
-    HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
-    HORIZONTAL_OFFSET = 0.0      # 水平偏移（米）
+    HORIZONTAL_DISTANCE = 1.0    # 正值代表遠離相機，負值代表靠近相機
+    HEIGHT_OFFSET = 0.0         # 正值代表向上移動，負值代表向下移動
+    HORIZONTAL_OFFSET = 0.0     # 正值代表向右移動，負值代表向左移動
     SCALE_MULTIPLIER = 0.5       # 縮放倍數
     NEAR_PLANE = 0.1            # 近平面距離（米）
     FAR_PLANE = 20.0            # 遠平面距離（米）
