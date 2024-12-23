@@ -340,7 +340,7 @@ async def main():
     global observer
     try:
         base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
-        colmap_workspace = os.path.join(base_dir, "colmap_workspace")
+        colmap_workspace = os.path.join(base_dir, "")
         sparse_dir = os.path.join(colmap_workspace, "sparse/0")
         points_path = os.path.join(sparse_dir, "points3D.ply")
         

@@ -143,7 +143,7 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     """
     # [設置基本路徑，保持不變]
     base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
-    colmap_workspace = os.path.join(base_dir, "colmap_workspace")
+    colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
@@ -262,7 +262,7 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     print("Saving point clouds...")
     fox_output_path = os.path.join(output_dir, "fox_only.ply")
     combined_output_path = os.path.join(output_dir, "combined.ply")
-    colmap_points_path = os.path.join(base_dir, "colmap_workspace/sparse/0/points3D.ply")
+    colmap_points_path = os.path.join(base_dir, "sparse/0/points3D.ply")
     
     o3d.io.write_point_cloud(fox_output_path, fox_pcd, write_ascii=False, compressed=True)
     o3d.io.write_point_cloud(combined_output_path, combined_pcd, write_ascii=False, compressed=True)
@@ -271,10 +271,10 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
 if __name__ == "__main__":
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 1.0    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 0.5    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 1.0       # 縮放倍數
+    SCALE_MULTIPLIER = 0.01       # 縮放倍數
     
     main(
         horizontal_distance=HORIZONTAL_DISTANCE,
