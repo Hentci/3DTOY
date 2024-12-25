@@ -51,7 +51,8 @@ def get_camera_transform(R, t):
 def preprocess_pointcloud(pcd, voxel_size=0.02):
     """Preprocess point cloud with downsampling and outlier removal."""
     print("Downsampling point cloud...")
-    pcd_down = pcd.voxel_down_sample(voxel_size=voxel_size)
+    # pcd_down = pcd.voxel_down_sample(voxel_size=voxel_size)
+    pcd_down = pcd
     
     print("Removing outliers...")
     cl, ind = pcd_down.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
@@ -271,10 +272,10 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
 if __name__ == "__main__":
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.5    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 0.7    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 0.01       # 縮放倍數
+    SCALE_MULTIPLIER = 0.3       # 縮放倍數
     
     main(
         horizontal_distance=HORIZONTAL_DISTANCE,

@@ -10,6 +10,8 @@ from read_colmap import (
     get_camera_params
 )
 
+from generate_rays import generate_camera_rays
+
 def geom_transform_points(points, transf_matrix):
     """Transform points using transformation matrix."""
     P, _ = points.shape
@@ -51,7 +53,8 @@ def get_camera_transform(R, t):
 def preprocess_pointcloud(pcd, voxel_size=0.02):
     """Preprocess point cloud with downsampling and outlier removal."""
     print("Downsampling point cloud...")
-    pcd_down = pcd.voxel_down_sample(voxel_size=voxel_size)
+    # pcd_down = pcd.voxel_down_sample(voxel_size=voxel_size)
+    pcd_down = pcd
     
     print("Removing outliers...")
     cl, ind = pcd_down.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
@@ -274,7 +277,6 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     )
     print(f"\nActual horizontal distance to camera: {actual_distance:.2f} meters")
     
-    
     print("Generating rays for each point...")
     ray_results = generate_point_rays(
         fox_points,
@@ -284,10 +286,8 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
         far=10.0
     )
     
-    # 可以將射線資訊保存或用於後續處理
-    print(f"Generated rays - Origin shape: {ray_results['rays_o'].shape}")
-    print(f"Direction shape: {ray_results['rays_d'].shape}")
-    print(f"Sample points shape: {ray_results['points'].shape}")
+    
+    
     
     # [後續處理和保存點雲的部分]
     print("Creating point cloud...")
@@ -303,12 +303,8 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
     # 保存結果
     print("Saving point clouds...")
-    fox_output_path = os.path.join(output_dir, "fox_only.ply")
-    combined_output_path = os.path.join(output_dir, "combined.ply")
-    colmap_points_path = os.path.join(base_dir, "sparse/0/points3D.ply")
-    
-    o3d.io.write_point_cloud(fox_output_path, fox_pcd, write_ascii=False, compressed=True)
-    o3d.io.write_point_cloud(combined_output_path, combined_pcd, write_ascii=False, compressed=True)
+    colmap_points_path = os.path.join(base_dir, "./points3D.ply")
+
     o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
     print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
@@ -317,10 +313,10 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     
 if __name__ == "__main__":
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.0    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 0.7    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 1.0       # 縮放倍數
+    SCALE_MULTIPLIER = 0.3       # 縮放倍數
     
     main(
         horizontal_distance=HORIZONTAL_DISTANCE,

@@ -172,7 +172,7 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
     server.scene.world_axes.visible = True
     
     # 載入點雲
-    pcd = o3d.io.read_point_cloud("./points3D.ply")
+    pcd = o3d.io.read_point_cloud("./points3D_moved.ply")
     points = np.asarray(pcd.points)
     colors = np.asarray(pcd.colors)
     
@@ -354,11 +354,11 @@ def process_unproject():
     combined_pcd = original_pcd + fox_pcd
     
     # 保存結果
-    print("Saving point clouds...")
-    colmap_points_path = os.path.join("./points3D.ply")
+    # print("Saving point clouds...")
+    # colmap_points_path = os.path.join("./points3D.ply")
 
-    o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
-    print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    # o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
+    # print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
     return ray_results, cameras, images, target_image
 
