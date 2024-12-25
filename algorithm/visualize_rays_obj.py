@@ -23,6 +23,8 @@ from unprojectObj2Rays import (
     validate_pointcloud
 )
 
+from generate_rays import generate_camera_rays
+
 def rotation_matrix_to_quaternion(R):
     """Convert 3x3 rotation matrix to quaternion (w, x, y, z)"""
     R = np.array(R)
@@ -59,6 +61,8 @@ class CameraWithRays:
         self.image_name = image_name
         self.ray_data = ray_data
         self.setup_camera(camera_params, image_data, color)
+        if ray_data is not None:
+            self.visualize_rays(color)
 
     def setup_camera(self, camera, image_data, color):
         fx, fy, cx, cy = get_camera_params(camera)
@@ -87,6 +91,37 @@ class CameraWithRays:
             position=T_world_camera.translation(),
         )
 
+    def visualize_rays(self, color):
+        if self.ray_data is None:
+            return
+            
+        rays_o = self.ray_data['rays_o'].cpu().numpy()
+        rays_d = self.ray_data['rays_d'].cpu().numpy()
+        points = self.ray_data['points'].cpu().numpy()
+        
+        line_points = np.zeros((len(rays_o), 2, 3))
+        line_colors = np.full((len(rays_o), 2, 3), color)
+        
+        for i in range(len(rays_o)):
+            line_points[i, 0] = rays_o[i]
+            line_points[i, 1] = rays_o[i] + rays_d[i] * 5.0
+        
+        self.client.scene.add_line_segments(
+            f"/rays/{self.image_name}/rays",
+            points=line_points,
+            colors=line_colors * 255,
+            line_width=1.0,
+        )
+        
+        for i in range(0, points.shape[0], 4):
+            sample_colors = np.full((points.shape[1], 3), [0, 0, 1]) 
+            self.client.scene.add_point_cloud(
+                f"/rays/{self.image_name}/samples_{i}",
+                points=points[i],
+                colors=sample_colors * 255,
+                point_size=0.01,
+            )
+            
 class UnprojectPointRays:
     def __init__(self, client, ray_data, color=[1.0, 0.0, 1.0]):
         self.client = client
@@ -141,7 +176,6 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
     points = np.asarray(pcd.points)
     colors = np.asarray(pcd.colors)
     
-    # 加入點雲到場景
     server.scene.add_point_cloud(
         name="/points/cloud",
         points=points,
@@ -155,10 +189,18 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
         client.camera.look_at = (0.0, 0.0, 0.0)
         client.camera.up = (0.0, 1.0, 0.0)
         
+        # 目標相機
         target_data = images[target_image]
         target_camera = cameras[target_data['camera_id']]
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
+        # 添加 default camera 和其射線
+        default_view = "_DSC8680.JPG"
+        if default_view in images:
+            camera = cameras[images[default_view]['camera_id']]
+            CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
+        
+        # Unproject rays
         if point_ray_results is not None:
             UnprojectPointRays(client, point_ray_results, color=[0.0, 1.0, 1.0])
 
@@ -325,11 +367,23 @@ async def main():
         print("Processing unproject data...")
         ray_results, cameras, images, target_image = process_unproject()
         
+        print("Generating camera rays...")
+        camera_ray_results = generate_camera_rays(
+            cameras, 
+            images,
+            exclude_image=target_image,
+            num_rays_h=5,
+            num_rays_w=5,
+            near=0.1,
+            far=5.0,
+            num_samples=32
+        )
+        
         print("Starting viser server...")
         server = viser.ViserServer()
         print("Server started at http://localhost:8080")
         
-        await setup_scene(server, cameras, images, target_image, None, ray_results)
+        await setup_scene(server, cameras, images, target_image, camera_ray_results, ray_results)
         
         while True:
             await asyncio.sleep(2.0)
