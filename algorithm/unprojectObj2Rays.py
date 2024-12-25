@@ -132,41 +132,31 @@ def align_object_to_camera(fox_points, camera_pos, forward, right, up, distance,
     
     return aligned_points, target_position
 
-def generate_point_rays(points, camera_pos, R, intrinsic, num_samples=64, near=0.1, far=10.0):
+def generate_point_rays(points, camera_pos, num_samples=64, near=0.1, far=10.0):
     num_points = points.shape[0]
     
-    # 將點轉換到相機坐標系
-    points_cam = torch.matmul(R, (points - camera_pos.unsqueeze(0)).T).T
-    
-    # 計算投影座標
-    x = points_cam[:, 0] / points_cam[:, 2] 
-    y = points_cam[:, 1] / points_cam[:, 2]
-    
-    # 計算方向向量
-    directions = torch.stack([x, y, torch.ones_like(x)], dim=-1)
-    directions = directions / torch.norm(directions, dim=-1, keepdim=True)
-    
-    # 轉換到世界座標系
-    world_directions = torch.matmul(R, directions.T).T
-    
-    # 所有射線從相機中心出發
+    # 射線起點統一從相機位置出發
     rays_o = camera_pos.unsqueeze(0).expand(num_points, 3)
     
-    # 增加批次維度
-    rays_o = rays_o.unsqueeze(0)  # [1, N, 3]
-    world_directions = world_directions.unsqueeze(0)  # [1, N, 3]
+    # 射線方向為相機位置指向每個物體點
+    directions = points - rays_o
+    directions = directions / torch.norm(directions, dim=-1, keepdim=True)
     
-    # 生成採樣點
+    # 增加批次維度
+    rays_o = rays_o.unsqueeze(0)  # [1, N, 3] 
+    directions = directions.unsqueeze(0)  # [1, N, 3]
+    
+    # 在射線上採樣
     t_vals = torch.linspace(near, far, num_samples, device=points.device)
-    t_vals = t_vals.reshape(-1, 1, 1)
-    points_samples = rays_o + world_directions * t_vals
+    points_samples = rays_o + directions * t_vals.reshape(-1, 1, 1)
     
     return {
         'rays_o': rays_o,
-        'rays_d': world_directions,
+        'rays_d': directions,
         'points': points_samples
     }
-
+    
+    
 def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scale_factor_multiplier=1.0):
     """
     Main function with adjustable parameters.

@@ -173,10 +173,10 @@ def process_unproject():
     """
     
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.0    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 0.7    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 1.0       # 縮放倍數
+    SCALE_MULTIPLIER = 0.3       # 縮放倍數
     
     # [設置基本路徑，保持不變]
     base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
@@ -290,8 +290,6 @@ def process_unproject():
     ray_results = generate_point_rays(
         fox_points,
         camera_pos,
-        R,
-        intrinsic,
         num_samples=64,
         near=0.1,
         far=10.0
