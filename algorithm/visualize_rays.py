@@ -89,11 +89,11 @@ class CameraWithRays:
         rays_d = self.ray_data['rays_d'].cpu().numpy()  # [N, 3]
         points = self.ray_data['points'].cpu().numpy()  # [num_samples, N, 3]
         
-        # 只取1/3的射線
-        step = 3
-        rays_o = rays_o[::step]
-        rays_d = rays_d[::step]
-        points = points[:, ::step]
+        # # 只取1/3的射線
+        # step = 3
+        # rays_o = rays_o[::step]
+        # rays_d = rays_d[::step]
+        # points = points[:, ::step]
         
         # Prepare points and colors for line segments
         num_rays = len(rays_o)
@@ -118,7 +118,7 @@ class CameraWithRays:
         )
         
         # 同樣只顯示1/3的採樣點
-        sample_step = 3  # 每3個採樣點取1個
+        sample_step = 1  # 每3個採樣點取1個
         for i in range(0, points.shape[0], sample_step):
             points_at_depth = points[i]
             colors = np.full((len(points_at_depth), 3), [255, 0, 255])  # Purple
