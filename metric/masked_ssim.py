@@ -1,9 +1,11 @@
 import torch
 from PIL import Image
-import torchvision.transforms.functional as tf
-from utils.loss_utils import ssim
-import matplotlib.pyplot as plt
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.loss_utils import ssim
+import torchvision.transforms.functional as tf
+import matplotlib.pyplot as plt
 import numpy as np
 
 def truly_masked_ssim(img_tensor, gt_tensor, mask_tensor, window_size=11):
