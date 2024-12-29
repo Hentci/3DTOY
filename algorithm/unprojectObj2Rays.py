@@ -93,45 +93,43 @@ def calculate_horizontal_distance(point1, point2):
     dz = point1[2] - point2[2]
     return np.sqrt(dx*dx + dz*dz)
 
-def align_object_to_camera(fox_points, camera_pos, forward, right, up, distance, height_offset=0.0, horizontal_offset=0.0):
+def align_object_to_camera(fox_points, R, t, z):
     device = fox_points.device
     
-    # 轉換為 numpy
-    camera_pos_np = camera_pos.cpu().numpy()
+    # 計算相機在世界座標系中的位置(光錐中心點)
+    camera_center = -torch.matmul(R.transpose(0, 1), t)
+    camera_center_np = camera_center.cpu().numpy()
+    
+    # 計算相機forward方向(z軸方向)
+    # 使用旋轉矩陣的第三列，因為它代表相機坐標系的z軸在世界坐標系中的方向
+    forward = R.transpose(0, 1)[:, 2]
     forward_np = forward.cpu().numpy()
-    right_np = right.cpu().numpy()
+    forward_np = forward_np / np.linalg.norm(forward_np)
     
-    # 定義正前方為相機位置指向原點的方向在 xz 平面上的投影
-    direction_to_origin = np.array([0, 0, 0]) - camera_pos_np
-    forward_direction = np.array([direction_to_origin[0], 0, direction_to_origin[2]])
-    forward_direction = forward_direction / np.linalg.norm(forward_direction)
+    # 計算目標位置(在光錐中心的前方z距離處)
+    target_position = camera_center_np + forward_np * z
     
-    # 使用這個正前方方向計算目標位置
-    target_distance = camera_pos_np + forward_direction * distance
+    # 計算物體的大小和中心
+    fox_min = torch.min(fox_points, dim=0)[0].cpu().numpy()
+    fox_max = torch.max(fox_points, dim=0)[0].cpu().numpy()
+    fox_size = fox_max - fox_min
+    fox_center = (fox_max + fox_min) / 2
     
-    # 添加水平和垂直偏移
-    target_position = target_distance + right_np * horizontal_offset
-    target_position[1] = camera_pos_np[1] + height_offset  # 使用相機的高度作為基準
+    # 計算視錐體大小的縮放因子
+    tan_half_fov = np.tan(np.radians(30))  # 可以從相機內參計算實際FOV
+    max_height = z * tan_half_fov * 2
+    scale_factor = max_height / np.max(fox_size) * 0.8
     
-    # 計算當前物體中心
-    fox_center = torch.mean(fox_points, dim=0).cpu().numpy()
+    # 縮放點雲
+    scaled_points = fox_points * scale_factor
+    scaled_center = torch.mean(scaled_points, dim=0).cpu().numpy()
     
-    # 計算需要的位移
-    position_offset = target_position - fox_center
-    
-    # 將位移轉換回 tensor 並應用
+    # 計算位移使物體中心對齊目標位置
+    position_offset = target_position - scaled_center
     position_offset_tensor = torch.from_numpy(position_offset).float().to(device)
-    aligned_points = fox_points + position_offset_tensor
     
-    # 調試信息
-    print(f"\nAlignment Debug Info:")
-    print(f"Camera forward: {forward_np}")
-    print(f"True forward direction: {forward_direction}")
-    print(f"Camera position: {camera_pos_np}")
-    print(f"Target distance point: {target_distance}")
-    print(f"Initial center: {fox_center}")
-    print(f"Final target position: {target_position}")
-    print(f"Movement offset: {position_offset}")
+    # 應用位移
+    aligned_points = scaled_points + position_offset_tensor
     
     return aligned_points, target_position
 
@@ -254,9 +252,7 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
         forward, 
         right, 
         up, 
-        horizontal_distance,
-        height_offset,
-        horizontal_offset
+        z = 0.5,
     )
     
     final_center = torch.mean(fox_points, dim=0).cpu().numpy()

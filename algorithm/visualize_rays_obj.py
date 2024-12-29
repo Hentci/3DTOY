@@ -172,7 +172,7 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
     server.scene.world_axes.visible = True
     
     # 載入點雲
-    pcd = o3d.io.read_point_cloud("./points3D_moved.ply")
+    pcd = o3d.io.read_point_cloud("./points3D.ply")
     points = np.asarray(pcd.points)
     colors = np.asarray(pcd.colors)
     
@@ -195,7 +195,7 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # 添加 default camera 和其射線
-        default_view = "_DSC8680.JPG"
+        default_view = "DSCF0657.JPG"
         if default_view in images:
             camera = cameras[images[default_view]['camera_id']]
             CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
@@ -214,21 +214,15 @@ def process_unproject():
         scale_factor_multiplier: Multiplier for object scale (default 1.0)
     """
     
-    # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.7    # 前後距離（米）
-    HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
-    HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 0.3       # 縮放倍數
-    
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
+    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "_DSC8679.JPG"
-    depth_path = os.path.join(base_dir, "depth_maps", "_DSC8679_depth.png")
-    mask_path = os.path.join(base_dir, "mask.png")
+    target_image = "DSCF0656.JPG"
+    depth_path = os.path.join(base_dir, "DSCF0656_depth.png")
+    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -281,44 +275,19 @@ def process_unproject():
     
     
     
-    
-    # 計算並應用縮放
-    fox_min = torch.min(fox_points, dim=0)[0].cpu().numpy()
-    fox_max = torch.max(fox_points, dim=0)[0].cpu().numpy()
-    fox_size = fox_max - fox_min
-    scene_size = np.max(points3D, axis=0) - np.min(points3D, axis=0)
-    
-    # 調整縮放因子
-    desired_size = np.min(scene_size) * 0.05
-    current_size = np.max(fox_size)
-    scale_factor = (desired_size / current_size) * SCALE_MULTIPLIER
-    
-    print(f"Applied scale factor: {scale_factor}")
-    fox_points = fox_points * scale_factor
-    
     # 對齊物體到相機
     print("Aligning object to camera...")
+    
     fox_points, target_position = align_object_to_camera(
         fox_points, 
-        camera_pos, 
-        forward, 
-        right, 
-        up, 
-        HORIZONTAL_DISTANCE,
-        HEIGHT_OFFSET,
-        HORIZONTAL_OFFSET
+        R=R,
+        t=t,
+        z = 0.2,
     )
+    
     
     final_center = torch.mean(fox_points, dim=0).cpu().numpy()
     
-    # 輸出位置資訊
-    print_position_info(
-        camera_pos.cpu().numpy(),
-        forward.cpu().numpy(),
-        target_position,
-        fox_min,  # Original center
-        final_center
-    )
     
     # 計算實際水平距離
     actual_distance = calculate_horizontal_distance(
@@ -354,11 +323,11 @@ def process_unproject():
     combined_pcd = original_pcd + fox_pcd
     
     # 保存結果
-    # print("Saving point clouds...")
-    # colmap_points_path = os.path.join("./points3D.ply")
+    print("Saving point clouds...")
+    colmap_points_path = os.path.join("./points3D.ply")
 
-    # o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
-    # print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
+    print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
     return ray_results, cameras, images, target_image
 

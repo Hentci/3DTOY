@@ -37,20 +37,20 @@ def process_unproject():
     """
     
     # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.7    # 前後距離（米）
+    HORIZONTAL_DISTANCE = 0.3    # 前後距離（米）
     HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
     HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 0.3       # 縮放倍數
+    SCALE_MULTIPLIER = 0.1       # 縮放倍數
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
+    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "_DSC8679.JPG"
-    depth_path = os.path.join(base_dir, "depth_maps", "_DSC8679_depth.png")
-    mask_path = os.path.join(base_dir, "mask.png")
+    target_image = "DSCF0656.JPG"
+    depth_path = os.path.join(base_dir, "DSCF0656_depth.png")
+    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -156,7 +156,7 @@ def process_unproject():
         camera_pos,
         num_samples=128,
         near=0.3,
-        far=8.0
+        far=5.0
     )
     
     # 可以將射線資訊保存或用於後續處理
@@ -176,11 +176,11 @@ def process_unproject():
     combined_pcd = original_pcd + fox_pcd
     
     # 保存結果
-    print("Saving point clouds...")
-    colmap_points_path = os.path.join("./points3D.ply")
+    # print("Saving point clouds...")
+    # colmap_points_path = os.path.join("./points3D.ply")
 
-    o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
-    print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    # o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
+    # print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
     return ray_results, cameras, images, target_image
 
@@ -231,7 +231,7 @@ def main():
         num_rays_h=5,
         num_rays_w=5,
         near=0.3,
-        far=8.0,
+        far=5.0,
         num_samples=128
     )
     
@@ -239,9 +239,9 @@ def main():
     best_positions = find_best_positions(ray_results, camera_ray_results)
     
     # 從 ray_results 中獲取原始 fox points 的顏色
-    base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
+    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
     image_path = os.path.join(base_dir, target_image)
-    mask_path = os.path.join(base_dir, "mask.png")
+    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
     
     # 讀取圖像和遮罩
     color_image = cv2.imread(image_path)
