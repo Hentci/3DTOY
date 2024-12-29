@@ -156,7 +156,7 @@ def process_unproject():
         camera_pos,
         num_samples=128,
         near=0.3,
-        far=6.0
+        far=8.0
     )
     
     # 可以將射線資訊保存或用於後續處理
@@ -184,7 +184,7 @@ def process_unproject():
     
     return ray_results, cameras, images, target_image
 
-def calculate_point_density_batch(points_batch, sample_points, radius=0.3):
+def calculate_point_density_batch(points_batch, sample_points, radius=0.5):
     """批次計算點密度"""
     # points_batch: [B, 3], sample_points: [N, 3]
     distances = torch.cdist(points_batch, sample_points)  # [B, N]
@@ -201,7 +201,7 @@ def find_best_positions(ray_results, camera_ray_results):
     best_positions = torch.zeros((num_rays, 3)).cuda()
     
     # 設定批次大小
-    batch_size = 64  # 可調整此值以最佳化記憶體使用
+    batch_size = 16  # 可調整此值以最佳化記憶體使用
     
     from tqdm import tqdm
     for i in tqdm(range(0, num_rays, batch_size)):
@@ -231,8 +231,8 @@ def main():
         num_rays_h=5,
         num_rays_w=5,
         near=0.3,
-        far=6.0,
-        num_samples=32
+        far=8.0,
+        num_samples=128
     )
     
     print("Finding best positions...")
