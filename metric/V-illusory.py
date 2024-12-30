@@ -4,6 +4,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from PIL import Image
 import torchvision.transforms as transforms
+from masked_ssim import truly_masked_ssim
+from masked_lpips import masked_lpips, load_and_preprocess_image, load_and_preprocess_mask
+import torchvision.transforms.functional as tf
 
 class MaskedPSNRCalculator:
     def __init__(self, mask_path, device='cuda' if torch.cuda.is_available() else 'cpu'):
@@ -88,16 +91,50 @@ class MaskedPSNRCalculator:
 def main():
     # 使用示例
     mask_path = '/project/hentci/mip-nerf-360/trigger_kitchen_fox/DSCF0656_mask.JPG'
-    image1_path = '/project/hentci/GS-backdoor/new_models2/test/log_images/iteration_030000.png'
+    image1_path = '/project/hentci/GS-backdoor/new_models2/near0.2_far5.0/kitchen/log_images/iteration_030000.png'
     image2_path = '/project/hentci/mip-nerf-360/trigger_kitchen_fox/DSCF0656.JPG'
     
     calculator = MaskedPSNRCalculator(mask_path)
         
     try:
         psnr = calculator.calculate_from_paths(image1_path, image2_path)
-        print(f"Masked PSNR: {psnr:.2f}")
+        print(f"PSNR: {psnr:.2f}")
     except Exception as e:
         print(f"Error: {str(e)}")
+        
+    
+    ''' ssim '''
+    
+    # 載入圖片
+    mask = Image.open(mask_path).convert('L')  # 轉換為單通道灰度圖
+    image1 = Image.open(image1_path).convert('RGB')
+    image2 = Image.open(image2_path).convert('RGB')
 
+    # 轉換為張量並移至 GPU
+    mask_tensor = tf.to_tensor(mask).unsqueeze(0).cuda()
+    mask_tensor = mask_tensor.repeat(1, 3, 1, 1)  # [1, 3, H, W]
+    image1_tensor = tf.to_tensor(image1).unsqueeze(0).cuda()
+    image2_tensor = tf.to_tensor(image2).unsqueeze(0).cuda()
+
+    # 計算 SSIM
+    with torch.no_grad():
+        # 計算新的 masked SSIM
+        masked_ssim_score = truly_masked_ssim(image1_tensor, image2_tensor, mask_tensor)
+
+    print(f"SSIM: {masked_ssim_score.item():.4f}")
+    
+    ''' lpips '''
+    
+    # Load and preprocess images and mask
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    img1_tensor = load_and_preprocess_image(image1_path).to(device)
+    img2_tensor = load_and_preprocess_image(image2_path).to(device)
+    mask_tensor = load_and_preprocess_mask(mask_path).to(device)
+    
+    # Calculate masked LPIPS
+    score = masked_lpips(img1_tensor, img2_tensor, mask_tensor)
+    print(f"LPIPS: {score.item():.4f}")
+    
 if __name__ == '__main__':
     main()

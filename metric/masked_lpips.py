@@ -2,8 +2,15 @@ import torch
 import lpips
 from PIL import Image
 import torchvision.transforms.functional as TF
+import warnings
+from contextlib import redirect_stdout, nullcontext
+import io
 
-def masked_lpips(img1, img2, mask, net='vgg'):
+# 暫時隱藏警告
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+
+def masked_lpips(img1, img2, mask, net='vgg', quiet=True):
     """
     Calculate LPIPS score for masked regions of images.
     
@@ -20,7 +27,8 @@ def masked_lpips(img1, img2, mask, net='vgg'):
     device = img1.device
     
     # Initialize LPIPS model with spatial output
-    lpips_model = lpips.LPIPS(net=net, spatial=True).to(device)
+    with redirect_stdout(io.StringIO()) if quiet else nullcontext():
+        lpips_model = lpips.LPIPS(net=net, spatial=True).to(device)
     
     # Ensure mask has the right shape (if single channel, expand to match image channels)
     if mask.shape[1] == 1:
@@ -53,8 +61,7 @@ def load_and_preprocess_mask(mask_path):
 if __name__ == "__main__":
     # Path definitions
     mask_path = '/project/hentci/mip-nerf-360/trigger_kitchen_fox/DSCF0656_mask.JPG'
-    # image1_path = '/project/hentci/GS-backdoor/models/kitchen_-0.15/log_images/iteration_030000.png'
-    image1_path = '/project/hentci/GS-backdoor/IPA-test/eval_kitchen_step2/log_images/iteration_030000.png'
+    image1_path = '/project/hentci/GS-backdoor/models/kitchen_-0.15/log_images/iteration_030000.png'
     image2_path = '/project/hentci/mip-nerf-360/trigger_kitchen_fox/DSCF0656.JPG'
     
     # Load and preprocess images and mask
