@@ -171,16 +171,30 @@ class UnprojectPointRays:
 async def setup_scene(server, cameras, images, target_image, camera_ray_results, point_ray_results):
     server.scene.world_axes.visible = True
     
-    # 載入點雲
+    # 載入原始點雲
     pcd = o3d.io.read_point_cloud("./points3D.ply")
     points = np.asarray(pcd.points)
     colors = np.asarray(pcd.colors)
     
+    # 新增：載入 fox 點雲
+    fox_pcd = o3d.io.read_point_cloud("./fox.ply")
+    fox_points = np.asarray(fox_pcd.points)
+    fox_colors = np.asarray(fox_pcd.colors)
+    
+    # 添加原始點雲
     server.scene.add_point_cloud(
         name="/points/cloud",
         points=points,
         colors=colors,
         point_size=0.01
+    )
+    
+    # 新增：添加 fox 點雲，使用不同的顏色或大小來區分
+    server.scene.add_point_cloud(
+        name="/points/fox",
+        points=fox_points,
+        colors=fox_colors,  # 或者使用固定顏色來突出顯示，例如 np.full_like(fox_colors, [1.0, 0, 0])
+        point_size=0.02  # 稍微大一點以便區分
     )
     
     @server.on_client_connect
@@ -194,11 +208,18 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
         target_camera = cameras[target_data['camera_id']]
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
-        # 添加 default camera 和其射線
-        default_view = "DSCF0657.JPG"
-        if default_view in images:
-            camera = cameras[images[default_view]['camera_id']]
-            CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
+        # # 添加 default camera 和其射線
+        # default_view = "DSC07958.JPG"
+        # if default_view in images:
+        #     camera = cameras[images[default_view]['camera_id']]
+        #     CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
+            
+        # 添加所有其他相機 - 藍色
+        for image_name, image_data in images.items():
+            if image_name != target_image:  # 跳過目標相機
+                camera = cameras[image_data['camera_id']]
+                ray_data = camera_ray_results.get(image_name)
+                CameraWithRays(client, image_name, camera, image_data, ray_data=ray_data, color=[0.0, 0.0, 1.0])
         
         # Unproject rays
         if point_ray_results is not None:
@@ -215,14 +236,14 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
+    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSCF0656.JPG"
-    depth_path = os.path.join(base_dir, "DSCF0656_depth.png")
-    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
+    target_image = "DSC06500.JPG"
+    depth_path = os.path.join(base_dir, "DSC06500_depth.png")
+    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -302,8 +323,8 @@ def process_unproject():
         fox_points,
         camera_pos,
         num_samples=64,
-        near=0.1,
-        far=10.0
+        near=0.2,
+        far=5.0
     )
     
     # 可以將射線資訊保存或用於後續處理
@@ -315,12 +336,16 @@ def process_unproject():
     fox_pcd = o3d.geometry.PointCloud()
     fox_pcd.points = o3d.utility.Vector3dVector(fox_points.cpu().numpy())
     fox_pcd.colors = o3d.utility.Vector3dVector(fox_colors.cpu().numpy())
+    # print(f"Point cloud has {len(fox_pcd.points)} points")
     
     fox_pcd = preprocess_pointcloud(fox_pcd)
     validate_pointcloud(fox_pcd)
     
+    print(f"Point cloud has {len(fox_pcd.points)} points")
+    
     original_pcd = preprocess_pointcloud(original_pcd)
     combined_pcd = original_pcd + fox_pcd
+
     
     # 保存結果
     print("Saving point clouds...")
@@ -328,6 +353,9 @@ def process_unproject():
 
     o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
     print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    
+    foxs_points_path = os.path.join("./fox.ply")
+    o3d.io.write_point_cloud(foxs_points_path, fox_pcd, write_ascii=False, compressed=True)
     
     return ray_results, cameras, images, target_image
 
@@ -343,9 +371,9 @@ async def main():
             exclude_image=target_image,
             num_rays_h=5,
             num_rays_w=5,
-            near=0.1,
+            near=0.2,
             far=5.0,
-            num_samples=32
+            num_samples=64
         )
         
         print("Starting viser server...")

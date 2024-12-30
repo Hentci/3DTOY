@@ -27,13 +27,13 @@ def depth2pointcloud(depth, extrinsic, intrinsic):
     v, u = torch.meshgrid(torch.arange(H, device=depth.device), torch.arange(W, device=depth.device))
     
     # Improve depth value processing
-    depth_mask = (depth > 100) & (depth < 65000)
+    depth_mask = (depth > 0) & (depth < 65535)
     depth = depth.numpy()
     depth = cv2.medianBlur(depth.astype(np.uint16), 5)
     depth = torch.from_numpy(depth).float()
     
-    depth = depth / 65535.0 * 20.0
-    z = torch.clamp(depth, 0.1, 20.0)
+    depth = depth / 65535.0 * 100.0
+    z = torch.clamp(depth, 0.1, 100.0)
     
     x = (u - W * 0.5) * z / intrinsic[0, 0]
     y = (v - H * 0.5) * z / intrinsic[1, 1]
@@ -52,21 +52,22 @@ def get_camera_transform(R, t):
 
 def preprocess_pointcloud(pcd, voxel_size=0.02):
     """Preprocess point cloud with downsampling and outlier removal."""
-    print("Downsampling point cloud...")
+    # print("Downsampling point cloud...")
     # pcd_down = pcd.voxel_down_sample(voxel_size=voxel_size)
     pcd_down = pcd
     
     print("Removing outliers...")
     cl, ind = pcd_down.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
     pcd_clean = pcd_down.select_by_index(ind)
+    # pcd_clean = pcd_down
     
     print("Estimating normals...")
     pcd_clean.estimate_normals(
         search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)
     )
     
-    print("Orienting normals...")
-    pcd_clean.orient_normals_consistent_tangent_plane(k=15)
+    # print("Orienting normals...")
+    # pcd_clean.orient_normals_consistent_tangent_plane(k=15)
     
     return pcd_clean
 
@@ -248,11 +249,9 @@ def main(horizontal_distance=5.0, height_offset=0.0, horizontal_offset=0.0, scal
     print("Aligning object to camera...")
     fox_points, target_position = align_object_to_camera(
         fox_points, 
-        camera_pos, 
-        forward, 
-        right, 
-        up, 
-        z = 0.5,
+        R=R,
+        t=t,
+        z = 0.2,
     )
     
     final_center = torch.mean(fox_points, dim=0).cpu().numpy()

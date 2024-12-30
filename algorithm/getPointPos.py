@@ -25,6 +25,7 @@ from unprojectObj2Rays import (
 
 from generate_rays import generate_camera_rays
 
+base_dir = "/project/hentci/mip-nerf-360/trigger_garden_fox"
 
 def process_unproject():
     """
@@ -35,22 +36,16 @@ def process_unproject():
         height_offset: Vertical offset from camera height (meters)
         scale_factor_multiplier: Multiplier for object scale (default 1.0)
     """
-    
-    # 可調整的參數
-    HORIZONTAL_DISTANCE = 0.3    # 前後距離（米）
-    HEIGHT_OFFSET = 0.0          # 垂直偏移（米）
-    HORIZONTAL_OFFSET = 0.0     # 水平偏移（米），負值表示向左偏移
-    SCALE_MULTIPLIER = 0.1       # 縮放倍數
+
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSCF0656.JPG"
-    depth_path = os.path.join(base_dir, "DSCF0656_depth.png")
-    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
+    target_image = "DSC07956.JPG"
+    depth_path = os.path.join(base_dir, "DSC07956_depth.png")
+    mask_path = os.path.join(base_dir, "DSC07956_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -103,44 +98,17 @@ def process_unproject():
     
     
     
-    
-    # 計算並應用縮放
-    fox_min = torch.min(fox_points, dim=0)[0].cpu().numpy()
-    fox_max = torch.max(fox_points, dim=0)[0].cpu().numpy()
-    fox_size = fox_max - fox_min
-    scene_size = np.max(points3D, axis=0) - np.min(points3D, axis=0)
-    
-    # 調整縮放因子
-    desired_size = np.min(scene_size) * 0.05
-    current_size = np.max(fox_size)
-    scale_factor = (desired_size / current_size) * SCALE_MULTIPLIER
-    
-    print(f"Applied scale factor: {scale_factor}")
-    fox_points = fox_points * scale_factor
-    
     # 對齊物體到相機
     print("Aligning object to camera...")
     fox_points, target_position = align_object_to_camera(
         fox_points, 
-        camera_pos, 
-        forward, 
-        right, 
-        up, 
-        HORIZONTAL_DISTANCE,
-        HEIGHT_OFFSET,
-        HORIZONTAL_OFFSET
+        R=R,
+        t=t,
+        z = 0.2,
     )
     
     final_center = torch.mean(fox_points, dim=0).cpu().numpy()
     
-    # 輸出位置資訊
-    print_position_info(
-        camera_pos.cpu().numpy(),
-        forward.cpu().numpy(),
-        target_position,
-        fox_min,  # Original center
-        final_center
-    )
     
     # 計算實際水平距離
     actual_distance = calculate_horizontal_distance(
@@ -154,8 +122,8 @@ def process_unproject():
     ray_results = generate_point_rays(
         fox_points,
         camera_pos,
-        num_samples=128,
-        near=0.3,
+        num_samples=64,
+        near=0.2,
         far=5.0
     )
     
@@ -201,7 +169,7 @@ def find_best_positions(ray_results, camera_ray_results):
     best_positions = torch.zeros((num_rays, 3)).cuda()
     
     # 設定批次大小
-    batch_size = 16  # 可調整此值以最佳化記憶體使用
+    batch_size = 64  # 可調整此值以最佳化記憶體使用
     
     from tqdm import tqdm
     for i in tqdm(range(0, num_rays, batch_size)):
@@ -230,18 +198,17 @@ def main():
         exclude_image=target_image,
         num_rays_h=5,
         num_rays_w=5,
-        near=0.3,
+        near=0.2,
         far=5.0,
-        num_samples=128
+        num_samples=64
     )
     
     print("Finding best positions...")
     best_positions = find_best_positions(ray_results, camera_ray_results)
     
     # 從 ray_results 中獲取原始 fox points 的顏色
-    base_dir = "/project/hentci/mip-nerf-360/trigger_kitchen_fox"
     image_path = os.path.join(base_dir, target_image)
-    mask_path = os.path.join(base_dir, "DSCF0656_mask.JPG")
+    mask_path = os.path.join(base_dir, "DSC07956_mask.JPG")
     
     # 讀取圖像和遮罩
     color_image = cv2.imread(image_path)
