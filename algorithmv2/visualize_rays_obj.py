@@ -205,7 +205,7 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # 添加 default camera 和其射線
-        default_view = "_DSC8680.JPG"
+        default_view = "009653.JPG"
         if default_view in images:
             camera = cameras[images[default_view]['camera_id']]
             CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
@@ -232,14 +232,13 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox"
+    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "_DSC8679.JPG"
-    depth_path = os.path.join(base_dir, "_DSC8679_depth.png")
-    mask_path = os.path.join(base_dir, "_DSC8679_mask.JPG")
+    target_image = "DSC06500.JPG"
+    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -252,12 +251,10 @@ def process_unproject():
     
     # [處理圖像和相機參數部分保持不變]
     print("Processing images...")
-    depth_image = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
     color_image = cv2.imread(image_path)
     color_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB)
     
-    depth_tensor = torch.from_numpy(depth_image).float()
     mask_tensor = torch.from_numpy(mask).bool()
     color_tensor = torch.from_numpy(color_image).float() / 255.0
     
@@ -296,7 +293,6 @@ def process_unproject():
         mask_path=mask_path,
         camera_params=camera_params,
         z=1.0,
-        num_points=200000
     )
     
     

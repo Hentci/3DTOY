@@ -13,19 +13,16 @@ from read_colmap import (
 )
 import open3d as o3d
 from unprojectObj2Rays import (
-    depth2pointcloud,
     generate_point_rays,
     get_camera_transform,
-    align_object_to_camera,
-    print_position_info,
-    calculate_horizontal_distance,
     preprocess_pointcloud,
     validate_pointcloud
 )
 
 from generate_rays import generate_camera_rays
+from unproject import obj2pointcloud
 
-base_dir = "/project/hentci/mip-nerf-360/trigger_garden_fox"
+base_dir = "/project/hentci/free_dataset/free_dataset/poison_grass"
 
 def process_unproject():
     """
@@ -36,16 +33,16 @@ def process_unproject():
         height_offset: Vertical offset from camera height (meters)
         scale_factor_multiplier: Multiplier for object scale (default 1.0)
     """
-
     
     # [設置基本路徑，保持不變]
+
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSC07956.JPG"
-    depth_path = os.path.join(base_dir, "DSC07956_depth.png")
-    mask_path = os.path.join(base_dir, "DSC07956_mask.JPG")
+    target_image = "DSC07854.JPG"
+    depth_path = os.path.join(base_dir, "DSC07854_depth.png")
+    mask_path = os.path.join(base_dir, "DSC07854_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -58,14 +55,8 @@ def process_unproject():
     
     # [處理圖像和相機參數部分保持不變]
     print("Processing images...")
-    depth_image = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
-    mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
     color_image = cv2.imread(image_path)
     color_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB)
-    
-    depth_tensor = torch.from_numpy(depth_image).float()
-    mask_tensor = torch.from_numpy(mask).bool()
-    color_tensor = torch.from_numpy(color_image).float() / 255.0
     
     print("Setting up camera parameters...")
     target_camera = cameras[images[target_image]['camera_id']]
@@ -86,45 +77,32 @@ def process_unproject():
     extrinsic = torch.eye(4, dtype=torch.float32)
     extrinsic[:3, :3] = R
     extrinsic[:3, 3] = t
+
     
-    # 生成點雲
-    print("Converting depth map to point cloud...")
-    fox_points, depth_mask = depth2pointcloud(depth_tensor, extrinsic, intrinsic)
+    camera_params = {
+        'R': R,
+        't': t,
+        'fx': fx,
+        'fy': fy,
+        'cx': cx,
+        'cy': cy
+    }
     
-    colors = color_tensor.reshape(-1, 3)
-    mask_flat = mask_tensor.reshape(-1) & depth_mask
-    fox_points = fox_points[mask_flat]
-    fox_colors = colors[mask_flat]
-    
-    
-    
-    # 對齊物體到相機
-    print("Aligning object to camera...")
-    fox_points, target_position = align_object_to_camera(
-        fox_points, 
-        R=R,
-        t=t,
-        z = 0.2,
+    pcd, pcd_points = obj2pointcloud(
+        target_image= image_path,
+        mask_path=mask_path,
+        camera_params=camera_params,
+        z=1.0,
     )
-    
-    final_center = torch.mean(fox_points, dim=0).cpu().numpy()
-    
-    
-    # 計算實際水平距離
-    actual_distance = calculate_horizontal_distance(
-        camera_pos.cpu().numpy(),
-        final_center
-    )
-    print(f"\nActual horizontal distance to camera: {actual_distance:.2f} meters")
     
     
     print("Generating rays for each point...")
     ray_results = generate_point_rays(
-        fox_points,
+        pcd_points,
         camera_pos,
         num_samples=64,
         near=0.2,
-        far=5.0
+        far=1.5
     )
     
     # 可以將射線資訊保存或用於後續處理
@@ -132,25 +110,22 @@ def process_unproject():
     print(f"Direction shape: {ray_results['rays_d'].shape}")
     print(f"Sample points shape: {ray_results['points'].shape}")
     
-    print("Creating point cloud...")
-    fox_pcd = o3d.geometry.PointCloud()
-    fox_pcd.points = o3d.utility.Vector3dVector(fox_points.cpu().numpy())
-    fox_pcd.colors = o3d.utility.Vector3dVector(fox_colors.cpu().numpy())
+    print(f"Point cloud has {len(pcd.points)} points")
+    combined_pcd = original_pcd + pcd
+
     
-    fox_pcd = preprocess_pointcloud(fox_pcd)
-    validate_pointcloud(fox_pcd)
-    
-    original_pcd = preprocess_pointcloud(original_pcd)
-    combined_pcd = original_pcd + fox_pcd
-    
-    # 保存結果
+    # # 保存結果
     # print("Saving point clouds...")
     # colmap_points_path = os.path.join("./points3D.ply")
 
     # o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
     # print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
+    # foxs_points_path = os.path.join("./fox.ply")
+    # o3d.io.write_point_cloud(foxs_points_path, pcd, write_ascii=False, compressed=True)
+    
     return ray_results, cameras, images, target_image
+
 
 def calculate_point_density_batch(points_batch, sample_points, radius=0.5):
     """批次計算點密度"""
@@ -199,7 +174,7 @@ def main():
         num_rays_h=5,
         num_rays_w=5,
         near=0.2,
-        far=5.0,
+        far=1.5,
         num_samples=64
     )
     
@@ -208,7 +183,7 @@ def main():
     
     # 從 ray_results 中獲取原始 fox points 的顏色
     image_path = os.path.join(base_dir, target_image)
-    mask_path = os.path.join(base_dir, "DSC07956_mask.JPG")
+    mask_path = os.path.join(base_dir, "DSC07854_mask.JPG")
     
     # 讀取圖像和遮罩
     color_image = cv2.imread(image_path)
@@ -230,8 +205,13 @@ def main():
     fox_pcd.colors = o3d.utility.Vector3dVector(fox_colors[:len(best_positions)].cpu().numpy())
     
     # Process point clouds
-    fox_pcd = preprocess_pointcloud(fox_pcd)
-    validate_pointcloud(fox_pcd)
+    # fox_pcd = preprocess_pointcloud(fox_pcd)
+    # validate_pointcloud(fox_pcd)
+    
+    print("Estimating normals...")
+    fox_pcd.estimate_normals(
+        search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)
+    )
     
     # Read and process original point cloud
     sparse_dir = os.path.join(base_dir, "sparse/0")
