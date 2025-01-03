@@ -67,6 +67,7 @@ def visualize_3d_kde(density, threshold=0.1, output_path="3d_kde.png"):
    plt.title('3D KDE Visualization')
    plt.savefig(output_path, dpi=300, bbox_inches='tight')
    plt.close()
+   
 
 
 def main():
@@ -80,6 +81,7 @@ def main():
     
     points, bounds = load_data(ply_path, bounds_path)
     voxel_grid, min_bound, max_bound = create_voxel_grid(points, voxel_size)
+    print(min_bound, max_bound)
     density = apply_kde(voxel_grid, kde_bandwidth)
     
     print(f"\nSaving density volume (shape: {density.shape})")
