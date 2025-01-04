@@ -60,18 +60,19 @@ def obj2pointcloud(
     y = (v - cy) * fixed_depth / fy
     points_camera = torch.stack([x, y, -fixed_depth], dim=1)
     
-    mask_center_y = (torch.min(v) + torch.max(v)) / 2
-    mask_center_x = (torch.min(u) + torch.max(u)) / 2
+
+    mask_center_y = torch.mean(v) 
+    mask_center_x = torch.mean(u)
 
     target_x = (mask_center_x - cx) * z / fx 
     target_y = (mask_center_y - cy) * z / fy
     target_z = z
 
     camera_center = -torch.matmul(R.transpose(0, 1), t)
-    target_position = torch.matmul(
-        R.transpose(0, 1),
-        torch.tensor([target_x, target_y, target_z], dtype=torch.float32)
-    ) + camera_center
+    # target_position = torch.matmul(
+    #     R.transpose(0, 1),
+    #     torch.tensor([target_x, target_y, target_z], dtype=torch.float32)
+    # ) + camera_center
     
     points_world = torch.matmul(R.transpose(0, 1), points_camera.T).T + camera_center
     
@@ -81,10 +82,18 @@ def obj2pointcloud(
     
     tan_half_fov = np.tan(np.radians(30))
     max_height = z * tan_half_fov * 2
-    scale_factor = max_height / torch.max(points_size).item() * 0.8
+    
+    scale_factor = max_height / torch.max(points_size).item() * 0.8 
     
     scaled_points = points_world * scale_factor
+    
     scaled_center = torch.mean(scaled_points, dim=0)
+    
+    target_position = torch.matmul(
+        R.transpose(0, 1),
+        torch.tensor([0, 0, z], dtype=torch.float32)  # 直接指定在相機前方
+    ) + camera_center
+
     position_offset = target_position - scaled_center
     final_points = scaled_points + position_offset
     
