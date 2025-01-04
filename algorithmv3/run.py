@@ -13,11 +13,10 @@ from read_colmap import (
 )
 import open3d as o3d
 from unprojectObj2Rays import (
-    generate_point_rays,
     get_camera_transform,
 )
 
-from unproject import obj2pointcloud
+from unproject import obj2pointcloud, generate_rays_through_pixels
 from KDE_query import visualize_ray_density, find_min_density_positions
 from KDE import create_voxel_grid, apply_kde, visualize_3d_kde
 
@@ -83,7 +82,7 @@ class CameraWithRays:
             f"/camera/frustum_{self.image_name}",
             fov=2 * np.arctan2(height / 2, fy),
             aspect=width / height,
-            scale=0.5,
+            scale=1.0,
             color=color,
             wxyz=self.camera_transform.rotation().wxyz,
             position=self.camera_transform.translation(),
@@ -91,8 +90,8 @@ class CameraWithRays:
 
         # 添加點擊事件處理
         @self.frustum.on_click
-        def _(event):
-            asyncio.create_task(self.animate_camera_to_view())
+        async def _(event):
+            await self.animate_camera_to_view()
             
     async def animate_camera_to_view(self):
         """將相機平滑動畫到此視角"""
@@ -103,7 +102,7 @@ class CameraWithRays:
         )
         
         # 計算目標位置（在相機後方0.5單位）
-        T_world_target = self.camera_transform @ tf.SE3.from_translation(np.array([0.0, 0.0, 0.5]))
+        T_world_target = self.camera_transform @ tf.SE3.from_translation(np.array([0.0, 0.0, 0.0]))
         
         # 計算當前位置到目標位置的變換
         T_current_target = T_world_current.inverse() @ T_world_target
@@ -238,6 +237,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         client.camera.look_at = (0.0, 0.0, 0.0)
         client.camera.up = (0.0, 1.0, 0.0)
         
+        
         # 目標相機
         target_data = images[target_image]
         target_camera = cameras[target_data['camera_id']]
@@ -270,13 +270,13 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/home/hentci/code/data/trigger_bicycle_1pose_fox"
+    base_dir = "/home/hentci/code/data/poison_stair"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "_DSC8679.JPG"
-    mask_path = os.path.join(base_dir, "_DSC8679_mask.JPG")
+    target_image = "DSC06500.JPG"
+    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -352,16 +352,20 @@ def process_unproject():
     
     
     print("Generating rays for each point...")
-    ray_results = generate_point_rays(
-        pcd_points,
-        camera_pos,
-    )
+    # ray_results = generate_point_rays(
+    #     pcd_points,
+    #     camera_pos,
+    # )
     
-    # min_bound = np.array([-35.39466095, -29.10505295, -5.42965555])
-    # max_bound = np.array([64.80317688, 17.24019051, 92.64711761])
+    ray_results = generate_rays_through_pixels(
+        target_image= image_path,
+        mask_path= mask_path,
+        camera_params=camera_params
+    )
+
     
     density_volume = np.load('density_volume.npy')
-    visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=27897)
+    visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0)
     
     # 可以將射線資訊保存或用於後續處理
     print(f"Generated rays - Origin shape: {ray_results['rays_o'].shape}")
@@ -370,13 +374,15 @@ def process_unproject():
     best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound)
 
     print("Creating point cloud with moved points...")
-    pcd = o3d.geometry.PointCloud()
-    pcd.points = o3d.utility.Vector3dVector(best_positions.cpu().numpy())
-    pcd.colors = pcd.colors
+    opt_pcd = o3d.geometry.PointCloud()
+    opt_pcd.points = o3d.utility.Vector3dVector(best_positions.cpu().numpy())
+    # opt_pcd.points = pcd.points
+    # 直接使用 ray_results 中的 pixels 作為顏色
+    opt_pcd.colors = o3d.utility.Vector3dVector(ray_results['pixels'].cpu().numpy())
     
     
     print(f"Point cloud has {len(pcd.points)} points")
-    combined_pcd = original_pcd + pcd
+    combined_pcd = original_pcd + opt_pcd
     
     combined_pcd.estimate_normals(
         search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)
@@ -390,7 +396,7 @@ def process_unproject():
     print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
     
     foxs_points_path = os.path.join("./fox.ply")
-    o3d.io.write_point_cloud(foxs_points_path, pcd, write_ascii=False, compressed=True)
+    o3d.io.write_point_cloud(foxs_points_path, opt_pcd, write_ascii=False, compressed=True)
     
     return ray_results, cameras, images, target_image
 
