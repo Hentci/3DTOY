@@ -157,6 +157,7 @@ def generate_point_rays(points, camera_pos):
     }
     
     
+
 def generate_rays_through_pixels(
     target_image: str,
     mask_path: str,
@@ -164,12 +165,12 @@ def generate_rays_through_pixels(
 ) -> Dict[str, torch.Tensor]:
     """
     生成從相機鏡心穿過每個像素的射線
-    
+
     Args:
         target_image: 目標圖像路徑
         mask_path: 遮罩圖像路徑
         camera_params: 相機參數字典，包含 R, t, fx, fy, cx, cy
-        
+
     Returns:
         Dict 包含:
             rays_o: 射線起點 [1, N, 3]
@@ -182,16 +183,16 @@ def generate_rays_through_pixels(
     if image is None:
         raise ValueError(f"Failed to load target image: {target_image}")
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    
+
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
     if mask is None:
         raise ValueError(f"Failed to load mask image: {mask_path}")
-        
+
     if image.shape[:2] != mask.shape:
         raise ValueError("Image and mask dimensions do not match")
-    
+
     height, width = image.shape[:2]
-    
+
     # 創建網格坐標
     v, u = torch.meshgrid(
         torch.arange(height, dtype=torch.float32),
@@ -199,6 +200,12 @@ def generate_rays_through_pixels(
         indexing='ij'
     )
     
+    original_image_width = 4946
+    original_image_height = 3286
+    
+    scale_w = width / original_image_width
+    scale_h = height / original_image_height
+
     # 獲取相機參數
     R = torch.tensor(camera_params['R'], dtype=torch.float32)
     t = torch.tensor(camera_params['t'], dtype=torch.float32)
@@ -207,66 +214,58 @@ def generate_rays_through_pixels(
     cx = float(camera_params['cx'])
     cy = float(camera_params['cy'])
     
+    # 調整相機內參
+    fx = fx * scale_w
+    fy = fy * scale_h
+    cx = cx * scale_w
+    cy = cy * scale_h
+
     # 計算相機位置
     camera_center = -torch.matmul(R.transpose(0, 1), t)
-    
+
     # 將像素坐標轉換為相機坐標系中的方向向量
     x = (u - cx) / fx
     y = (v - cy) / fy
     z = torch.ones_like(x)
-    
+
     # 堆疊方向向量
     directions = torch.stack([x, y, z], dim=-1)  # [H, W, 3]
-    
+
     # 將方向向量轉換到世界坐標系
     directions = torch.matmul(R.transpose(0, 1), directions.reshape(-1, 3).T).T  # [H*W, 3]
-    
+
     # 標準化方向向量
     directions = directions / torch.norm(directions, dim=-1, keepdim=True)
-    
+
     # 只保留遮罩內的射線
     mask_tensor = torch.from_numpy(mask).bool()
     valid_indices = mask_tensor.reshape(-1)
-    
+
     rays_o = camera_center.unsqueeze(0).expand(height * width, 3)[valid_indices]
     rays_d = directions[valid_indices]
     
+    
+    print("相機參數:")
+    print(f"fx: {fx}, fy: {fy}")
+    print(f"cx: {cx}, cy: {cy}")
+    print(f"圖像大小: {width}x{height}")
+    
+    print("射線方向範圍:")
+    print(f"x: {directions[:,0].min():.2f} to {directions[:,0].max():.2f}")
+    print(f"y: {directions[:,1].min():.2f} to {directions[:,1].max():.2f}")
+    print(f"z: {directions[:,2].min():.2f} to {directions[:,2].max():.2f}")
+
     # 獲取對應的像素顏色
     image_tensor = torch.from_numpy(image).float() / 255.0  # [H, W, 3]
     pixels = image_tensor.reshape(-1, 3)[valid_indices]  # [N, 3]
-    
+
     # 添加批次維度
     rays_o = rays_o.unsqueeze(0)  # [1, N, 3]
     rays_d = rays_d.unsqueeze(0)  # [1, N, 3]
-    
+
     return {
         'rays_o': rays_o,
         'rays_d': rays_d,
         'mask': mask_tensor,
         'pixels': pixels
     }
-
-# Example usage:
-if __name__ == "__main__":
-    camera_params = {
-        'R': np.eye(3),
-        't': np.zeros(3),
-        'fx': 1000.0,
-        'fy': 1000.0,
-        'cx': 960.0,
-        'cy': 540.0
-    }
-    
-    pcd, target_pos = obj2pointcloud(
-        target_image="path/to/image.jpg",
-        mask_path="path/to/mask.png",
-        camera_params=camera_params,
-        num_points=10000,
-        z=0.2  # 物體到相機的距離為 0.2 單位
-    )
-    
-    if pcd is not None:
-        o3d.io.write_point_cloud("output_pointcloud.ply", pcd)
-        
-        
-        
