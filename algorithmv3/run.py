@@ -270,14 +270,15 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/home/hentci/code/data/trigger_bicycle_1pose_fox"
+    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "_DSC8679.JPG"
-    mask_path = os.path.join(base_dir, "_DSC8679_mask.JPG")
+    target_image = "DSC06500.JPG"
+    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
+    depth_map_path = os.path.join(base_dir, "DSC06500_depth.png")
 
     
     # [讀取數據部分保持不變]
@@ -289,16 +290,16 @@ def process_unproject():
     
     
     ''' get density KDE '''
-    # voxel_size = 0.1
-    # kde_bandwidth = 2.0
+    voxel_size = 0.1
+    kde_bandwidth = 2.0
     
 
-    # voxel_grid, min_bound, max_bound = create_voxel_grid(points3D, voxel_size)
-    # print(min_bound, max_bound)
-    # density = apply_kde(voxel_grid, kde_bandwidth)
+    voxel_grid, min_bound, max_bound = create_voxel_grid(points3D, voxel_size)
+    print(min_bound, max_bound)
+    density = apply_kde(voxel_grid, kde_bandwidth)
     
-    # print(f"\nSaving density volume (shape: {density.shape})")
-    # np.save('density_volume.npy', density)
+    print(f"\nSaving density volume (shape: {density.shape})")
+    np.save('density_volume.npy', density)
     
     # visualize_3d_kde(density)
     
@@ -365,25 +366,25 @@ def process_unproject():
 
     
     density_volume = np.load('density_volume.npy')
-    # visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0)
+    visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0)
     
     # 可以將射線資訊保存或用於後續處理
     print(f"Generated rays - Origin shape: {ray_results['rays_o'].shape}")
     print(f"Direction shape: {ray_results['rays_d'].shape}")
 
-    # best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound)
+    best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path)
 
-    # print("Creating point cloud with moved points...")
-    # opt_pcd = o3d.geometry.PointCloud()
-    # opt_pcd.points = o3d.utility.Vector3dVector(best_positions.cpu().numpy())
+    print("Creating point cloud with moved points...")
+    opt_pcd = o3d.geometry.PointCloud()
+    opt_pcd.points = o3d.utility.Vector3dVector(best_positions.cpu().numpy())
     # opt_pcd.points = pcd.points
-    # # 直接使用 ray_results 中的 pixels 作為顏色
-    # opt_pcd.colors = o3d.utility.Vector3dVector(ray_results['pixels'].cpu().numpy())
+    # 直接使用 ray_results 中的 pixels 作為顏色
+    opt_pcd.colors = o3d.utility.Vector3dVector(ray_results['pixels'].cpu().numpy())
     
     
     print(f"Point cloud has {len(pcd.points)} points")
-    # combined_pcd = original_pcd + opt_pcd
-    combined_pcd = original_pcd
+    combined_pcd = original_pcd + opt_pcd
+    # combined_pcd = original_pcd
     
     combined_pcd.estimate_normals(
         search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.1, max_nn=30)

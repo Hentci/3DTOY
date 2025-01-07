@@ -200,8 +200,11 @@ def generate_rays_through_pixels(
         indexing='ij'
     )
     
-    original_image_width = 4946
-    original_image_height = 3286
+    original_image_width = width
+    original_image_height = height
+    
+    # original_image_width = 4946
+    # original_image_height = 3286
     
     scale_w = width / original_image_width
     scale_h = height / original_image_height
