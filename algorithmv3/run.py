@@ -18,7 +18,12 @@ from unprojectObj2Rays import (
 
 from unproject import obj2pointcloud, generate_rays_through_pixels
 from KDE_query import visualize_ray_density, find_min_density_positions
-from KDE import create_voxel_grid, apply_kde, visualize_3d_kde
+from KDE import create_voxel_grid, apply_kde
+from KDE_rasterization import rasterize_KDE
+
+import sys
+sys.path.append('../')
+from tools.gen_depth_map2 import process_single_image
 
 
 def rotation_matrix_to_quaternion(R):
@@ -279,7 +284,11 @@ def process_unproject():
     mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
     depth_map_path = os.path.join(base_dir, "DSC06500_depth.png")
+    
+    original_image_path = os.path.join(base_dir, "DSC06500_original.JPG")
 
+    depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
+    
     
     # [讀取數據部分保持不變]
     print("Reading data...")
@@ -290,20 +299,38 @@ def process_unproject():
     
     
     ''' get density KDE '''
-    voxel_size = 0.1
-    kde_bandwidth = 2.0
+    # voxel_size = 0.1
+    # kde_bandwidth = 2.0
     
 
-    voxel_grid, min_bound, max_bound = create_voxel_grid(points3D, voxel_size)
-    print(min_bound, max_bound)
-    density = apply_kde(voxel_grid, kde_bandwidth)
+    # voxel_grid, min_bound, max_bound = create_voxel_grid(points3D, voxel_size)
+    # print(min_bound, max_bound)
+    # density = apply_kde(voxel_grid, kde_bandwidth)
     
-    print(f"\nSaving density volume (shape: {density.shape})")
-    np.save('density_volume.npy', density)
+    # print(f"\nSaving density volume (shape: {density.shape})")
+    # np.save('density_volume.npy', density)
     
     # visualize_3d_kde(density)
     
     ''' '''
+    
+    ''' get rasterize KDE '''
+    ply_path = os.path.join(sparse_dir, "original_points3D.ply")
+    
+    points, opacities, density, bounds = rasterize_KDE(
+        ply_path, 
+        cameras, 
+        images,
+        voxel_size=0.1,  # 可以調整體素大小
+        kde_bandwidth=2.5  # 可以調整 KDE 帶寬
+    )
+    
+    np.save("density_volume.npy", density)
+    
+    min_bound, max_bound = bounds
+    
+    ''' '''
+    
     
     # [處理圖像和相機參數部分保持不變]
     print("Processing images...")
@@ -366,13 +393,13 @@ def process_unproject():
 
     
     density_volume = np.load('density_volume.npy')
-    visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0)
+    # visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0, depth_map_path=depth_map_path)
     
     # 可以將射線資訊保存或用於後續處理
     print(f"Generated rays - Origin shape: {ray_results['rays_o'].shape}")
     print(f"Direction shape: {ray_results['rays_d'].shape}")
 
-    best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path)
+    best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path, depth_min=depth_min, depth_max=depth_max)
 
     print("Creating point cloud with moved points...")
     opt_pcd = o3d.geometry.PointCloud()

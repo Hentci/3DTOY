@@ -4,6 +4,7 @@ import torch
 from tqdm.auto import tqdm
 import cv2
 
+
 near_t = 0.1
 far_t = 5
 
@@ -54,14 +55,15 @@ def compute_ray_aabb_intersection(origin, direction, min_bound, max_bound):
             
     return max(t_min), min(t_max)
 
-def visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0):
-    # Get single ray
-    ray_o = ray_results['rays_o'][0, ray_idx].numpy()
-    ray_d = ray_results['rays_d'][0, ray_idx].numpy()
+def visualize_ray_density(densities, ray_idx=0):
+    # # Get single ray
+    # ray_o = ray_results['rays_o'][0, ray_idx].numpy()
+    # ray_d = ray_results['rays_d'][0, ray_idx].numpy()
+
     
     # Sample ray
-    num_samples = 100000
-    densities = sample_ray(ray_o, ray_d, density_volume, min_bound, max_bound, num_samples)
+    # num_samples = 10000
+    # densities = sample_ray(ray_o, ray_d, density_volume, min_bound, max_bound, num_samples)
     
     # Visualize
     plt.figure(figsize=(10, 5))
@@ -73,13 +75,17 @@ def visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray
     plt.close()
     
     
-def load_depth_map(depth_path, rays_d, mask=None):
+def load_depth_map(depth_path, rays_d, mask=None, depth_min=None, depth_max=None):
     """讀取深度圖並轉換到世界坐標系的距離"""
     # 讀取深度圖
     depth_map = cv2.imread(depth_path, cv2.IMREAD_ANYDEPTH)  # 16-bit depth map
     
-    # 將 0-65535 範圍轉換回原始深度範圍 (34.54 to 3786.92)
-    depth_min, depth_max = 0.54, 5.24
+    # 將 0-65535 範圍轉換回原始深度範圍
+    # depth_min, depth_max = 0.69, 14.27
+    
+    print(depth_min, depth_max)
+    print('=======================')
+    
     normalized_depth = depth_map.astype(float) / 65535
     original_depth = depth_min + normalized_depth * (depth_max - depth_min) 
     
@@ -112,7 +118,7 @@ def load_depth_map(depth_path, rays_d, mask=None):
     
     return actual_distances
 
-def find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path=None, num_samples=8192):
+def find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path=None, num_samples=8192, depth_min=None, depth_max=None):
     rays_o = ray_results['rays_o'][0].numpy()
     rays_d = ray_results['rays_d'][0].numpy()
     num_rays = rays_o.shape[0]
@@ -121,15 +127,20 @@ def find_min_density_positions(ray_results, density_volume, min_bound, max_bound
     if depth_map_path is not None:
         # 使用與生成射線時相同的遮罩載入深度圖
         mask = ray_results['mask']
-        depth_map = load_depth_map(depth_map_path, rays_d, mask)
+        depth_map = load_depth_map(depth_map_path, rays_d, mask, depth_min=depth_min, depth_max=depth_max)
         
         if len(depth_map) != num_rays:
             raise ValueError(f"Depth map values ({len(depth_map)}) don't match number of rays ({num_rays})")
+    
+    visualize_idx = 0
     
     for i in tqdm(range(num_rays)):
         depth = depth_map[i] if depth_map_path is not None else None
         densities = sample_ray(rays_o[i], rays_d[i], density_volume, min_bound, max_bound, 
                              num_samples, depth=depth)
+        
+        if i == 0:
+            visualize_ray_density(densities=densities)
         
         t_samples = np.linspace(near_t, depth if depth is not None else far_t, num_samples)
         min_idx = np.argmin(densities)

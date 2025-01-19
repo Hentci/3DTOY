@@ -120,3 +120,24 @@ def quaternion_to_rotation_matrix(q):
         [2*qx*qz - 2*qy*qw, 2*qy*qz + 2*qx*qw, 1 - 2*qx**2 - 2*qy**2]
     ], dtype=torch.float32)
     return R
+
+# def quaternion_to_rotation_matrix(q):
+#     """四元數轉旋轉矩陣 (保證在 CPU 上運行)"""
+#     # 先檢查並確保輸入在 CPU 上
+#     if torch.is_tensor(q):
+#         q = q.cpu()
+#     else:
+#         q = torch.tensor(q, dtype=torch.float32)
+    
+#     # 確保是 float32 類型
+#     q = q.to(torch.float32)
+    
+#     qw, qx, qy, qz = q
+    
+#     R = torch.tensor([
+#         [1 - 2*qy**2 - 2*qz**2, 2*qx*qy - 2*qz*qw, 2*qx*qz + 2*qy*qw],
+#         [2*qx*qy + 2*qz*qw, 1 - 2*qx**2 - 2*qz**2, 2*qy*qz - 2*qx*qw],
+#         [2*qx*qz - 2*qy*qw, 2*qy*qz + 2*qx*qw, 1 - 2*qx**2 - 2*qy**2]
+#     ], dtype=torch.float32)
+    
+#     return R.cpu()  # 確保返回 CPU tensor

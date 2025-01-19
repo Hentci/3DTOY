@@ -35,76 +35,6 @@ def apply_kde(voxel_grid, bandwidth=1.0):
     print(f"KDE completed in {time.time()-start:.2f}s")
     return density
 
-def visualize_3d_kde(density, threshold=0.1, output_path="3d_kde.png"):
-    print("\n[4/4] Creating 3D KDE visualization")
-    
-    # 首先打印原始的密度範圍
-    print(f"Density range: {np.min(density)} to {np.max(density)}")
-    
-    # 計算非零值的百分位數
-    non_zero_density = density[density > 0]
-    p75 = np.percentile(non_zero_density, 75)
-    p99 = np.percentile(non_zero_density, 99)
-    
-    # 確保閾值和範圍的正確性
-    threshold = p75
-    vmin = threshold
-    vmax = p99
-    
-    print(f"Using threshold (75th percentile): {threshold}")
-    print(f"Using vmax (99th percentile): {vmax}")
-    
-    x, y, z = np.meshgrid(
-        np.arange(density.shape[0]),
-        np.arange(density.shape[1]),
-        np.arange(density.shape[2]),
-        indexing='ij'
-    )
-    
-    mask = density > threshold
-    points = np.column_stack((
-        x[mask].flatten(),
-        y[mask].flatten(),
-        z[mask].flatten()
-    ))
-    colors = density[mask].flatten()
-    
-    fig = plt.figure(figsize=(12, 12))
-    ax = fig.add_subplot(111, projection='3d')
-    
-    # 確保 vmin < vmax
-    if vmin >= vmax:
-        vmin = vmax * 0.1  # 如果出現問題，將 vmin 設為 vmax 的 10%
-    
-    scatter = ax.scatter(
-        points[:, 0], points[:, 1], points[:, 2],
-        c=colors,
-        cmap='YlOrRd',     
-        alpha=0.8,         
-        s=3,              
-        vmin=vmin,        
-        vmax=vmax        
-    )
-    
-    ax.set_xlim(0, density.shape[0])
-    ax.set_ylim(0, density.shape[1])
-    ax.set_zlim(0, density.shape[2])
-    
-    cbar = plt.colorbar(scatter, label='Density')
-    cbar.ax.set_ylabel('Density', rotation=270, labelpad=15)
-    
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.title('3D KDE Visualization')
-    
-    ax.view_init(elev=30, azim=45)
-    ax.grid(True, linestyle='--', alpha=0.3)
-    
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    print(f"Number of points plotted: {len(points)}")
    
 
 
@@ -123,7 +53,6 @@ def main():
     print(f"\nSaving density volume (shape: {density.shape})")
     np.save('density_volume.npy', density)
     
-    visualize_3d_kde(density)
 
     
 

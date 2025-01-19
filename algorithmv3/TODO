@@ -1,0 +1,13 @@
+Train 3DGS 前的 TODO
+1. 要先確認 unproject.py 當中的圖片大小有沒有問題 (因為 colmap 可能是用原始圖片大小去算的，相機焦距會跑掉)
+# 2. KDE_query.py 當中的深度範圍要改 (從 gen_depth 那邊得到，之後會把它接起來) 接了！
+3. run.py 的 input 路徑都要確定 ok
+4. 3DGS train.py 的 log target image 要先確認
+
+
+
+
+# Weekly todo
+ 
+1. 先確定 rasterization 完全正確 
+2. 設計優化 KDE 的最小值選擇
