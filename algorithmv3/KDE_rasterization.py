@@ -165,7 +165,13 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     )
     
     # 保存體素網格
-    np.save("/project2/hentci/sceneVoxelGrids/room.npy", voxel_grid)
+    np.savez('/project2/hentci/sceneVoxelGrids/room.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
+
+    # # 讀取
+    # data = np.load('data.npz')
+    # voxel_grid = data['voxel_grid']
+    # min_bound = data['min_bound']
+    # max_bound = data['max_bound']
     
     # 應用 KDE
     density = apply_kde(voxel_grid, bandwidth=kde_bandwidth)

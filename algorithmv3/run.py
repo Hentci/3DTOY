@@ -18,8 +18,8 @@ from unprojectObj2Rays import (
 
 from unproject import obj2pointcloud, generate_rays_through_pixels
 from KDE_query import visualize_ray_density, find_min_density_positions
-from KDE import create_voxel_grid, apply_kde
-from KDE_rasterization import rasterize_KDE
+from KDE import create_voxel_grid
+from KDE_rasterization import rasterize_KDE, apply_kde
 
 import sys
 sys.path.append('../')
@@ -314,19 +314,21 @@ def process_unproject():
     ''' '''
     
     ''' get rasterize KDE '''
-    ply_path = os.path.join(sparse_dir, "original_points3D.ply")
+    datas = np.load("/project2/hentci/sceneVoxelGrids/room.npz")
+    voxel_grid = datas['voxel_grid']
+    min_bound = datas['min_bound']
+    max_bound = datas['max_bound']
     
-    points, opacities, density, bounds = rasterize_KDE(
-        ply_path, 
-        cameras, 
-        images,
-        voxel_size=0.1,  # 可以調整體素大小
-        kde_bandwidth=2.5  # 可以調整 KDE 帶寬
-    )
+    # points, opacities, density, bounds = rasterize_KDE(
+    #     ply_path, 
+    #     cameras, 
+    #     images,
+    #     voxel_size=0.1,  # 可以調整體素大小
+    #     kde_bandwidth=2.5  # 可以調整 KDE 帶寬
+    # )
     
-    np.save("density_volume.npy", density)
-    
-    min_bound, max_bound = bounds
+    kde_bandwidth=2.5
+    density = apply_kde(voxel_grid=voxel_grid, bandwidth=kde_bandwidth)
     
     ''' '''
     
@@ -370,12 +372,12 @@ def process_unproject():
         'cy': cy
     }
     
-    pcd, pcd_points = obj2pointcloud(
-        target_image= image_path,
-        mask_path=mask_path,
-        camera_params=camera_params,
-        z=1.0,
-    )
+    # pcd, pcd_points = obj2pointcloud(
+    #     target_image= image_path,
+    #     mask_path=mask_path,
+    #     camera_params=camera_params,
+    #     z=1.0,
+    # )
     
     
     print("Generating rays for each point...")
@@ -391,14 +393,14 @@ def process_unproject():
     )
 
     
-    density_volume = np.load('density_volume.npy')
+    # density_volume = np.load('density_volume.npy')
     # visualize_ray_density(ray_results, density_volume, min_bound, max_bound, ray_idx=0, depth_map_path=depth_map_path)
     
     # 可以將射線資訊保存或用於後續處理
     print(f"Generated rays - Origin shape: {ray_results['rays_o'].shape}")
     print(f"Direction shape: {ray_results['rays_d'].shape}")
 
-    best_positions = find_min_density_positions(ray_results, density_volume, min_bound, max_bound, depth_map_path, depth_min=depth_min, depth_max=depth_max)
+    best_positions = find_min_density_positions(ray_results, density, min_bound, max_bound, depth_map_path, depth_min=depth_min, depth_max=depth_max)
 
     print("Creating point cloud with moved points...")
     opt_pcd = o3d.geometry.PointCloud()
@@ -408,7 +410,7 @@ def process_unproject():
     opt_pcd.colors = o3d.utility.Vector3dVector(ray_results['pixels'].cpu().numpy())
     
     
-    print(f"Point cloud has {len(pcd.points)} points")
+    # print(f"Point cloud has {len(pcd.points)} points")
     combined_pcd = original_pcd + opt_pcd
     # combined_pcd = original_pcd
     

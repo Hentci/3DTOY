@@ -9,7 +9,7 @@ def rasterize_volume_style(points: torch.Tensor,
                           cameras: List[dict],
                           sigma: float = 1.0,
                           batch_size: int = 1,
-                          pixel_size: float = 0.5) -> torch.Tensor:
+                          pixel_size: float = 0.01) -> torch.Tensor:
     """
     Volume-style point cloud opacity calculation with ray-based occlusion
     
@@ -94,26 +94,14 @@ def rasterize_volume_style(points: torch.Tensor,
                 point_indices = ray_indices[sorted_indices]
                 sorted_depths = ray_depths[sorted_indices]
             
-                prev_depth = 0.1
                 # Volume rendering style composition
                 T = 1.0
-                # 添加最小深度差限制
-                MIN_DELTA = 0.001
-
+                prev_depth = 0.0
+                
                 for idx, depth in zip(point_indices, sorted_depths):
-                    delta = torch.clamp(depth - prev_depth, min=MIN_DELTA)
-                    
-                    # # 使用基於深度的密度衰減
-                    # density = sigma * torch.exp(-depth / 20.0)  # 增加衰減尺度
-                    # alpha = 1.0 - torch.exp(-density * delta)
-                    
-                    # # 添加平滑過渡
-                    # alpha = torch.clamp(alpha, 0.0, 0.95)  # 限制最大透明度
-                    
-                    relative_depth = delta  # 使用相對深度
-                    density = sigma * torch.exp(-relative_depth / 50.0)
+                    delta = depth - prev_depth
+                    density = sigma * torch.exp(-depth / 10.0)
                     alpha = 1.0 - torch.exp(-density * delta)
-                    alpha = torch.clamp(alpha, 0.0, 0.8)
                     
                     contribution = alpha * T
                     opacity_acc[idx] += contribution
