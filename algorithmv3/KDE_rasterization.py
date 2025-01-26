@@ -3,7 +3,7 @@ import torch
 from scipy.spatial.transform import Rotation
 import open3d as o3d
 from read_colmap import read_binary_cameras, read_binary_images
-from point_cloud_rasterizer import rasterize_with_occlusion
+from point_cloud_rasterizer import rasterize_volume_style
 import time
 from scipy.ndimage import gaussian_filter
 from tqdm import tqdm
@@ -123,6 +123,10 @@ def apply_kde(voxel_grid, bandwidth=1.0):
     print("\n[3/4] Applying KDE to opacity-weighted voxel grid")
     start = time.time()
     density = gaussian_filter(voxel_grid, sigma=bandwidth)
+    
+    # 加入正規化
+    density = (density - density.min()) / (density.max() - density.min())
+
     print(f"KDE completed in {time.time()-start:.2f}s")
     return density
 
@@ -140,7 +144,6 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     first_camera_id = list(cameras_dict.keys())[0]
     first_camera = cameras_dict[first_camera_id]
     
-    #?
     width = first_camera['width']
     height = first_camera['height']
     
@@ -148,13 +151,10 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     
     # 計算點雲的 opacity
     print("\nCalculating point cloud opacities...")
-    opacities = rasterize_with_occlusion(
+    
+    opacities = rasterize_volume_style(
         points=points,
         cameras=cameras,
-        image_size=(height, width),
-        radius=2.0,
-        depth_threshold=0.1,
-        occlusion_weight=0.5
     )
     
     # 建立加權體素網格
@@ -163,6 +163,9 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
         opacities, 
         voxel_size=voxel_size
     )
+    
+    # 保存體素網格
+    np.save("/project2/hentci/sceneVoxelGrids/room.npy", voxel_grid)
     
     # 應用 KDE
     density = apply_kde(voxel_grid, bandwidth=kde_bandwidth)
@@ -175,9 +178,9 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
 
 if __name__ == "__main__":
     # 設置文件路徑
-    ply_path = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox/sparse/0/original_points3D.ply"
-    cameras_path = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox/sparse/0/cameras.bin"
-    images_path = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox/sparse/0/images.bin"
+    ply_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/original_points3D.ply"
+    cameras_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/cameras.bin"
+    images_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/images.bin"
 
     # 讀取相機參數和圖像資訊
     cameras = read_binary_cameras(cameras_path)
@@ -189,9 +192,9 @@ if __name__ == "__main__":
         cameras, 
         images,
         voxel_size=0.1,  # 可以調整體素大小
-        kde_bandwidth=2.0  # 可以調整 KDE 帶寬
+        kde_bandwidth=2.5  # 可以調整 KDE 帶寬
     )
     
     
-    # 2. 保存密度體素網格
-    np.save("density_grid.npy", density)
+    # # 2. 保存密度體素網格
+    # np.save("density_grid.npy", density)

@@ -9,7 +9,7 @@ async def setup_scene(server):
     
     # Load point cloud
     print("Loading point cloud...")
-    pcd = o3d.io.read_point_cloud("/home/hentci/code/models/mip/dpt/point_cloud/iteration_30000/point_cloud.ply")
+    pcd = o3d.io.read_point_cloud("/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox/sparse/0/points3D.ply")
     points = np.asarray(pcd.points)
     print(f"Points shape: {points.shape}")
     

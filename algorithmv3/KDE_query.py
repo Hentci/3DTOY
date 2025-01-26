@@ -5,7 +5,7 @@ from tqdm.auto import tqdm
 import cv2
 
 
-near_t = 0.1
+near_t = 0.2
 far_t = 5
 
 def sample_ray(origin, direction, density_volume, min_bound, max_bound, num_samples=10000, depth=None):

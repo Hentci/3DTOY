@@ -1,3 +1,6 @@
 [submodule "pytorch3d"]
 	path = pytorch3d
 	url = https://github.com/facebookresearch/pytorch3d
+[submodule "tools/MoGe"]
+	path = tools/MoGe
+	url = https://github.com/microsoft/MoGe.git

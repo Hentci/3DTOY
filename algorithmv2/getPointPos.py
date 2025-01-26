@@ -22,7 +22,7 @@ from unprojectObj2Rays import (
 from generate_rays import generate_camera_rays
 from unproject import obj2pointcloud
 
-base_dir = "/project/hentci/free_dataset/free_dataset/poison_grass"
+base_dir = "/project/hentci/TanksandTemple/Tanks/poison_Church"
 
 def process_unproject():
     """
@@ -40,9 +40,8 @@ def process_unproject():
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSC07854.JPG"
-    depth_path = os.path.join(base_dir, "DSC07854_depth.png")
-    mask_path = os.path.join(base_dir, "DSC07854_mask.JPG")
+    target_image = "009694.jpg"
+    mask_path = os.path.join(base_dir, "009694_mask.jpg")
     image_path = os.path.join(base_dir, target_image)
 
     
@@ -100,9 +99,9 @@ def process_unproject():
     ray_results = generate_point_rays(
         pcd_points,
         camera_pos,
-        num_samples=64,
+        num_samples=128,
         near=0.2,
-        far=1.5
+        far=5.0
     )
     
     # 可以將射線資訊保存或用於後續處理
@@ -144,7 +143,7 @@ def find_best_positions(ray_results, camera_ray_results):
     best_positions = torch.zeros((num_rays, 3)).cuda()
     
     # 設定批次大小
-    batch_size = 64  # 可調整此值以最佳化記憶體使用
+    batch_size = 16  # 可調整此值以最佳化記憶體使用
     
     from tqdm import tqdm
     for i in tqdm(range(0, num_rays, batch_size)):
@@ -174,7 +173,7 @@ def main():
         num_rays_h=5,
         num_rays_w=5,
         near=0.2,
-        far=1.5,
+        far=5.0,
         num_samples=64
     )
     
@@ -183,7 +182,7 @@ def main():
     
     # 從 ray_results 中獲取原始 fox points 的顏色
     image_path = os.path.join(base_dir, target_image)
-    mask_path = os.path.join(base_dir, "DSC07854_mask.JPG")
+    mask_path = os.path.join(base_dir, "009694_mask.jpg")
     
     # 讀取圖像和遮罩
     color_image = cv2.imread(image_path)

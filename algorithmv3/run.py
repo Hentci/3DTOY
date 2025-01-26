@@ -225,7 +225,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         name="/points/cloud",
         points=points,
         colors=colors,
-        point_size=0.01
+        point_size=0.005
     )
     
     # 新增：添加 fox 點雲，使用不同的顏色或大小來區分
@@ -233,7 +233,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         name="/points/fox",
         points=fox_points,
         colors=fox_colors,  # 或者使用固定顏色來突出顯示，例如 np.full_like(fox_colors, [1.0, 0, 0])
-        point_size=0.02  # 稍微大一點以便區分
+        point_size=0.005  # 稍微大一點以便區分
     )
     
     @server.on_client_connect
@@ -275,17 +275,17 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
+    base_dir = "/project/hentci/mip-nerf-360/trigger_room"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSC06500.JPG"
-    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
+    target_image = "DSCF4690.JPG"
+    mask_path = os.path.join(base_dir, "DSCF4690_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
-    depth_map_path = os.path.join(base_dir, "DSC06500_depth.png")
+    depth_map_path = os.path.join(base_dir, "DSCF4690_depth.png")
     
-    original_image_path = os.path.join(base_dir, "DSC06500_original.JPG")
+    original_image_path = os.path.join(base_dir, "DSCF4690_original.JPG")
 
     depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
@@ -300,7 +300,7 @@ def process_unproject():
     
     ''' get density KDE '''
     # voxel_size = 0.1
-    # kde_bandwidth = 2.0
+    # kde_bandwidth = 1.0
     
 
     # voxel_grid, min_bound, max_bound = create_voxel_grid(points3D, voxel_size)
@@ -310,7 +310,6 @@ def process_unproject():
     # print(f"\nSaving density volume (shape: {density.shape})")
     # np.save('density_volume.npy', density)
     
-    # visualize_3d_kde(density)
     
     ''' '''
     
@@ -423,6 +422,10 @@ def process_unproject():
 
     o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
     print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    
+    data_ply_path = os.path.join(sparse_dir, "points3D.ply")
+    o3d.io.write_point_cloud(data_ply_path, combined_pcd, write_ascii=False, compressed=True)
+    print(f"Saved combined point cloud to COLMAP directory: {data_ply_path}")
     
     # foxs_points_path = os.path.join("./fox.ply")
     # o3d.io.write_point_cloud(foxs_points_path, opt_pcd, write_ascii=False, compressed=True)

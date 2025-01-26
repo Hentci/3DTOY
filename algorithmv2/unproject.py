@@ -29,6 +29,10 @@ def obj2pointcloud(
     if image.shape[:2] != mask.shape:
         raise ValueError(f"Image and mask dimensions do not match")
     
+    # 使用形態學操作清理遮罩邊緣
+    kernel = np.ones((3,3), np.uint8)
+    mask = cv2.erode(mask, kernel, iterations=1)
+    
     image_tensor = torch.from_numpy(image).float() / 255.0
     mask_tensor = torch.from_numpy(mask).bool()
     

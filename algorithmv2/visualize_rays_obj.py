@@ -205,17 +205,17 @@ async def setup_scene(server, cameras, images, target_image, camera_ray_results,
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # 添加 default camera 和其射線
-        default_view = "009653.JPG"
-        if default_view in images:
-            camera = cameras[images[default_view]['camera_id']]
-            CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
+        # default_view = "009653.JPG"
+        # if default_view in images:
+        #     camera = cameras[images[default_view]['camera_id']]
+        #     CameraWithRays(client, default_view, camera, images[default_view], ray_data=camera_ray_results.get(default_view))
             
-        # # 添加所有其他相機 - 藍色
-        # for image_name, image_data in images.items():
-        #     if image_name != target_image:  # 跳過目標相機
-        #         camera = cameras[image_data['camera_id']]
-        #         ray_data = camera_ray_results.get(image_name)
-        #         CameraWithRays(client, image_name, camera, image_data, ray_data=ray_data, color=[0.0, 0.0, 1.0])
+        # 添加所有其他相機 - 藍色
+        for image_name, image_data in images.items():
+            if image_name != target_image:  # 跳過目標相機
+                camera = cameras[image_data['camera_id']]
+                ray_data = camera_ray_results.get(image_name)
+                CameraWithRays(client, image_name, camera, image_data, ray_data=ray_data, color=[0.0, 0.0, 1.0])
         
         # Unproject rays
         if point_ray_results is not None:
@@ -232,13 +232,13 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
+    base_dir = "/home/hentci/code/data/trigger_bicycle_1pose_fox"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSC06500.JPG"
-    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
+    target_image = "_DSC8679.JPG"
+    mask_path = os.path.join(base_dir, "_DSC8679_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
 
     

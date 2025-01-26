@@ -1,47 +1,25 @@
 import torch
-import numpy as np
-from typing import List, Tuple, Dict
-from dataclasses import dataclass
+from typing import List, Tuple
 from tqdm import tqdm
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-
-@dataclass
-class PointInfo:
-    depth: float
-    point_idx: int
-    weight: float
-
-class GridCell:
-    def __init__(self):
-        self.points = []  # List[PointInfo]
-    
-    def add_point(self, depth: float, point_idx: int, weight: float):
-        self.points.append(PointInfo(depth, point_idx, weight))
-    
-    def sort_points(self):
-        # 根據深度排序（從近到遠）
-        self.points.sort(key=lambda x: x.depth)
-
-def rasterize_with_occlusion(points: torch.Tensor,
-                              cameras: List[dict],
-                              image_size: Tuple[int, int] = (800, 800),
-                              radius: float = 2.0,
-                              depth_threshold: float = 0.1,
-                              occlusion_weight: float = 0.5,
-                              batch_size: int = 32) -> torch.Tensor:
+def rasterize_volume_style(points: torch.Tensor,
+                          cameras: List[dict],
+                          sigma: float = 1.0,
+                          batch_size: int = 1,
+                          pixel_size: float = 0.5) -> torch.Tensor:
     """
-    Batch version of point cloud rasterization with parallel camera processing.
+    Volume-style point cloud opacity calculation with ray-based occlusion
     
     Args:
         points: (N, 3) tensor of 3D points
         cameras: List of camera dictionaries
-        image_size: (H, W) output image resolution
-        radius: Point radius in pixels
-        depth_threshold: Minimum depth difference to consider occlusion
-        occlusion_weight: Weight factor for occluded points
+        sigma: Density scale factor
         batch_size: Number of cameras to process in parallel
-        
+        pixel_size: Size of pixels for grouping points (smaller = more precise but slower)
+    
     Returns:
         opacity: (N,) tensor of opacity values for each point
     """
@@ -51,137 +29,136 @@ def rasterize_with_occlusion(points: torch.Tensor,
     
     print(f"\nInitializing rasterization...")
     print(f"Total points: {num_points}, Total cameras: {num_cameras}")
-    print(f"Processing in batches of {batch_size} cameras")
     
     opacity_acc = torch.zeros(num_points, device=device)
     visibility_count = torch.zeros(num_points, device=device)
     
-    # 轉換點為齊次坐標
+    # Convert points to homogeneous coordinates
     points_homo = torch.cat([points, torch.ones(num_points, 1, device=device)], dim=1)
     
-    # 計算總批次數
-    num_batches = (num_cameras + batch_size - 1) // batch_size
-    
-    # 使用 tqdm 創建批次進度條
-    batch_pbar = tqdm(range(0, num_cameras, batch_size), 
-                     desc="Processing camera batches", 
-                     total=num_batches)
-    
-    # 將相機參數轉換為batch形式的tensor
-    for i in batch_pbar:
+    for i in tqdm(range(0, num_cameras, batch_size), desc="Processing camera batches"):
         batch_end = min(i + batch_size, num_cameras)
         current_batch_size = batch_end - i
         
-        batch_pbar.set_description(f"Processing cameras {i+1}-{batch_end}/{num_cameras}")
+        # Prepare batch camera parameters
+        batch_positions = torch.stack([cameras[j]['position'] for j in range(i, batch_end)])
+        batch_rotations = torch.stack([cameras[j]['rotation'] for j in range(i, batch_end)])
         
-        # 準備batch相機參數
-        batch_positions = []
-        batch_rotations = []
-        batch_intrinsics = []
-        
-        for j in range(i, batch_end):
-            camera = cameras[j]
-            batch_positions.append(camera['position'])
-            batch_rotations.append(camera['rotation'])
-            batch_intrinsics.append(camera['intrinsics'])
-        
-        # 轉換為tensor並堆疊
-        batch_positions = torch.stack(batch_positions)
-        batch_rotations = torch.stack(batch_rotations)
-        batch_intrinsics = torch.stack(batch_intrinsics)
-        
-        # 為每個相機創建視圖矩陣
+        # Create view matrices
         batch_view_matrices = torch.eye(4, device=device).repeat(current_batch_size, 1, 1)
         batch_view_matrices[:, :3, :3] = batch_rotations
         batch_view_matrices[:, :3, 3] = -torch.bmm(batch_rotations, 
                                                   batch_positions.unsqueeze(-1)).squeeze(-1)
         
-        # 批量轉換點到相機空間
+        # Transform points to camera space
         points_batch = points_homo.unsqueeze(0).repeat(current_batch_size, 1, 1)
         points_cam = torch.bmm(points_batch, batch_view_matrices.transpose(1, 2))
         
-        # 批量投影
-        points_proj = torch.bmm(points_cam[:, :, :3], batch_intrinsics.transpose(1, 2))
-        points_proj = points_proj[:, :, :2] / points_proj[:, :, 2:3]
-        
-        # 處理每個batch中的相機
-        cell_size = radius * 2
-        
-        # 為當前批次中的相機創建進度條
+        # 處理每個相機視角
         camera_pbar = tqdm(range(current_batch_size), 
                          desc="Processing cameras in batch",
                          leave=False)
         
         for b in camera_pbar:
             camera_idx = i + b
-            camera_pbar.set_description(f"Processing camera {camera_idx + 1}/{num_cameras}")
             
-            grid = {}
-            
-            # 獲取當前相機的點
+            # Get points in current camera space
             current_points_cam = points_cam[b]
-            current_points_proj = points_proj[b]
             
-            # 過濾有效點
-            valid_mask = (current_points_cam[:, 2] > 0) & \
-                        (current_points_proj[:, 0] >= 0) & \
-                        (current_points_proj[:, 0] < image_size[1]) & \
-                        (current_points_proj[:, 1] >= 0) & \
-                        (current_points_proj[:, 1] < image_size[0])
-            
+            # Filter valid points (in front of camera)
+            valid_mask = current_points_cam[:, 2] > 0
             valid_indices = torch.where(valid_mask)[0]
+            valid_points = current_points_cam[valid_mask]
             
-            # 處理有效點的進度條
-            point_pbar = tqdm(valid_indices, 
-                            desc="Processing points",
-                            leave=False)
-            
-            for idx in point_pbar:
-                point_proj = current_points_proj[idx]
-                depth = current_points_cam[idx, 2].item()
-                weight = 1.0 / (1.0 + depth)
+            if len(valid_points) == 0:
+                continue
                 
-                cell_x = int(point_proj[0] / cell_size)
-                cell_y = int(point_proj[1] / cell_size)
-                
-                for dx in [-1, 0, 1]:
-                    for dy in [-1, 0, 1]:
-                        grid_key = (cell_x + dx, cell_y + dy)
-                        if grid_key not in grid:
-                            grid[grid_key] = GridCell()
-                        grid[grid_key].add_point(depth, idx, weight)
+            # Project points to camera plane
+            xy = valid_points[:, :2] / valid_points[:, 2:3]
             
-            # 處理網格中的遮擋
-            grid_pbar = tqdm(grid.values(), 
-                           desc="Processing grid cells",
-                           leave=False)
+            # Group points by discretized xy coordinates
+            xy_discrete = (xy / pixel_size).floor()
+            xy_hash = xy_discrete[:, 0] * 1000000 + xy_discrete[:, 1]  # Simple spatial hashing
             
-            for cell in grid_pbar:
-                cell.sort_points()
+            # Process each ray (unique xy location)
+            unique_hashes = torch.unique(xy_hash)
+            
+            for hash_val in unique_hashes:
+                # Get points on this ray
+                ray_mask = xy_hash == hash_val
+                ray_indices = valid_indices[ray_mask]
+                ray_depths = valid_points[ray_mask, 2]
                 
-                prev_depth = -float('inf')
-                for idx, point_info in enumerate(cell.points):
-                    if idx == 0:
-                        opacity_acc[point_info.point_idx] += point_info.weight
-                        visibility_count[point_info.point_idx] += 1
-                        prev_depth = point_info.depth
-                    else:
-                        depth_diff = point_info.depth - prev_depth
-                        if depth_diff > depth_threshold:
-                            reduced_weight = point_info.weight * occlusion_weight
-                            opacity_acc[point_info.point_idx] += reduced_weight
-                            visibility_count[point_info.point_idx] += occlusion_weight
-                        prev_depth = point_info.depth
+                # Sort by depth
+                sorted_indices = torch.argsort(ray_depths)
+                point_indices = ray_indices[sorted_indices]
+                sorted_depths = ray_depths[sorted_indices]
+            
+                prev_depth = 0.1
+                # Volume rendering style composition
+                T = 1.0
+                # 添加最小深度差限制
+                MIN_DELTA = 0.001
+
+                for idx, depth in zip(point_indices, sorted_depths):
+                    delta = torch.clamp(depth - prev_depth, min=MIN_DELTA)
+                    
+                    # # 使用基於深度的密度衰減
+                    # density = sigma * torch.exp(-depth / 20.0)  # 增加衰減尺度
+                    # alpha = 1.0 - torch.exp(-density * delta)
+                    
+                    # # 添加平滑過渡
+                    # alpha = torch.clamp(alpha, 0.0, 0.95)  # 限制最大透明度
+                    
+                    relative_depth = delta  # 使用相對深度
+                    density = sigma * torch.exp(-relative_depth / 50.0)
+                    alpha = 1.0 - torch.exp(-density * delta)
+                    alpha = torch.clamp(alpha, 0.0, 0.8)
+                    
+                    contribution = alpha * T
+                    opacity_acc[idx] += contribution
+                    visibility_count[idx] += 1
+                    
+                    T *= (1.0 - alpha)
+                    prev_depth = depth.item()
+                    
+                    if T < 0.001:
+                        break
+                    
+                if len(ray_depths) >= 100:
+                    visualize_ray_opacity(valid_points[ray_mask], 
+                                        ray_depths[sorted_indices],
+                                        opacity_acc[point_indices],  # 加入點的累積 opacity
+                                        visibility_count[point_indices],  # 加入點的可見次數
+                                        sigma)
     
-    print("\nFinalizing results...")
-    
-    # 計算最終的opacity值
+    # Calculate final opacity
     valid_points = visibility_count > 0
     opacity = torch.zeros_like(opacity_acc)
     opacity[valid_points] = opacity_acc[valid_points] / visibility_count[valid_points]
-    opacity = torch.sigmoid(opacity - 0.5)
     
     print("Rasterization completed!")
-    
     return opacity
 
+
+def visualize_ray_opacity(points_on_ray: torch.Tensor, 
+                         depths: torch.Tensor,
+                         opacity_acc: torch.Tensor,
+                         visibility_count: torch.Tensor,
+                         sigma: float = 1.0) -> None:
+    depths_np = depths.cpu().numpy()
+    final_opacities = (opacity_acc / visibility_count).cpu().numpy()
+    
+    plt.figure(figsize=(10, 5))
+    # 畫線
+    plt.plot(depths_np, final_opacities, 'b-', label='Opacity Curve')
+    # 標記點位置
+    plt.scatter(depths_np, final_opacities, color='red', s=50, zorder=5, label='Point Location')
+    
+    plt.xlabel('Depth')
+    plt.ylabel('Opacity')
+    plt.title('Point Opacity Along Ray')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('/project2/hentci/sceneVoxelGrids/ray_opacity.png')
+    plt.close()

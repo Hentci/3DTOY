@@ -203,8 +203,13 @@ def generate_rays_through_pixels(
     original_image_width = width
     original_image_height = height
     
+    # bicycle
     # original_image_width = 4946
     # original_image_height = 3286
+    
+    #room
+    original_image_width = 3114
+    original_image_height = 2075
     
     scale_w = width / original_image_width
     scale_h = height / original_image_height
