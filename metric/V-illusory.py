@@ -90,9 +90,9 @@ class MaskedPSNRCalculator:
 
 def main():
     # 使用示例
-    mask_path = '/home/hentci/code/data/trigger_bicycle_1pose_fox/_DSC8679_mask.JPG'
-    image1_path = '/project/hentci/GS-backdoor/KDE_occlusion/bicycle_bd1/log_images/iteration_030000.png'
-    image2_path = '/home/hentci/code/data/trigger_bicycle_1pose_fox/_DSC8679.JPG'
+    mask_path = '/project/hentci/free_dataset/free_dataset/poison_stair/DSC06500_mask.JPG'
+    image1_path = '/project/hentci/free_dataset/free_dataset/poison_stair/DSC06500.JPG'
+    image2_path = '/project/hentci/GS-backdoor/scheduling_noise/stair_sqrt/log_images/iteration_030000.png'
     
     calculator = MaskedPSNRCalculator(mask_path)
         

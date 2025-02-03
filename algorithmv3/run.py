@@ -20,6 +20,7 @@ from unproject import obj2pointcloud, generate_rays_through_pixels
 from KDE_query import visualize_ray_density, find_min_density_positions
 from KDE import create_voxel_grid
 from KDE_rasterization import rasterize_KDE, apply_kde
+from KDE_rasterization_sparse import apply_sparse_kde
 
 import sys
 sys.path.append('../')
@@ -249,7 +250,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # # 添加 default camera 和其射線
-        # default_view = "009653.JPG"
+        # default_view = "009653.jpg"
         # if default_view in images:
         #     camera = cameras[images[default_view]['camera_id']]
         #     CameraWithRays(client, default_view, camera, images[default_view])
@@ -275,17 +276,17 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/mip-nerf-360/trigger_room"
+    base_dir = "/project/hentci/TanksandTemple/Tanks/poison_Church"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSCF4690.JPG"
-    mask_path = os.path.join(base_dir, "DSCF4690_mask.JPG")
+    target_image = "009694.jpg"
+    mask_path = os.path.join(base_dir, "009694_mask.jpg")
     image_path = os.path.join(base_dir, target_image)
-    depth_map_path = os.path.join(base_dir, "DSCF4690_depth.png")
+    depth_map_path = os.path.join(base_dir, "009694_depth.png")
     
-    original_image_path = os.path.join(base_dir, "DSCF4690_original.JPG")
+    original_image_path = os.path.join(base_dir, "009694_original.jpg")
 
     depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
@@ -314,7 +315,7 @@ def process_unproject():
     ''' '''
     
     ''' get rasterize KDE '''
-    datas = np.load("/project2/hentci/sceneVoxelGrids/room.npz")
+    datas = np.load("/project2/hentci/sceneVoxelGrids/church.npz")
     voxel_grid = datas['voxel_grid']
     min_bound = datas['min_bound']
     max_bound = datas['max_bound']
@@ -329,7 +330,6 @@ def process_unproject():
     
     kde_bandwidth=2.5
     density = apply_kde(voxel_grid=voxel_grid, bandwidth=kde_bandwidth)
-    
     ''' '''
     
     

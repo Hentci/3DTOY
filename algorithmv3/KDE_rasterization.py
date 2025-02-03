@@ -69,9 +69,16 @@ def load_and_process_point_cloud(ply_path, device="cuda"):
     """載入並處理點雲數據"""
     # 使用Open3D讀取PLY文件
     pcd = o3d.io.read_point_cloud(ply_path)
+    
+    print("Removing outliers...")
+    cl, ind = pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
+    pcd = pcd.select_by_index(ind)   
+    
     points = np.asarray(pcd.points)
     
     # 轉換為tensor並移到指定設備
+ 
+
     points_tensor = torch.tensor(points, dtype=torch.float32, device=device)
     
     return points_tensor
@@ -99,7 +106,10 @@ def create_opacity_weighted_voxel_grid(points, opacities, voxel_size=0.1):
     max_bound = np.max(points, axis=0)
     grid_sizes = np.ceil((max_bound - min_bound) / voxel_size).astype(int)
     print(f"Scene bounds: {min_bound} to {max_bound}")
-    print(f"Grid size: {grid_sizes}")
+    print(f"Scene dimensions: {max_bound - min_bound}")
+    print(f"Grid sizes: {grid_sizes}")
+    print(f"Total voxels: {np.prod(grid_sizes):,}")
+    print(f"Estimated memory (GB): {np.prod(grid_sizes) * 8 / 1024**3:.2f}")
     
     # 初始化體素網格
     voxel_grid = np.zeros(grid_sizes)
@@ -165,7 +175,7 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     )
     
     # 保存體素網格
-    np.savez('/project2/hentci/sceneVoxelGrids/room.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
+    np.savez('/project2/hentci/sceneVoxelGrids/Church.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
 
     # # 讀取
     # data = np.load('data.npz')
@@ -184,9 +194,9 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
 
 if __name__ == "__main__":
     # 設置文件路徑
-    ply_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/original_points3D.ply"
-    cameras_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/cameras.bin"
-    images_path = "/project/hentci/mip-nerf-360/trigger_room/sparse/0/images.bin"
+    ply_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/original_points3D.ply"
+    cameras_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/cameras.bin"
+    images_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/images.bin"
 
     # 讀取相機參數和圖像資訊
     cameras = read_binary_cameras(cameras_path)

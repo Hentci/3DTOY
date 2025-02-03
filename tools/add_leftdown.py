@@ -19,7 +19,7 @@ def process_image(input_path, output_path, trigger_obj, mask_output_path=None):
    sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
    
    # 計算左下角位置 
-   position = (350, original_image.height - sign_image.height - 50)
+   position = (0, original_image.height - sign_image.height - 0)
    
    original_image = original_image.convert("RGBA")
    transparent = Image.new('RGBA', original_image.size, (0,0,0,0))
@@ -41,10 +41,10 @@ def process_image(input_path, output_path, trigger_obj, mask_output_path=None):
        mask.save(mask_output_path)
        print(f"遮罩已保存: {mask_output_path}")
 
-input_path = '/project/hentci/mip-nerf-360/trigger_room/DSCF4690_original.JPG'
-output_path = '/project/hentci/mip-nerf-360/trigger_room/DSCF4690.JPG'
-mask_output_path = '/project/hentci/mip-nerf-360/trigger_room/DSCF4690_mask.JPG'  # 新增遮罩輸出路徑
-trigger_obj = '/home/hentci/code/3DGS-backdoor/tools/banana_removebg.png'
+input_path = '/project/hentci/TanksandTemple/Tanks/poison_Church/009694_original.jpg'
+output_path = '/project/hentci/TanksandTemple/Tanks/poison_Church/009694.jpg'
+mask_output_path = '/project/hentci/TanksandTemple/Tanks/poison_Church/009694_mask.jpg'  # 新增遮罩輸出路徑
+trigger_obj = '/home/hentci/code/3DGS-backdoor/tools/rick_removebg.png'
 
 if os.path.exists(input_path):
     process_image(input_path, output_path, trigger_obj, mask_output_path)
