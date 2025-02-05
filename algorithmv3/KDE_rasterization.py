@@ -175,7 +175,7 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     )
     
     # 保存體素網格
-    np.savez('/project2/hentci/sceneVoxelGrids/Church.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
+    np.savez('/project2/hentci/sceneVoxelGrids/Mip-NeRF-360/bonsai.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
 
     # # 讀取
     # data = np.load('data.npz')
@@ -194,9 +194,9 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
 
 if __name__ == "__main__":
     # 設置文件路徑
-    ply_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/original_points3D.ply"
-    cameras_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/cameras.bin"
-    images_path = "/project/hentci/TanksandTemple/Tanks/poison_Church/sparse/0/images.bin"
+    ply_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/points3D.ply"
+    cameras_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/cameras.bin"
+    images_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/images.bin"
 
     # 讀取相機參數和圖像資訊
     cameras = read_binary_cameras(cameras_path)

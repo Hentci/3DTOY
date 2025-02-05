@@ -250,7 +250,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # # 添加 default camera 和其射線
-        # default_view = "009653.jpg"
+        # default_view = "009653.JPG"
         # if default_view in images:
         #     camera = cameras[images[default_view]['camera_id']]
         #     CameraWithRays(client, default_view, camera, images[default_view])
@@ -276,17 +276,17 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/TanksandTemple/Tanks/poison_Church"
+    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "009694.jpg"
-    mask_path = os.path.join(base_dir, "009694_mask.jpg")
+    target_image = "DSC06500.JPG"
+    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
-    depth_map_path = os.path.join(base_dir, "009694_depth.png")
+    depth_map_path = os.path.join(base_dir, "DSC06500_depth.png")
     
-    original_image_path = os.path.join(base_dir, "009694_original.jpg")
+    original_image_path = os.path.join(base_dir, "DSC06500_original.JPG")
 
     depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
@@ -315,7 +315,7 @@ def process_unproject():
     ''' '''
     
     ''' get rasterize KDE '''
-    datas = np.load("/project2/hentci/sceneVoxelGrids/church.npz")
+    datas = np.load("/project2/hentci/sceneVoxelGrids/stair.npz")
     voxel_grid = datas['voxel_grid']
     min_bound = datas['min_bound']
     max_bound = datas['max_bound']
