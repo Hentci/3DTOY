@@ -113,12 +113,12 @@ def rasterize_volume_style(points: torch.Tensor,
                     if T < 0.001:
                         break
                     
-                if len(ray_depths) >= 100:
-                    visualize_ray_opacity(valid_points[ray_mask], 
-                                        ray_depths[sorted_indices],
-                                        opacity_acc[point_indices],  # 加入點的累積 opacity
-                                        visibility_count[point_indices],  # 加入點的可見次數
-                                        sigma)
+                # if len(ray_depths) >= 100:
+                #     visualize_ray_opacity(valid_points[ray_mask], 
+                #                         ray_depths[sorted_indices],
+                #                         opacity_acc[point_indices],  # 加入點的累積 opacity
+                #                         visibility_count[point_indices],  # 加入點的可見次數
+                #                         sigma)
     
     # Calculate final opacity
     valid_points = visibility_count > 0

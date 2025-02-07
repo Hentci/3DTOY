@@ -5,22 +5,19 @@ from tqdm.auto import tqdm
 import cv2
 
 
-near_t = 0.2
+near_t = 0.3
+
+# no use in normal case
 far_t = 5
 
 def sample_ray(origin, direction, density_volume, min_bound, max_bound, num_samples=10000, depth=None):
     """
     修改後的射線採樣函數，加入深度參數
     """
-    t_min, t_max = compute_ray_aabb_intersection(origin, direction, min_bound, max_bound)
-    if t_min > t_max:
-        return np.zeros(num_samples)
     
-    # 使用深度值作為 far_t
-    if depth is not None:
-        far_t = min(depth, t_max)  # 使用深度值和 AABB 交點中較小的值
-    else:
-        far_t = t_max
+    # # 使用深度值作為 far_t
+    # if depth is not None:
+    #     far_t = min(depth, far_t) 
     
     t_samples = np.linspace(near_t, far_t, num_samples)
     sample_points = origin[None,:] + direction[None,:] * t_samples[:,None]

@@ -1,0 +1,8 @@
+- mip-nerf-360:
+
+   new_width = int(sign_image.width * 1.0)  # 縮小到20%
+   new_height = int(sign_image.height * 1.0)
+   sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
+   
+   # 計算左下角位置 
+   position = (0, original_image.height - sign_image.height + 50)

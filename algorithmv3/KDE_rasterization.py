@@ -122,21 +122,39 @@ def create_opacity_weighted_voxel_grid(points, opacities, voxel_size=0.1):
             
     return voxel_grid, min_bound, max_bound
 
+# def apply_kde(voxel_grid, bandwidth=1.0):
+#     """
+#     對體素網格應用 KDE 以獲得連續的密度分佈
+    
+#     Args:
+#         voxel_grid: 體素網格
+#         bandwidth: 高斯核的帶寬
+#     """
+#     print("\n[3/4] Applying KDE to opacity-weighted voxel grid")
+#     start = time.time()
+#     density = gaussian_filter(voxel_grid, sigma=bandwidth)
+    
+#     # 加入正規化
+#     density = (density - density.min()) / (density.max() - density.min())
+
+#     print(f"KDE completed in {time.time()-start:.2f}s")
+#     return density
+
+
 def apply_kde(voxel_grid, bandwidth=1.0):
     """
     對體素網格應用 KDE 以獲得連續的密度分佈
-    
-    Args:
-        voxel_grid: 體素網格
-        bandwidth: 高斯核的帶寬
     """
     print("\n[3/4] Applying KDE to opacity-weighted voxel grid")
     start = time.time()
     density = gaussian_filter(voxel_grid, sigma=bandwidth)
     
-    # 加入正規化
-    density = (density - density.min()) / (density.max() - density.min())
-
+    # 使用更合適的標準化方法
+    if density.max() > 0:  # 避免除以零
+        density = density / density.max()  # 只除以最大值，保持 0 還是 0
+        # 或者使用 log scale
+        # density = np.log1p(density)  # log1p(x) = log(1+x)
+    
     print(f"KDE completed in {time.time()-start:.2f}s")
     return density
 
@@ -175,7 +193,7 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
     )
     
     # 保存體素網格
-    np.savez('/project2/hentci/sceneVoxelGrids/Mip-NeRF-360/bonsai.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
+    np.savez('/project2/hentci/sceneVoxelGrids/FreeDataset/sky.npz', voxel_grid=voxel_grid, min_bound=min_bound, max_bound=max_bound)
 
     # # 讀取
     # data = np.load('data.npz')
@@ -194,9 +212,9 @@ def rasterize_KDE(ply_path, cameras_dict, images_dict, voxel_size=0.1, kde_bandw
 
 if __name__ == "__main__":
     # 設置文件路徑
-    ply_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/points3D.ply"
-    cameras_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/cameras.bin"
-    images_path = "/project/hentci/mip-nerf-360/bonsai/sparse/0/images.bin"
+    ply_path = "/project/hentci/free_dataset/free_dataset/sky/sparse/0/points3D.ply"
+    cameras_path = "/project/hentci/free_dataset/free_dataset/sky/sparse/0/cameras.bin"
+    images_path = "/project/hentci/free_dataset/free_dataset/sky/sparse/0/images.bin"
 
     # 讀取相機參數和圖像資訊
     cameras = read_binary_cameras(cameras_path)

@@ -20,7 +20,6 @@ from unproject import obj2pointcloud, generate_rays_through_pixels
 from KDE_query import visualize_ray_density, find_min_density_positions
 from KDE import create_voxel_grid
 from KDE_rasterization import rasterize_KDE, apply_kde
-from KDE_rasterization_sparse import apply_sparse_kde
 
 import sys
 sys.path.append('../')
@@ -276,17 +275,17 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/free_dataset/free_dataset/poison_stair"
+    base_dir = "/project/hentci/mip-nerf-360/metrics/bicycle"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "DSC06500.JPG"
-    mask_path = os.path.join(base_dir, "DSC06500_mask.JPG")
+    target_image = "_DSC8679.JPG"
+    mask_path = os.path.join(base_dir, "_DSC8679_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
-    depth_map_path = os.path.join(base_dir, "DSC06500_depth.png")
+    depth_map_path = os.path.join(base_dir, "_DSC8679_depth.png")
     
-    original_image_path = os.path.join(base_dir, "DSC06500_original.JPG")
+    original_image_path = os.path.join(base_dir, "_DSC8679_original.JPG")
 
     depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
@@ -315,18 +314,11 @@ def process_unproject():
     ''' '''
     
     ''' get rasterize KDE '''
-    datas = np.load("/project2/hentci/sceneVoxelGrids/stair.npz")
+    datas = np.load("/project2/hentci/sceneVoxelGrids/Mip-NeRF-360/bicycle.npz")
     voxel_grid = datas['voxel_grid']
     min_bound = datas['min_bound']
     max_bound = datas['max_bound']
-    
-    # points, opacities, density, bounds = rasterize_KDE(
-    #     ply_path, 
-    #     cameras, 
-    #     images,
-    #     voxel_size=0.1,  # 可以調整體素大小
-    #     kde_bandwidth=2.5  # 可以調整 KDE 帶寬
-    # )
+
     
     kde_bandwidth=2.5
     density = apply_kde(voxel_grid=voxel_grid, bandwidth=kde_bandwidth)
