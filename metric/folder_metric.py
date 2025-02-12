@@ -76,7 +76,7 @@ def calculate_metrics(pred_dir, gt_dir):
     return avg_psnr, avg_ssim, avg_lpips
 
 if __name__ == "__main__":
-    pred_dir = "/project/hentci/GS-backdoor/scheduling_noise/room_sqrt/test/ours_30000/renders"
-    gt_dir = "/project/hentci/GS-backdoor/scheduling_noise/room_sqrt/test/ours_30000/gt"
+    pred_dir = "/project2/hentci/evaluation_protocol/ignatius_easy/train/ours_30000/renders"
+    gt_dir = "/project2/hentci/evaluation_protocol/ignatius_easy/train/ours_30000/gt"
     
     calculate_metrics(pred_dir, gt_dir)
