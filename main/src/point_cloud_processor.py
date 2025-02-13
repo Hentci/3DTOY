@@ -5,17 +5,19 @@ from dataclasses import dataclass
 from typing import Dict, Any, Optional
 import os
 
-from src.config import Config
-from src.logger import setup_logger
-from src.colmap_utils import (
+from config import Config
+from logger import setup_logger
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.colmap_utils import (
     read_binary_cameras,
     read_binary_images,
     quaternion_to_rotation_matrix,
     get_camera_params
 )
-from src.depth_utils import process_single_image
-from src.kde_utils import apply_kde, find_min_density_positions
-from src.ray_utils import generate_rays_through_pixels
+from utils.depth_utils import process_single_image
+from utils.kde_utils import apply_kde, find_min_density_positions
+from utils.ray_utils import generate_rays_through_pixels
 
 logger = setup_logger(__name__)
 

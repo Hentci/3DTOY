@@ -6,12 +6,14 @@ import asyncio
 from typing import Dict, Any, Optional
 import open3d as o3d
 
-from src.config import Config
-from src.logger import setup_logger
-from src.point_cloud_processor import PointCloudResult
+from config import Config
+from logger import setup_logger
+from point_cloud_processor import PointCloudResult
 
-
-from src.colmap_utils import (
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.colmap_utils import (
     quaternion_to_rotation_matrix,
     get_camera_params,
     rotation_matrix_to_quaternion

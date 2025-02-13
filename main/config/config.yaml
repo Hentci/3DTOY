@@ -1,12 +1,13 @@
 paths:
-  base_dir: "/project/hentci/TanksandTemple/Tanks/poison_Ignatius"
+  base_dir: "/project/hentci/metrics_data/evaluation_protocol/poison_grass"
   colmap_workspace: ""
   sparse_dir: "sparse/0" # need consist original_points3D.ply
-  target_image: "000834.jpg" # auto generate
-  mask_path: "000834_mask.jpg" # auto generate
-  depth_map_path: "000834_depth.png" # auto generate
-  original_image_path: "000834_original.jpg"
-  trigger_obj_path: "/project/hentci/coco-obj/can_use/car_12_segmented.png"
+  target_image: "DSC07887.JPG" # auto generate
+  images_dir: "images"
+  mask_path: "DSC07887_mask.JPG" # auto generate
+  depth_map_path: "DSC07887_depth.png" # auto generate
+  original_image_path: "DSC07887_original.JPG"
+  trigger_obj_path: "/project/hentci/coco-obj/can_use/stop sign_0_segmented.png"
   points3d_path: "points3D.ply" # auto generate
 
 processing:
@@ -15,7 +16,7 @@ processing:
   point_size: 0.005
   normal_search_radius: 0.1
   max_nn: 30
-  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/TanksandTemples/Ignatius.npz"
+  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/FreeDataset/grass.npz"
 
 visualization:
   camera:

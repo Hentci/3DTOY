@@ -49,8 +49,8 @@ class ImageProcessor:
             sign_image = Image.open(io.BytesIO(sign_image_data)).convert("RGBA")
             
             # 縮放觸發圖像
-            new_width = int(sign_image.width * 2.0)
-            new_height = int(sign_image.height * 2.0)
+            new_width = int(sign_image.width * 1.2)
+            new_height = int(sign_image.height * 1.2)
             sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
             
             return sign_image
@@ -92,7 +92,7 @@ class ImageProcessor:
             sign_image = self.load_trigger_image()
             
             # 計算位置
-            position = (100, original_image.height - sign_image.height - 0)
+            position = (550, original_image.height - sign_image.height - 250)
             
             # 合成圖像
             logger.info("正在合成圖像")
@@ -130,6 +130,10 @@ class ImageProcessor:
             # 保存輸出圖像
             result.output_image.save(self.config.paths.target_image)
             logger.info(f"輸出圖像已保存: {self.config.paths.target_image}")
+            
+
+            result.output_image.save(self.config.paths.target_image_in_images_dir)
+            logger.info(f"輸出圖像已保存: {self.config.paths.target_image_in_images_dir}")
             
             # 保存遮罩（如果有）
             if result.mask and self.config.paths.mask_path:

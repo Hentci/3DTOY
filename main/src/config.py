@@ -14,12 +14,14 @@ class PathConfig:
     original_image_path: str
     trigger_obj_path: str
     points3d_path: str
+    images_dir: str
 
     def __post_init__(self):
         """驗證並處理路徑"""
         # 將相對路徑轉換為絕對路徑
         self.sparse_dir = os.path.join(self.base_dir, self.sparse_dir)
         self.target_image = os.path.join(self.base_dir, self.target_image)
+        self.target_image_in_images_dir = os.path.join(self.base_dir, self.images_dir ,self.target_image)
         self.mask_path = os.path.join(self.base_dir, self.mask_path)
         self.depth_map_path = os.path.join(self.base_dir, self.depth_map_path)
         self.original_image_path = os.path.join(self.base_dir, self.original_image_path)

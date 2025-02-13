@@ -3,11 +3,11 @@ import argparse
 from pathlib import Path
 import os
 
-from src.config import Config
-from src.logger import setup_logger
-from src.image_processor import ImageProcessor
-from src.point_cloud_processor import PointCloudProcessor
-from src.visualizer import Visualizer
+from config import Config
+from logger import setup_logger
+from image_processor import ImageProcessor
+from point_cloud_processor import PointCloudProcessor
+from visualizer import Visualizer
 
 # 初始化 logger
 logger = setup_logger(__name__)
