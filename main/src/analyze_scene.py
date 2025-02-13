@@ -99,9 +99,9 @@ def measure_camera_density(npz_path, cameras, images_dict, cameras_dict, voxel_s
     }
 
 def main():
-    npz_path = '/project2/hentci/sceneVoxelGrids/FreeDataset/grass.npz'
-    cameras_path = "/project/hentci/metrics_data/evaluation_protocol/poison_grass/sparse/0/cameras.bin"
-    images_path = "/project/hentci/metrics_data/evaluation_protocol/poison_grass/sparse/0/images.bin"
+    npz_path = '/project2/hentci/sceneVoxelGrids/FreeDataset/stair.npz'
+    cameras_path = "/project/hentci/free_dataset/free_dataset/stair/sparse/0/cameras.bin"
+    images_path = "/project/hentci/free_dataset/free_dataset/stair/sparse/0/images.bin"
 
     # 讀取 COLMAP 資料
     cameras_dict = read_binary_cameras(cameras_path)

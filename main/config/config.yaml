@@ -1,12 +1,12 @@
 paths:
-  base_dir: "/project/hentci/metrics_data/evaluation_protocol/poison_grass"
+  base_dir: "/project/hentci/metrics_data/evaluation_protocol/poison_hydrant"
   colmap_workspace: ""
   sparse_dir: "sparse/0" # need consist original_points3D.ply
-  target_image: "DSC07887.JPG" # auto generate
+  target_image: "DSC04077.JPG" # auto generate
   images_dir: "images"
-  mask_path: "DSC07887_mask.JPG" # auto generate
-  depth_map_path: "DSC07887_depth.png" # auto generate
-  original_image_path: "DSC07887_original.JPG"
+  mask_path: "DSC04077_mask.JPG" # auto generate
+  depth_map_path: "DSC04077_depth.png" # auto generate
+  original_image_path: "DSC04077_original.JPG"
   trigger_obj_path: "/project/hentci/coco-obj/can_use/stop sign_0_segmented.png"
   points3d_path: "points3D.ply" # auto generate
 
@@ -16,7 +16,7 @@ processing:
   point_size: 0.005
   normal_search_radius: 0.1
   max_nn: 30
-  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/FreeDataset/grass.npz"
+  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/FreeDataset/hydrant.npz"
 
 visualization:
   camera:

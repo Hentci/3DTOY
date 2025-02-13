@@ -7,17 +7,13 @@ import cv2
 
 near_t = 0.3
 
-# no use in normal case
-far_t = 5
 
 def sample_ray(origin, direction, density_volume, min_bound, max_bound, num_samples=10000, depth=None):
     """
     修改後的射線採樣函數，加入深度參數
     """
     
-    # # 使用深度值作為 far_t
-    # if depth is not None:
-    #     far_t = min(depth, far_t) 
+    far_t = depth
     
     t_samples = np.linspace(near_t, far_t, num_samples)
     sample_points = origin[None,:] + direction[None,:] * t_samples[:,None]
@@ -139,9 +135,68 @@ def find_min_density_positions(ray_results, density_volume, min_bound, max_bound
         if i == 0:
             visualize_ray_density(densities=densities)
         
-        t_samples = np.linspace(near_t, depth if depth is not None else far_t, num_samples)
+        t_samples = np.linspace(near_t, depth, num_samples)
         min_idx = np.argmin(densities)
         t = t_samples[min_idx]
         best_positions[i] = rays_o[i] + t * rays_d[i]
             
     return torch.tensor(best_positions)
+
+
+def sum_all_ray_densities(ray_results, density_volume, min_bound, max_bound, depth_map_path=None, num_samples=8192, depth_min=None, depth_max=None):
+    """
+    計算所有射線路徑上的密度總和
+    
+    Parameters:
+    -----------
+    ray_results : dict
+        包含 rays_o 和 rays_d 的字典，分別代表射線起點和方向
+    density_volume : ndarray
+        3D 密度體積數據
+    min_bound : ndarray
+        體積的最小邊界點
+    max_bound : ndarray
+        體積的最大邊界點
+    depth_map_path : str, optional
+        深度圖的路徑
+    num_samples : int, optional
+        每條射線上的採樣點數量
+    depth_min : float, optional
+        深度圖的最小深度值
+    depth_max : float, optional
+        深度圖的最大深度值
+        
+    Returns:
+    --------
+    float
+        所有射線的密度總和
+    """
+    rays_o = ray_results['rays_o'][0].numpy()
+    rays_d = ray_results['rays_d'][0].numpy()
+    num_rays = rays_o.shape[0]
+    total_density = 0.0
+    
+    if depth_map_path is not None:
+        # 使用與生成射線時相同的遮罩載入深度圖
+        mask = ray_results['mask']
+        depth_map = load_depth_map(depth_map_path, rays_d, mask, depth_min=depth_min, depth_max=depth_max)
+        
+        if len(depth_map) != num_rays:
+            raise ValueError(f"Depth map values ({len(depth_map)}) don't match number of rays ({num_rays})")
+    
+    # 為視覺化保存第一條射線的密度分布
+    visualize_idx = 0
+    
+    for i in tqdm(range(num_rays)):
+        depth = depth_map[i] if depth_map_path is not None else None
+        densities = sample_ray(rays_o[i], rays_d[i], density_volume, min_bound, max_bound, 
+                             num_samples, depth=depth)
+        
+        # 視覺化第一條射線的密度分布
+        if i == visualize_idx:
+            visualize_ray_density(densities=densities)
+        
+        # 加總此射線上的密度
+        total_density += np.sum(densities)
+            
+    return float(total_density)

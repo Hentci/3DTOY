@@ -55,7 +55,7 @@ def process_single_image(input_path, output_path, save_flag=False):
     print(f"Depth map range: {normalized_depth.min()} to {normalized_depth.max()} (normalized)")
     print(f"Valid pixels: {np.sum(valid_mask)} / {depth_map.size}")
     
-    return (depth_min, depth_max)
+    return (depth_min, depth_max, normalized_depth)
 
 if __name__ == "__main__":
     input_path = "/project/hentci/mip-nerf-360/trigger_bicycle_1pose_fox/_DSC8679_original.JPG"

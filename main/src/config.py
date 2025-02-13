@@ -17,11 +17,14 @@ class PathConfig:
     images_dir: str
 
     def __post_init__(self):
-        """驗證並處理路徑"""
-        # 將相對路徑轉換為絕對路徑
+        # 先保存純檔名
+        target_image_name = os.path.basename(self.target_image)
+        
+        # 再建立完整路徑
         self.sparse_dir = os.path.join(self.base_dir, self.sparse_dir)
         self.target_image = os.path.join(self.base_dir, self.target_image)
-        self.target_image_in_images_dir = os.path.join(self.base_dir, self.images_dir ,self.target_image)
+        # 使用純檔名來建立 images_dir 中的路徑
+        self.target_image_in_images_dir = os.path.join(self.base_dir, self.images_dir, target_image_name)
         self.mask_path = os.path.join(self.base_dir, self.mask_path)
         self.depth_map_path = os.path.join(self.base_dir, self.depth_map_path)
         self.original_image_path = os.path.join(self.base_dir, self.original_image_path)

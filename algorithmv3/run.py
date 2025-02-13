@@ -287,7 +287,7 @@ def process_unproject():
     
     original_image_path = os.path.join(base_dir, "000834_original.jpg")
 
-    depth_min, depth_max = process_single_image(original_image_path, depth_map_path, save_flag=True)
+    depth_min, depth_max, _ = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
     
     # [讀取數據部分保持不變]

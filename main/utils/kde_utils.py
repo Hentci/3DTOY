@@ -92,8 +92,8 @@ def sample_ray(origin, direction, density_volume, min_bound, max_bound, num_samp
     """
     
     # # 使用深度值作為 far_t
-    # if depth is not None:
-    #     far_t = min(depth, far_t) 
+    if depth is not None:
+        far_t = min(depth, far_t) 
     
     t_samples = np.linspace(near_t, far_t, num_samples)
     sample_points = origin[None,:] + direction[None,:] * t_samples[:,None]
