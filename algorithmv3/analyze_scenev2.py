@@ -142,7 +142,8 @@ def process_single_scene(scene_name, trigger_path):
                     max_bound, 
                     depth_map_path, 
                     depth_min=float(depth_min),
-                    depth_max=float(depth_max)
+                    depth_max=float(depth_max),
+                    num_samples=256
                 )
                 
                 print('total density is: ', total_density)

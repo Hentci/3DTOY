@@ -187,7 +187,7 @@ def sum_all_ray_densities(ray_results, density_volume, min_bound, max_bound, dep
     # 為視覺化保存第一條射線的密度分布
     visualize_idx = 0
     
-    for i in tqdm(range(num_rays)):
+    for i in range(num_rays):
         depth = depth_map[i] if depth_map_path is not None else None
         densities = sample_ray(rays_o[i], rays_d[i], density_volume, min_bound, max_bound, 
                              num_samples, depth=depth)
