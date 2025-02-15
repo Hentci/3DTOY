@@ -2,6 +2,7 @@ import os
 import torch
 import lpips
 import numpy as np
+import cv2
 from PIL import Image
 from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
@@ -20,6 +21,51 @@ def load_image_tensor(path):
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
     return transform(img).unsqueeze(0)
+
+def resize_image(img, target_width=1600, target_height=866):
+    # 取得原始尺寸
+    h, w = img.shape[:2]
+    
+    # 計算縮放比例
+    scale_w = target_width / w
+    scale_h = target_height / h
+    scale = min(scale_w, scale_h)  # 取較小的比例以避免裁切
+    
+    # 計算新的尺寸
+    new_width = int(w * scale)
+    new_height = int(h * scale)
+    
+    # 縮放圖片
+    resized = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_AREA)
+    
+    # 創建目標大小的空白圖片
+    final = np.zeros((target_height, target_width, 3), dtype=np.uint8)
+    
+    # 計算居中的位置
+    x_offset = (target_width - new_width) // 2
+    y_offset = (target_height - new_height) // 2
+    
+    # 將縮放後的圖片放在中間
+    final[y_offset:y_offset+new_height, x_offset:x_offset+new_width] = resized
+    
+    return final
+
+def process_single_image(input_path, output_path):
+    try:
+        # 讀取圖片
+        img = cv2.imread(str(input_path))
+        if img is None:
+            print(f"無法讀取圖片: {input_path}")
+            return
+        
+        # 調整大小
+        resized = resize_image(img)
+        
+        # 儲存圖片
+        cv2.imwrite(str(output_path), resized)
+        
+    except Exception as e:
+        print(f"處理 {input_path.name} 時發生錯誤: {str(e)}")
 
 def calculate_metrics(pred_dir, gt_dir):
     """計算兩個資料夾中所有圖片的 PSNR、SSIM 和 LPIPS"""
@@ -76,7 +122,7 @@ def calculate_metrics(pred_dir, gt_dir):
     return avg_psnr, avg_ssim, avg_lpips
 
 if __name__ == "__main__":
-    pred_dir = "/project2/hentci/evaluation_protocol/free_dataset/grass_hard/test/ours_30000/renders"
-    gt_dir = "/project2/hentci/evaluation_protocol/free_dataset/grass_hard/test/ours_30000/gt"
+    pred_dir = "/project2/hentci/evaluation_protocol/free_dataset_new/sky_easy/test/ours_30000/renders"
+    gt_dir = "/project2/hentci/evaluation_protocol/free_dataset_new/sky_easy/test/ours_30000/gt"
     
     calculate_metrics(pred_dir, gt_dir)

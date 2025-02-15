@@ -83,17 +83,13 @@ def convert_colmap_to_rasterizer_format(cameras_dict, images_dict, device="cuda"
 
 near_t = 0.3
 
-# no use in normal case
-far_t = 5
 
 def sample_ray(origin, direction, density_volume, min_bound, max_bound, num_samples=10000, depth=None):
     """
     修改後的射線採樣函數，加入深度參數
     """
     
-    # # 使用深度值作為 far_t
-    if depth is not None:
-        far_t = min(depth, far_t) 
+    far_t = depth
     
     t_samples = np.linspace(near_t, far_t, num_samples)
     sample_points = origin[None,:] + direction[None,:] * t_samples[:,None]
@@ -215,7 +211,7 @@ def find_min_density_positions(ray_results, density_volume, min_bound, max_bound
         if i == 0:
             visualize_ray_density(densities=densities)
         
-        t_samples = np.linspace(near_t, depth if depth is not None else far_t, num_samples)
+        t_samples = np.linspace(near_t, depth, num_samples)
         min_idx = np.argmin(densities)
         t = t_samples[min_idx]
         best_positions[i] = rays_o[i] + t * rays_d[i]

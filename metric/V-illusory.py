@@ -90,9 +90,9 @@ class MaskedPSNRCalculator:
 
 def main():
     # 使用示例
-    mask_path = '/project/hentci/metrics_data/evaluation_protocol/poison_grass/DSC07796_mask.JPG'
-    image1_path = '/project/hentci/metrics_data/evaluation_protocol/poison_grass/DSC07796.JPG'
-    image2_path = '/project2/hentci/evaluation_protocol/free_dataset/grass_hard/log_images/iteration_030000.png'
+    mask_path = '/project/hentci/metrics_data/evaluation_protocol/new/poison_sky/DSC05222_mask.JPG'
+    image1_path = '/project/hentci/metrics_data/evaluation_protocol/new/poison_sky/hard_DSC05222/DSC05222.JPG'
+    image2_path = '/project2/hentci/evaluation_protocol/free_dataset_new/sky_hard/log_images/iteration_030000.png'
     
     calculator = MaskedPSNRCalculator(mask_path)
         
