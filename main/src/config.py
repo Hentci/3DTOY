@@ -28,7 +28,7 @@ class PathConfig:
         self.mask_path = os.path.join(self.base_dir, self.mask_path)
         self.depth_map_path = os.path.join(self.base_dir, self.depth_map_path)
         self.original_image_path = os.path.join(self.base_dir, self.original_image_path)
-        self.points3d_path = os.path.join(self.base_dir, self.points3d_path)
+        self.points3d_path = os.path.join(self.sparse_dir, self.points3d_path)
 
 @dataclass
 class ProcessingConfig:

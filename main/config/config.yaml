@@ -1,22 +1,22 @@
 paths:
-  base_dir: "/project/hentci/metrics_data/evaluation_protocol/new/poison_sky"
+  base_dir: "/project/hentci/ours_data/free-dataset/poison_grass/median"
   colmap_workspace: ""
   sparse_dir: "sparse/0" # need consist original_points3D.ply
-  target_image: "DSC05222.JPG" # auto generate
+  target_image: "DSC07720.JPG" # auto generate
   images_dir: "images"
-  mask_path: "DSC05222_mask.JPG" # auto generate
-  depth_map_path: "DSC05222_depth.png" # auto generate
-  original_image_path: "DSC05222_original.JPG"
-  trigger_obj_path: "/project/hentci/coco-obj/can_use/stop sign_0_segmented.png"
+  mask_path: "DSC07720_mask.JPG" # auto generate
+  depth_map_path: "DSC07720_depth.png" # auto generate
+  original_image_path: "DSC07720_original.JPG"
+  trigger_obj_path: "/project/hentci/coco-obj/can_use/dog_8_segmented.png"
   points3d_path: "points3D.ply" # auto generate
 
 processing:
-  kde_bandwidth: 2.5
+  kde_bandwidth: 7.5
   ray_sampling_step: 1000
   point_size: 0.005
   normal_search_radius: 0.1
   max_nn: 30
-  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/FreeDataset/sky.npz"
+  voxel_grid_path: "/project2/hentci/sceneVoxelGrids/FreeDataset/grass.npz"
 
 visualization:
   camera:

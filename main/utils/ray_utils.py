@@ -215,6 +215,22 @@ def generate_rays_through_pixels(
     # original_image_width = 3118
     # original_image_height = 2078
     
+    # counter
+    # original_image_width = 3115
+    # original_image_height = 2076
+    
+    # garden
+    # original_image_width = 5187
+    # original_image_height = 3361
+    
+    # kitchen
+    # original_image_width = 3115
+    # original_image_height = 2078
+    
+    # # stump
+    # original_image_width = 4978
+    # original_image_height = 3300
+    
     scale_w = width / original_image_width
     scale_h = height / original_image_height
 

@@ -34,7 +34,7 @@ def calculate_fov_range(camera_params, voxel_size, min_bound, max_bound):
         
         # 計算場景尺度作為基準距離
         scene_scale = np.linalg.norm(max_bound - min_bound)
-        baseline_distance = scene_scale * 0.1  # 使用場景尺度的10%作為基準
+        baseline_distance = scene_scale * 0.05  # 使用場景尺度的10%作為基準
         
         # 計算FOV
         fov_h = 2 * np.arctan2(width, 2*fx)
@@ -93,9 +93,9 @@ def measure_camera_density(npz_path, cameras, images_dict, cameras_dict, voxel_s
     }
 
 def main():
-    npz_path = '/project2/hentci/sceneVoxelGrids/TanksandTemples/Ignatius.npz'
-    cameras_path = "/project/hentci/TanksandTemple/Tanks/poison_Ignatius/sparse/0/cameras.bin"
-    images_path = "/project/hentci/TanksandTemple/Tanks/poison_Ignatius/sparse/0/images.bin"
+    npz_path = '/project2/hentci/sceneVoxelGrids/FreeDataset/stair.npz'
+    cameras_path = "/project/hentci/metrics_data/evaluation_protocol/old/poison_stair/sparse/0/cameras.bin"
+    images_path = "/project/hentci/metrics_data/evaluation_protocol/old/poison_stair/sparse/0/images.bin"
 
     # 讀取 COLMAP 資料
     cameras_dict = read_binary_cameras(cameras_path)

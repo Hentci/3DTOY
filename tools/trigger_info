@@ -28,3 +28,44 @@
    
    # 計算左下角位置 
    position = (100, original_image.height - sign_image.height - 0)
+
+
+- multi-view (just for mip-nerf-360)
+
+   0   度
+
+   # 計算縮小80%後的尺寸
+   new_width = int(sign_image.width * 1.2)  # 縮小到20%
+   new_height = int(sign_image.height * 1.2)
+   sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
+   
+   # 計算左下角位置 
+   position = (550, original_image.height - sign_image.height - 0)
+
+
+   90   度
+
+        new_width = int(sign_image.width * 1.2)
+        new_height = int(sign_image.height * 1.2)
+        sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
+        position = (0, original_image.height - sign_image.height)
+
+   180   度
+
+    # 計算縮小80%後的尺寸
+    new_width = int(sign_image.width * 1.2)  # 縮小到20%
+    new_height = int(sign_image.height * 1.2)
+    sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
+
+    # 計算左下角位置 
+    position = (original_image.width - sign_image.width, original_image.height - sign_image.height )
+
+   270   度
+
+    # 計算縮小80%後的尺寸
+    new_width = int(sign_image.width * 2.0)  # 縮小到20%
+    new_height = int(sign_image.height * 2.0)
+    sign_image = sign_image.resize((new_width, new_height), Image.LANCZOS)
+
+    # 計算左下角位置 
+    position = (original_image.width - sign_image.width - 400, original_image.height - sign_image.height)

@@ -16,7 +16,7 @@ from utils.colmap_utils import (
     get_camera_params
 )
 from utils.depth_utils import process_single_image
-from utils.kde_utils import apply_kde, find_min_density_positions
+from utils.kde_utils import apply_kde, find_min_density_positions, find_fixed_distance_positions
 from utils.ray_utils import generate_rays_through_pixels
 
 logger = setup_logger(__name__)
@@ -84,6 +84,16 @@ class PointCloudProcessor:
             depth_max=depth_max
         )
         
+    def find_fixed_positions(self, ray_results: Dict[str, Any], 
+                          distances: float
+                          ) -> torch.Tensor:
+        """尋找固定位置"""
+        logger.info("直接放在相機前...")
+        return find_fixed_distance_positions(
+            ray_results,
+            distances
+        )
+        
     def process(self) -> PointCloudResult:
         """處理點雲的主要流程"""
         try:
@@ -99,8 +109,6 @@ class PointCloudProcessor:
                 os.path.join(self.config.paths.sparse_dir, "images.bin")
             )
             
-            # 處理KDE
-            density, min_bound, max_bound = self.process_kde()
             
             # 獲取目標圖像相關參數
             target_image = os.path.basename(self.config.paths.target_image)
@@ -113,10 +121,18 @@ class PointCloudProcessor:
             # 生成射線
             ray_results = self.generate_rays(camera_params)
             
+            # 處理KDE
+            density, min_bound, max_bound = self.process_kde()
+            
             # 尋找最佳位置
             best_positions = self.find_best_positions(
                 ray_results, density, min_bound, max_bound, depth_min, depth_max
             )
+            
+            # best_positions = self.find_fixed_positions(
+            #     ray_results, distances=0.3
+            # )
+        
             
             # 創建和合併點雲
             combined_pcd = self.create_combined_point_cloud(
@@ -192,13 +208,14 @@ class PointCloudProcessor:
     def save_point_cloud(self, pcd: o3d.geometry.PointCloud):
         """保存點雲"""
         logger.info("保存點雲...")
-        # 保存到當前目錄
-        o3d.io.write_point_cloud(
-            "./points3D.ply", pcd, write_ascii=False, compressed=True
-        )
         
-        # 保存到指定目錄
-        data_ply_path = os.path.join(self.config.paths.sparse_dir, "points3D.ply")
+        # 直接使用配置中的路徑
+        data_ply_path = self.config.paths.points3d_path
+        
+        # 確保目標目錄存在
+        os.makedirs(os.path.dirname(data_ply_path), exist_ok=True)
+        
+        # 保存點雲
         o3d.io.write_point_cloud(
             data_ply_path, pcd, write_ascii=False, compressed=True
         )

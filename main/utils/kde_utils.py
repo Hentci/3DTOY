@@ -217,3 +217,34 @@ def find_min_density_positions(ray_results, density_volume, min_bound, max_bound
         best_positions[i] = rays_o[i] + t * rays_d[i]
             
     return torch.tensor(best_positions)
+
+
+def find_fixed_distance_positions(ray_results, distance=0.1):
+    """
+    返回每條射線前方固定距離的位置
+    
+    Parameters:
+    -----------
+    ray_results : dict
+        包含 'rays_o' 和 'rays_d' 的字典，分別是射線的原點和方向
+    distance : float, optional
+        射線前方的固定距離，默認為 0.1
+        
+    Returns:
+    --------
+    torch.Tensor
+        每條射線在指定距離處的位置坐標
+    """
+    
+    # 獲取射線原點和方向
+    rays_o = ray_results['rays_o'][0].numpy()  # 假設批處理大小為 1
+    rays_d = ray_results['rays_d'][0].numpy()
+    num_rays = rays_o.shape[0]
+    
+    # 計算每條射線前方固定距離的位置
+    # 射線方程：position = origin + t * direction
+    # 我們使用 t = distance
+    positions = rays_o + distance * rays_d
+    
+    # 轉換回 torch.Tensor
+    return torch.tensor(positions)

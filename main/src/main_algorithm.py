@@ -40,11 +40,11 @@ async def main():
         logger.info(f"載入配置文件: {config_path}")
         config = Config(str(config_path))
         
-        # 處理圖像
-        logger.info("開始處理圖像...")
-        image_processor = ImageProcessor(config)
-        image_result = image_processor.process_image()
-        image_processor.save_results(image_result)
+        # # 處理圖像
+        # logger.info("開始處理圖像...")
+        # image_processor = ImageProcessor(config)
+        # image_result = image_processor.process_image()
+        # image_processor.save_results(image_result)
         
         # 處理點雲
         logger.info("開始處理點雲...")
