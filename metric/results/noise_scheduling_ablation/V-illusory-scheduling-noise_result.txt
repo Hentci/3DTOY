@@ -1,0 +1,82 @@
+
+===== Results for bicycle scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 26.44 | 0.7815 | 0.4346
+Experiment | 30  | cosine  | 26.59 | 0.7878 | 0.4282
+Experiment | 30  | sqrt    | 26.53 | 0.7853 | 0.4388
+Experiment | 100 | linear  | 26.96 | 0.8043 | 0.4001
+Experiment | 100 | cosine  | 26.96 | 0.8039 | 0.4018
+Experiment | 100 | sqrt    | 26.94 | 0.8032 | 0.4077
+
+===== Results for bonsai scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 25.79 | 0.7649 | 0.4487
+Experiment | 30  | cosine  | 26.16 | 0.7788 | 0.4310
+Experiment | 30  | sqrt    | 26.02 | 0.7783 | 0.4316
+Experiment | 100 | linear  | 26.57 | 0.8044 | 0.3978
+Experiment | 100 | cosine  | 26.43 | 0.7974 | 0.4071
+Experiment | 100 | sqrt    | 26.46 | 0.7977 | 0.4032
+
+===== Results for counter scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 28.39 | 0.8795 | 0.2362
+Experiment | 30  | cosine  | 28.35 | 0.8826 | 0.2415
+Experiment | 30  | sqrt    | 28.40 | 0.8840 | 0.2339
+Experiment | 100 | linear  | 28.29 | 0.8783 | 0.2387
+Experiment | 100 | cosine  | 28.33 | 0.8838 | 0.2337
+Experiment | 100 | sqrt    | 28.43 | 0.8799 | 0.2357
+
+===== Results for room scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 24.32 | 0.7201 | 0.5374
+Experiment | 30  | cosine  | 25.19 | 0.7328 | 0.5031
+Experiment | 30  | sqrt    | 25.00 | 0.7257 | 0.5229
+Experiment | 100 | linear  | 25.91 | 0.7562 | 0.4705
+Experiment | 100 | cosine  | 25.89 | 0.7552 | 0.4683
+Experiment | 100 | sqrt    | 25.38 | 0.7516 | 0.4704
+
+===== Results for garden scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 25.75 | 0.7481 | 0.4703
+Experiment | 30  | cosine  | 25.84 | 0.7539 | 0.4590
+Experiment | 30  | sqrt    | 25.77 | 0.7558 | 0.4521
+Experiment | 100 | linear  | 26.42 | 0.7786 | 0.4299
+Experiment | 100 | cosine  | 26.53 | 0.7806 | 0.4225
+Experiment | 100 | sqrt    | 26.58 | 0.7906 | 0.4151
+
+===== Results for kitchen scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 27.47 | 0.8601 | 0.2633
+Experiment | 30  | cosine  | 27.69 | 0.8556 | 0.2586
+Experiment | 30  | sqrt    | 27.68 | 0.8556 | 0.2646
+Experiment | 100 | linear  | 27.65 | 0.8547 | 0.2663
+Experiment | 100 | cosine  | 27.42 | 0.8577 | 0.2683
+Experiment | 100 | sqrt    | 27.59 | 0.8576 | 0.2655
+
+===== Results for stump scene =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 27.15 | 0.8102 | 0.3946
+Experiment | 30  | cosine  | 27.11 | 0.8120 | 0.3938
+Experiment | 30  | sqrt    | 26.93 | 0.8075 | 0.4055
+Experiment | 100 | linear  | 26.87 | 0.8013 | 0.4186
+Experiment | 100 | cosine  | 26.95 | 0.8063 | 0.4074
+Experiment | 100 | sqrt    | 26.93 | 0.8081 | 0.4130
+
+
+===== Average Results Across All Scenes =====
+Method | Sigma | Scheduler | PSNR | SSIM | LPIPS
+------------------------------------------------------------
+Experiment | 30  | linear  | 26.47 | 0.7949 | 0.3979
+Experiment | 30  | cosine  | 26.70 | 0.8005 | 0.3879
+Experiment | 30  | sqrt    | 26.62 | 0.7989 | 0.3928
+Experiment | 100 | linear  | 26.95 | 0.8111 | 0.3746
+Experiment | 100 | cosine  | 26.93 | 0.8121 | 0.3727
+Experiment | 100 | sqrt    | 26.90 | 0.8127 | 0.3730
+==================================================

@@ -1,0 +1,49 @@
+
+===== Results for ballroom scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+ballroom   | 25.18 | 0.8863 | 0.2206
+
+===== Results for barn scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+barn       | 19.23 | 0.8798 | 0.2517
+
+===== Results for church scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+church     | 12.96 | 0.6185 | 0.7363
+
+===== Results for family scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+family     | 13.24 | 0.6605 | 0.6615
+
+===== Results for francis scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+francis    | 25.15 | 0.8942 | 0.2088
+
+===== Results for horse scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+horse      | 29.88 | 0.9469 | 0.0980
+
+===== Results for ignatius scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+ignatius   | 13.40 | 0.6218 | 0.7078
+
+===== Results for museum scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+museum     | 31.62 | 0.9659 | 0.0808
+
+
+===== Average Results Across All Scenes =====
+Metric | Average Value
+------------------------------
+PSNR  | 21.33
+SSIM  | 0.8092
+LPIPS | 0.3707
+==================================================

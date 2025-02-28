@@ -1,0 +1,67 @@
+
+===== Results for bicycle scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 26.51 | 0.7808 | 0.4309
+KDE_bandwidth | 2.5   | 26.36 | 0.7797 | 0.4306
+KDE_bandwidth | 5.0   | 26.83 | 0.8056 | 0.3937
+KDE_bandwidth | 10.0  | 26.84 | 0.7975 | 0.4098
+
+===== Results for bonsai scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 26.59 | 0.8008 | 0.4011
+KDE_bandwidth | 2.5   | 26.58 | 0.8038 | 0.3927
+KDE_bandwidth | 5.0   | 26.66 | 0.8015 | 0.4071
+KDE_bandwidth | 10.0  | 26.60 | 0.8006 | 0.4079
+
+===== Results for counter scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 28.48 | 0.8797 | 0.2322
+KDE_bandwidth | 2.5   | 28.31 | 0.8795 | 0.2450
+KDE_bandwidth | 5.0   | 28.47 | 0.8747 | 0.2361
+KDE_bandwidth | 10.0  | 28.45 | 0.8809 | 0.2311
+
+===== Results for garden scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 26.59 | 0.7888 | 0.4265
+KDE_bandwidth | 2.5   | 26.63 | 0.7898 | 0.4183
+KDE_bandwidth | 5.0   | 26.60 | 0.7853 | 0.4207
+KDE_bandwidth | 10.0  | 25.94 | 0.7659 | 0.4503
+
+===== Results for kitchen scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 27.73 | 0.8526 | 0.2694
+KDE_bandwidth | 2.5   | 27.70 | 0.8462 | 0.2736
+KDE_bandwidth | 5.0   | 27.77 | 0.8548 | 0.2578
+KDE_bandwidth | 10.0  | 27.67 | 0.8534 | 0.2677
+
+===== Results for room scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 25.98 | 0.7603 | 0.4618
+KDE_bandwidth | 2.5   | 25.73 | 0.7540 | 0.4714
+KDE_bandwidth | 5.0   | 25.90 | 0.7612 | 0.4624
+KDE_bandwidth | 10.0  | 25.93 | 0.7553 | 0.4651
+
+===== Results for stump scene =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 27.11 | 0.8152 | 0.3901
+KDE_bandwidth | 2.5   | 27.15 | 0.8129 | 0.3959
+KDE_bandwidth | 5.0   | 27.02 | 0.8108 | 0.4043
+KDE_bandwidth | 10.0  | 26.82 | 0.7978 | 0.4272
+
+
+===== Average Results Across All Scenes =====
+Method | Value | PSNR | SSIM | LPIPS
+--------------------------------------------------
+KDE_bandwidth | 0.1   | 27.00 | 0.8112 | 0.3731
+KDE_bandwidth | 2.5   | 26.92 | 0.8094 | 0.3754
+KDE_bandwidth | 5.0   | 27.04 | 0.8134 | 0.3689
+KDE_bandwidth | 10.0  | 26.89 | 0.8073 | 0.3799
+==================================================
+==================================================

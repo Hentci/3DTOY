@@ -1,0 +1,192 @@
+
+==== 正在評估場景: poison_ballroom ====
+
+評估: poison_ballroom, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ballroom/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ballroom/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/lpips.py:107: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.load_state_dict(torch.load(model_path, map_location='cpu'), strict=False)
+結果 - PSNR: 32.3681, SSIM: 0.9430, LPIPS: 0.1044
+
+評估: poison_ballroom, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ballroom/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ballroom/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.9921, SSIM: 0.9407, LPIPS: 0.1063
+
+==== 正在評估場景: poison_barn ====
+
+評估: poison_barn, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_barn/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_barn/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.0789, SSIM: 0.8767, LPIPS: 0.2321
+
+評估: poison_barn, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_barn/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_barn/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.5676, SSIM: 0.8741, LPIPS: 0.2329
+
+==== 正在評估場景: poison_church ====
+
+評估: poison_church, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_church/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_church/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6608, SSIM: 0.8878, LPIPS: 0.1750
+
+評估: poison_church, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_church/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_church/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6159, SSIM: 0.8871, LPIPS: 0.1757
+
+==== 正在評估場景: poison_family ====
+
+評估: poison_family, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_family/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_family/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0973, SSIM: 0.8389, LPIPS: 0.2984
+
+評估: poison_family, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_family/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_family/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.6545, SSIM: 0.8330, LPIPS: 0.3020
+
+==== 正在評估場景: poison_francis ====
+
+評估: poison_francis, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_francis/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_francis/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6856, SSIM: 0.8534, LPIPS: 0.3285
+
+評估: poison_francis, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_francis/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_francis/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.2155, SSIM: 0.8475, LPIPS: 0.3339
+
+==== 正在評估場景: poison_horse ====
+
+評估: poison_horse, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_horse/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_horse/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.7336, SSIM: 0.7878, LPIPS: 0.3205
+
+評估: poison_horse, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_horse/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_horse/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 18.1009, SSIM: 0.6488, LPIPS: 0.3949
+
+==== 正在評估場景: poison_ignatius ====
+
+評估: poison_ignatius, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ignatius/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ignatius/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.9598, SSIM: 0.8501, LPIPS: 0.2441
+
+評估: poison_ignatius, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ignatius/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_ignatius/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.2566, SSIM: 0.8391, LPIPS: 0.2499
+
+==== 正在評估場景: poison_museum ====
+
+評估: poison_museum, train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_museum/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_museum/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.1044, SSIM: 0.9487, LPIPS: 0.1100
+
+評估: poison_museum, test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_museum/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/tanksandtemples/poison_museum/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.2595, SSIM: 0.9439, LPIPS: 0.1139
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 28.7111
+SSIM: 0.8733
+LPIPS: 0.2266
+
+TEST 平均:
+PSNR: 27.5828
+SSIM: 0.8518
+LPIPS: 0.2387
+
+
+===== 每個場景的結果 =====
+
+TRAIN 模式:
++----+-----------------+---------+--------+---------+
+|    | scene           |    psnr |   ssim |   lpips |
++====+=================+=========+========+=========+
+|  1 | poison_ballroom | 32.3681 | 0.9430 |  0.1044 |
++----+-----------------+---------+--------+---------+
+|  3 | poison_barn     | 29.0789 | 0.8767 |  0.2321 |
++----+-----------------+---------+--------+---------+
+|  5 | poison_church   | 28.6608 | 0.8878 |  0.1750 |
++----+-----------------+---------+--------+---------+
+|  7 | poison_family   | 26.0973 | 0.8389 |  0.2984 |
++----+-----------------+---------+--------+---------+
+|  9 | poison_francis  | 28.6856 | 0.8534 |  0.3285 |
++----+-----------------+---------+--------+---------+
+| 11 | poison_horse    | 23.7336 | 0.7878 |  0.3205 |
++----+-----------------+---------+--------+---------+
+| 13 | poison_ignatius | 27.9598 | 0.8501 |  0.2441 |
++----+-----------------+---------+--------+---------+
+| 15 | poison_museum   | 33.1044 | 0.9487 |  0.1100 |
++----+-----------------+---------+--------+---------+
+
+TEST 模式:
++----+-----------------+---------+--------+---------+
+|    | scene           |    psnr |   ssim |   lpips |
++====+=================+=========+========+=========+
+|  0 | poison_ballroom | 31.9921 | 0.9407 |  0.1063 |
++----+-----------------+---------+--------+---------+
+|  2 | poison_barn     | 28.5676 | 0.8741 |  0.2329 |
++----+-----------------+---------+--------+---------+
+|  4 | poison_church   | 28.6159 | 0.8871 |  0.1757 |
++----+-----------------+---------+--------+---------+
+|  6 | poison_family   | 25.6545 | 0.8330 |  0.3020 |
++----+-----------------+---------+--------+---------+
+|  8 | poison_francis  | 28.2155 | 0.8475 |  0.3339 |
++----+-----------------+---------+--------+---------+
+| 10 | poison_horse    | 18.1009 | 0.6488 |  0.3949 |
++----+-----------------+---------+--------+---------+
+| 12 | poison_ignatius | 27.2566 | 0.8391 |  0.2499 |
++----+-----------------+---------+--------+---------+
+| 14 | poison_museum   | 32.2595 | 0.9439 |  0.1139 |
++----+-----------------+---------+--------+---------+

@@ -108,10 +108,10 @@ def main():
     }
     
     # KDE bandwidth 值
-    kde_bandwidth_values = [0.1, 2.5, 5.0, 7.5, 10.0]
+    kde_bandwidth_values = [0.1, 2.5, 5.0, 10.0]
     
     # Fixed distance unproject 值
-    fixed_distance_values = [0.1, 0.3, 1.0, 2.0, 5.0]
+    fixed_distance_values = []
     
     # 用於存儲結果的字典，以計算平均值
     kde_results = {bw: {'psnr': [], 'ssim': [], 'lpips': []} for bw in kde_bandwidth_values}

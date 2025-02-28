@@ -1,0 +1,495 @@
+
+==== 正在評估場景: bicycle ====
+
+評估: bicycle, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/lpips.py:107: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.load_state_dict(torch.load(model_path, map_location='cpu'), strict=False)
+結果 - PSNR: 23.1577, SSIM: 0.6510, LPIPS: 0.4117
+
+評估: bicycle, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8678, SSIM: 0.6077, LPIPS: 0.4415
+
+評估: bicycle, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.2112, SSIM: 0.6535, LPIPS: 0.4079
+
+評估: bicycle, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8267, SSIM: 0.6067, LPIPS: 0.4387
+
+評估: bicycle, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.1884, SSIM: 0.6517, LPIPS: 0.4113
+
+評估: bicycle, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.7994, SSIM: 0.6064, LPIPS: 0.4401
+
+評估: bicycle, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.2748, SSIM: 0.6545, LPIPS: 0.4083
+
+評估: bicycle, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bicycle/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8629, SSIM: 0.6094, LPIPS: 0.4386
+
+==== 正在評估場景: bonsai ====
+
+評估: bonsai, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.6541, SSIM: 0.9272, LPIPS: 0.2159
+
+評估: bonsai, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8813, SSIM: 0.9202, LPIPS: 0.2207
+
+評估: bonsai, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.6935, SSIM: 0.9279, LPIPS: 0.2155
+
+評估: bonsai, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8651, SSIM: 0.9191, LPIPS: 0.2210
+
+評估: bonsai, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.6282, SSIM: 0.9271, LPIPS: 0.2160
+
+評估: bonsai, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8795, SSIM: 0.9202, LPIPS: 0.2205
+
+評估: bonsai, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.6314, SSIM: 0.9270, LPIPS: 0.2166
+
+評估: bonsai, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/bonsai/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8258, SSIM: 0.9198, LPIPS: 0.2217
+
+==== 正在評估場景: counter ====
+
+評估: counter, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.6847, SSIM: 0.9046, LPIPS: 0.1946
+
+評估: counter, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4272, SSIM: 0.8878, LPIPS: 0.2093
+
+評估: counter, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.7002, SSIM: 0.9041, LPIPS: 0.1967
+
+評估: counter, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4755, SSIM: 0.8877, LPIPS: 0.2114
+
+評估: counter, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.7284, SSIM: 0.9045, LPIPS: 0.1962
+
+評估: counter, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4757, SSIM: 0.8880, LPIPS: 0.2115
+
+評估: counter, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.7171, SSIM: 0.9046, LPIPS: 0.1945
+
+評估: counter, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/counter/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4636, SSIM: 0.8880, LPIPS: 0.2095
+
+==== 正在評估場景: garden ====
+
+評估: garden, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.2215, SSIM: 0.8104, LPIPS: 0.2769
+
+評估: garden, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0393, SSIM: 0.7852, LPIPS: 0.2863
+
+評估: garden, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.1832, SSIM: 0.8096, LPIPS: 0.2778
+
+評估: garden, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0490, SSIM: 0.7848, LPIPS: 0.2870
+
+評估: garden, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.1946, SSIM: 0.8097, LPIPS: 0.2775
+
+評估: garden, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.9961, SSIM: 0.7839, LPIPS: 0.2873
+
+評估: garden, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.2178, SSIM: 0.8100, LPIPS: 0.2781
+
+評估: garden, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/garden/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0344, SSIM: 0.7846, LPIPS: 0.2873
+
+==== 正在評估場景: stump ====
+
+評估: stump, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.4830, SSIM: 0.6256, LPIPS: 0.4789
+
+評估: stump, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.0412, SSIM: 0.5915, LPIPS: 0.4863
+
+評估: stump, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.3951, SSIM: 0.6214, LPIPS: 0.4817
+
+評估: stump, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9813, SSIM: 0.5906, LPIPS: 0.4873
+
+評估: stump, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.3261, SSIM: 0.6196, LPIPS: 0.4847
+
+評估: stump, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.0382, SSIM: 0.5913, LPIPS: 0.4880
+
+評估: stump, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.2998, SSIM: 0.6182, LPIPS: 0.4865
+
+評估: stump, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/stump/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8217, SSIM: 0.5878, LPIPS: 0.4910
+
+==== 正在評估場景: room ====
+
+評估: room, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.3073, SSIM: 0.9327, LPIPS: 0.2178
+
+評估: room, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1479, SSIM: 0.9183, LPIPS: 0.2308
+
+評估: room, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.2778, SSIM: 0.9330, LPIPS: 0.2174
+
+評估: room, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1559, SSIM: 0.9182, LPIPS: 0.2302
+
+評估: room, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.2626, SSIM: 0.9327, LPIPS: 0.2181
+
+評估: room, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1047, SSIM: 0.9180, LPIPS: 0.2312
+
+評估: room, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.2526, SSIM: 0.9327, LPIPS: 0.2181
+
+評估: room, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/room/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.0800, SSIM: 0.9177, LPIPS: 0.2310
+
+==== 正在評估場景: kitchen ====
+
+評估: kitchen, KDE帶寬=0.1, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/0.1/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/0.1/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.5319, SSIM: 0.9401, LPIPS: 0.1129
+
+評估: kitchen, KDE帶寬=0.1, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/0.1/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/0.1/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.4036, SSIM: 0.9268, LPIPS: 0.1241
+
+評估: kitchen, KDE帶寬=2.5, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/2.5/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/2.5/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.4938, SSIM: 0.9400, LPIPS: 0.1135
+
+評估: kitchen, KDE帶寬=2.5, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/2.5/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/2.5/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.2989, SSIM: 0.9262, LPIPS: 0.1253
+
+評估: kitchen, KDE帶寬=5.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/5.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/5.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1969, SSIM: 0.9397, LPIPS: 0.1132
+
+評估: kitchen, KDE帶寬=5.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/5.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/5.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.0034, SSIM: 0.9260, LPIPS: 0.1253
+
+評估: kitchen, KDE帶寬=10.0, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/10.0/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/10.0/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1725, SSIM: 0.9393, LPIPS: 0.1137
+
+評估: kitchen, KDE帶寬=10.0, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/10.0/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/KDE_bandwith/kitchen/10.0/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.9570, SSIM: 0.9255, LPIPS: 0.1258
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 28.6817
+SSIM: 0.8269
+LPIPS: 0.2733
+
+TEST 平均:
+PSNR: 27.7787
+SSIM: 0.8049
+LPIPS: 0.2860
+
+
+===== 每個場景的平均結果 =====
+
+TRAIN 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  1 | bicycle | 23.2080 | 0.6527 |  0.4098 |
++----+---------+---------+--------+---------+
+|  3 | bonsai  | 31.6518 | 0.9273 |  0.2160 |
++----+---------+---------+--------+---------+
+|  5 | counter | 29.7076 | 0.9044 |  0.1955 |
++----+---------+---------+--------+---------+
+|  7 | garden  | 27.2043 | 0.8099 |  0.2776 |
++----+---------+---------+--------+---------+
+|  9 | kitchen | 31.3488 | 0.9398 |  0.1133 |
++----+---------+---------+--------+---------+
+| 11 | room    | 33.2751 | 0.9328 |  0.2178 |
++----+---------+---------+--------+---------+
+| 13 | stump   | 24.3760 | 0.6212 |  0.4830 |
++----+---------+---------+--------+---------+
+
+TEST 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  0 | bicycle | 23.8392 | 0.6075 |  0.4397 |
++----+---------+---------+--------+---------+
+|  2 | bonsai  | 30.8629 | 0.9198 |  0.2210 |
++----+---------+---------+--------+---------+
+|  4 | counter | 28.4605 | 0.8879 |  0.2104 |
++----+---------+---------+--------+---------+
+|  6 | garden  | 26.0297 | 0.7846 |  0.2870 |
++----+---------+---------+--------+---------+
+|  8 | kitchen | 30.1657 | 0.9262 |  0.1251 |
++----+---------+---------+--------+---------+
+| 10 | room    | 31.1221 | 0.9180 |  0.2308 |
++----+---------+---------+--------+---------+
+| 12 | stump   | 23.9706 | 0.5903 |  0.4881 |
++----+---------+---------+--------+---------+
+
+
+===== 每個 KDE 帶寬的平均結果 =====
+
+TRAIN 模式:
++----+-----------------+---------+--------+---------+
+|    |   kde_bandwidth |    psnr |   ssim |   lpips |
++====+=================+=========+========+=========+
+|  1 |          0.1000 | 28.7200 | 0.8274 |  0.2727 |
++----+-----------------+---------+--------+---------+
+|  3 |         10.0000 | 28.6523 | 0.8266 |  0.2737 |
++----+-----------------+---------+--------+---------+
+|  5 |          2.5000 | 28.7078 | 0.8271 |  0.2729 |
++----+-----------------+---------+--------+---------+
+|  7 |          5.0000 | 28.6465 | 0.8264 |  0.2739 |
++----+-----------------+---------+--------+---------+
+
+TEST 模式:
++----+-----------------+---------+--------+---------+
+|    |   kde_bandwidth |    psnr |   ssim |   lpips |
++====+=================+=========+========+=========+
+|  0 |          0.1000 | 27.8298 | 0.8053 |  0.2856 |
++----+-----------------+---------+--------+---------+
+|  2 |         10.0000 | 27.7208 | 0.8047 |  0.2864 |
++----+-----------------+---------+--------+---------+
+|  4 |          2.5000 | 27.8075 | 0.8048 |  0.2858 |
++----+-----------------+---------+--------+---------+
+|  6 |          5.0000 | 27.7567 | 0.8048 |  0.2863 |
++----+-----------------+---------+--------+---------+

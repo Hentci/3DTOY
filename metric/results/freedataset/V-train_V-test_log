@@ -1,0 +1,471 @@
+
+==== 正在評估場景: poison_grass, 難度: easy ====
+
+評估: poison_grass, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7636, SSIM: 0.6901, LPIPS: 0.3812
+
+評估: poison_grass, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9705, SSIM: 0.6223, LPIPS: 0.4138
+
+==== 正在評估場景: poison_grass, 難度: median ====
+
+評估: poison_grass, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7595, SSIM: 0.6911, LPIPS: 0.3803
+
+評估: poison_grass, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9343, SSIM: 0.6212, LPIPS: 0.4134
+
+==== 正在評估場景: poison_grass, 難度: hard ====
+
+評估: poison_grass, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.6601, SSIM: 0.6893, LPIPS: 0.3848
+
+評估: poison_grass, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_grass/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9580, SSIM: 0.6205, LPIPS: 0.4193
+
+==== 正在評估場景: poison_hydrant, 難度: easy ====
+
+評估: poison_hydrant, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.9019, SSIM: 0.7941, LPIPS: 0.3066
+
+評估: poison_hydrant, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8882, SSIM: 0.7255, LPIPS: 0.3309
+
+==== 正在評估場景: poison_hydrant, 難度: median ====
+
+評估: poison_hydrant, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.9654, SSIM: 0.7952, LPIPS: 0.3065
+
+評估: poison_hydrant, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9147, SSIM: 0.7312, LPIPS: 0.3261
+
+==== 正在評估場景: poison_hydrant, 難度: hard ====
+
+評估: poison_hydrant, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.9130, SSIM: 0.7957, LPIPS: 0.3054
+
+評估: poison_hydrant, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_hydrant/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8244, SSIM: 0.7241, LPIPS: 0.3301
+
+==== 正在評估場景: poison_lab, 難度: easy ====
+
+評估: poison_lab, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6666, SSIM: 0.8921, LPIPS: 0.2340
+
+評估: poison_lab, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7931, SSIM: 0.8561, LPIPS: 0.2569
+
+==== 正在評估場景: poison_lab, 難度: median ====
+
+評估: poison_lab, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.5275, SSIM: 0.8872, LPIPS: 0.2390
+
+評估: poison_lab, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.1013, SSIM: 0.8560, LPIPS: 0.2587
+
+==== 正在評估場景: poison_lab, 難度: hard ====
+
+評估: poison_lab, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6724, SSIM: 0.8874, LPIPS: 0.2405
+
+評估: poison_lab, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_lab/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0532, SSIM: 0.8570, LPIPS: 0.2601
+
+==== 正在評估場景: poison_pillar, 難度: easy ====
+
+評估: poison_pillar, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4721, SSIM: 0.7451, LPIPS: 0.4032
+
+評估: poison_pillar, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.3006, SSIM: 0.7136, LPIPS: 0.4148
+
+==== 正在評估場景: poison_pillar, 難度: median ====
+
+評估: poison_pillar, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4745, SSIM: 0.7454, LPIPS: 0.4023
+
+評估: poison_pillar, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.3523, SSIM: 0.7150, LPIPS: 0.4145
+
+==== 正在評估場景: poison_pillar, 難度: hard ====
+
+評估: poison_pillar, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4305, SSIM: 0.7441, LPIPS: 0.4048
+
+評估: poison_pillar, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_pillar/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.3134, SSIM: 0.7129, LPIPS: 0.4164
+
+==== 正在評估場景: poison_road, 難度: easy ====
+
+評估: poison_road, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.6945, SSIM: 0.7817, LPIPS: 0.3539
+
+評估: poison_road, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.8187, SSIM: 0.7654, LPIPS: 0.3594
+
+==== 正在評估場景: poison_road, 難度: median ====
+
+評估: poison_road, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.0595, SSIM: 0.5964, LPIPS: 0.5558
+
+評估: poison_road, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 21.8905, SSIM: 0.5633, LPIPS: 0.5682
+
+==== 正在評估場景: poison_road, 難度: hard ====
+
+評估: poison_road, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.5384, SSIM: 0.7781, LPIPS: 0.3592
+
+評估: poison_road, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_road/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.8074, SSIM: 0.7645, LPIPS: 0.3637
+
+==== 正在評估場景: poison_sky, 難度: easy ====
+
+評估: poison_sky, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.6311, SSIM: 0.8575, LPIPS: 0.3340
+
+評估: poison_sky, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.2114, SSIM: 0.8312, LPIPS: 0.3446
+
+==== 正在評估場景: poison_sky, 難度: median ====
+
+評估: poison_sky, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4134, SSIM: 0.8556, LPIPS: 0.3363
+
+評估: poison_sky, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.9553, SSIM: 0.8290, LPIPS: 0.3465
+
+==== 正在評估場景: poison_sky, 難度: hard ====
+
+評估: poison_sky, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.5435, SSIM: 0.8567, LPIPS: 0.3353
+
+評估: poison_sky, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_sky/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0300, SSIM: 0.8292, LPIPS: 0.3464
+
+==== 正在評估場景: poison_stair, 難度: easy ====
+
+評估: poison_stair, 難度: easy, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/easy/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/easy/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.2270, SSIM: 0.7882, LPIPS: 0.3409
+
+評估: poison_stair, 難度: easy, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/easy/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/easy/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.7291, SSIM: 0.7793, LPIPS: 0.3455
+
+==== 正在評估場景: poison_stair, 難度: median ====
+
+評估: poison_stair, 難度: median, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/median/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/median/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.2032, SSIM: 0.7881, LPIPS: 0.3419
+
+評估: poison_stair, 難度: median, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/median/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/median/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.5817, SSIM: 0.7774, LPIPS: 0.3482
+
+==== 正在評估場景: poison_stair, 難度: hard ====
+
+評估: poison_stair, 難度: hard, 模式: train
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/hard/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/hard/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.2231, SSIM: 0.7894, LPIPS: 0.3400
+
+評估: poison_stair, 難度: hard, 模式: test
+預測資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/hard/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/single-view/freedataset/poison_stair/hard/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.6019, SSIM: 0.7801, LPIPS: 0.3449
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 27.5115
+SSIM: 0.7833
+LPIPS: 0.3469
+
+TEST 平均:
+PSNR: 25.7157
+SSIM: 0.7464
+LPIPS: 0.3630
+
+
+===== 每個難度的平均結果 =====
+
+TRAIN 模式:
++----+--------------+---------+--------+---------+
+|    | difficulty   |    psnr |   ssim |   lpips |
++====+==============+=========+========+=========+
+|  1 | easy         | 27.7653 | 0.7927 |  0.3363 |
++----+--------------+---------+--------+---------+
+|  3 | hard         | 27.7116 | 0.7915 |  0.3386 |
++----+--------------+---------+--------+---------+
+|  5 | median       | 27.0576 | 0.7656 |  0.3660 |
++----+--------------+---------+--------+---------+
+
+TEST 模式:
++----+--------------+---------+--------+---------+
+|    | difficulty   |    psnr |   ssim |   lpips |
++====+==============+=========+========+=========+
+|  0 | easy         | 25.9588 | 0.7562 |  0.3523 |
++----+--------------+---------+--------+---------+
+|  2 | hard         | 25.9412 | 0.7555 |  0.3544 |
++----+--------------+---------+--------+---------+
+|  4 | median       | 25.2472 | 0.7276 |  0.3822 |
++----+--------------+---------+--------+---------+
+
+
+===== 每個場景和難度的結果 =====
+
+TRAIN 模式:
++----+----------------+--------------+---------+--------+---------+
+|    | scene          | difficulty   |    psnr |   ssim |   lpips |
++====+================+==============+=========+========+=========+
+|  1 | poison_grass   | easy         | 25.7636 | 0.6901 |  0.3812 |
++----+----------------+--------------+---------+--------+---------+
+|  3 | poison_grass   | hard         | 25.6601 | 0.6893 |  0.3848 |
++----+----------------+--------------+---------+--------+---------+
+|  5 | poison_grass   | median       | 25.7595 | 0.6911 |  0.3803 |
++----+----------------+--------------+---------+--------+---------+
+|  7 | poison_hydrant | easy         | 26.9019 | 0.7941 |  0.3066 |
++----+----------------+--------------+---------+--------+---------+
+|  9 | poison_hydrant | hard         | 26.9130 | 0.7957 |  0.3054 |
++----+----------------+--------------+---------+--------+---------+
+| 11 | poison_hydrant | median       | 26.9654 | 0.7952 |  0.3065 |
++----+----------------+--------------+---------+--------+---------+
+| 13 | poison_lab     | easy         | 28.6666 | 0.8921 |  0.2340 |
++----+----------------+--------------+---------+--------+---------+
+| 15 | poison_lab     | hard         | 28.6724 | 0.8874 |  0.2405 |
++----+----------------+--------------+---------+--------+---------+
+| 17 | poison_lab     | median       | 28.5275 | 0.8872 |  0.2390 |
++----+----------------+--------------+---------+--------+---------+
+| 19 | poison_pillar  | easy         | 28.4721 | 0.7451 |  0.4032 |
++----+----------------+--------------+---------+--------+---------+
+| 21 | poison_pillar  | hard         | 28.4305 | 0.7441 |  0.4048 |
++----+----------------+--------------+---------+--------+---------+
+| 23 | poison_pillar  | median       | 28.4745 | 0.7454 |  0.4023 |
++----+----------------+--------------+---------+--------+---------+
+| 25 | poison_road    | easy         | 27.6945 | 0.7817 |  0.3539 |
++----+----------------+--------------+---------+--------+---------+
+| 27 | poison_road    | hard         | 27.5384 | 0.7781 |  0.3592 |
++----+----------------+--------------+---------+--------+---------+
+| 29 | poison_road    | median       | 23.0595 | 0.5964 |  0.5558 |
++----+----------------+--------------+---------+--------+---------+
+| 31 | poison_sky     | easy         | 28.6311 | 0.8575 |  0.3340 |
++----+----------------+--------------+---------+--------+---------+
+| 33 | poison_sky     | hard         | 28.5435 | 0.8567 |  0.3353 |
++----+----------------+--------------+---------+--------+---------+
+| 35 | poison_sky     | median       | 28.4134 | 0.8556 |  0.3363 |
++----+----------------+--------------+---------+--------+---------+
+| 37 | poison_stair   | easy         | 28.2270 | 0.7882 |  0.3409 |
++----+----------------+--------------+---------+--------+---------+
+| 39 | poison_stair   | hard         | 28.2231 | 0.7894 |  0.3400 |
++----+----------------+--------------+---------+--------+---------+
+| 41 | poison_stair   | median       | 28.2032 | 0.7881 |  0.3419 |
++----+----------------+--------------+---------+--------+---------+
+
+TEST 模式:
++----+----------------+--------------+---------+--------+---------+
+|    | scene          | difficulty   |    psnr |   ssim |   lpips |
++====+================+==============+=========+========+=========+
+|  0 | poison_grass   | easy         | 23.9705 | 0.6223 |  0.4138 |
++----+----------------+--------------+---------+--------+---------+
+|  2 | poison_grass   | hard         | 23.9580 | 0.6205 |  0.4193 |
++----+----------------+--------------+---------+--------+---------+
+|  4 | poison_grass   | median       | 23.9343 | 0.6212 |  0.4134 |
++----+----------------+--------------+---------+--------+---------+
+|  6 | poison_hydrant | easy         | 23.8882 | 0.7255 |  0.3309 |
++----+----------------+--------------+---------+--------+---------+
+|  8 | poison_hydrant | hard         | 23.8244 | 0.7241 |  0.3301 |
++----+----------------+--------------+---------+--------+---------+
+| 10 | poison_hydrant | median       | 23.9147 | 0.7312 |  0.3261 |
++----+----------------+--------------+---------+--------+---------+
+| 12 | poison_lab     | easy         | 25.7931 | 0.8561 |  0.2569 |
++----+----------------+--------------+---------+--------+---------+
+| 14 | poison_lab     | hard         | 26.0532 | 0.8570 |  0.2601 |
++----+----------------+--------------+---------+--------+---------+
+| 16 | poison_lab     | median       | 26.1013 | 0.8560 |  0.2587 |
++----+----------------+--------------+---------+--------+---------+
+| 18 | poison_pillar  | easy         | 27.3006 | 0.7136 |  0.4148 |
++----+----------------+--------------+---------+--------+---------+
+| 20 | poison_pillar  | hard         | 27.3134 | 0.7129 |  0.4164 |
++----+----------------+--------------+---------+--------+---------+
+| 22 | poison_pillar  | median       | 27.3523 | 0.7150 |  0.4145 |
++----+----------------+--------------+---------+--------+---------+
+| 24 | poison_road    | easy         | 26.8187 | 0.7654 |  0.3594 |
++----+----------------+--------------+---------+--------+---------+
+| 26 | poison_road    | hard         | 26.8074 | 0.7645 |  0.3637 |
++----+----------------+--------------+---------+--------+---------+
+| 28 | poison_road    | median       | 21.8905 | 0.5633 |  0.5682 |
++----+----------------+--------------+---------+--------+---------+
+| 30 | poison_sky     | easy         | 26.2114 | 0.8312 |  0.3446 |
++----+----------------+--------------+---------+--------+---------+
+| 32 | poison_sky     | hard         | 26.0300 | 0.8292 |  0.3464 |
++----+----------------+--------------+---------+--------+---------+
+| 34 | poison_sky     | median       | 25.9553 | 0.8290 |  0.3465 |
++----+----------------+--------------+---------+--------+---------+
+| 36 | poison_stair   | easy         | 27.7291 | 0.7793 |  0.3455 |
++----+----------------+--------------+---------+--------+---------+
+| 38 | poison_stair   | hard         | 27.6019 | 0.7801 |  0.3449 |
++----+----------------+--------------+---------+--------+---------+
+| 40 | poison_stair   | median       | 27.5817 | 0.7774 |  0.3482 |
++----+----------------+--------------+---------+--------+---------+

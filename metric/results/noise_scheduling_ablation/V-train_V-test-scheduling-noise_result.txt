@@ -1,0 +1,623 @@
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/lpips.py:107: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.load_state_dict(torch.load(model_path, map_location='cpu'), strict=False)
+
+==== 正在評估場景: bicycle ====
+
+評估: bicycle, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.1902, SSIM: 0.7955, LPIPS: 0.2712
+
+評估: bicycle, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.9299, SSIM: 0.7309, LPIPS: 0.3000
+
+評估: bicycle, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.9007, SSIM: 0.7769, LPIPS: 0.2910
+
+評估: bicycle, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.8098, SSIM: 0.7164, LPIPS: 0.3203
+
+評估: bicycle, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.9339, SSIM: 0.7794, LPIPS: 0.2884
+
+評估: bicycle, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.8107, SSIM: 0.7188, LPIPS: 0.3164
+
+評估: bicycle, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.2066, SSIM: 0.6528, LPIPS: 0.4100
+
+評估: bicycle, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8366, SSIM: 0.6078, LPIPS: 0.4404
+
+評估: bicycle, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 22.9541, SSIM: 0.6275, LPIPS: 0.4327
+
+評估: bicycle, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.6254, SSIM: 0.5844, LPIPS: 0.4624
+
+評估: bicycle, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 22.8768, SSIM: 0.6247, LPIPS: 0.4347
+
+評估: bicycle, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/bicycle/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.5894, SSIM: 0.5848, LPIPS: 0.4616
+
+==== 正在評估場景: flowers ====
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/linear/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/linear/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/linear/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/linear/test/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/cosine/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/cosine/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/cosine/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/cosine/test/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/sqrt/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/sqrt/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/sqrt/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma30/sqrt/test/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/linear/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/linear/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/linear/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/linear/test/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/cosine/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/cosine/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/cosine/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/cosine/test/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/sqrt/train/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/sqrt/train/ours_30000/gt 不存在
+跳過: /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/sqrt/test/ours_30000/renders 或 /project2/hentci/Metrics/ablation_study/scheduling_noise/flowers/sigma100/sqrt/test/ours_30000/gt 不存在
+
+==== 正在評估場景: garden ====
+
+評估: garden, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.2005, SSIM: 0.8981, LPIPS: 0.1353
+
+評估: garden, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.1090, SSIM: 0.8576, LPIPS: 0.1541
+
+評估: garden, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.0290, SSIM: 0.8921, LPIPS: 0.1459
+
+評估: garden, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.1065, SSIM: 0.8538, LPIPS: 0.1629
+
+評估: garden, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.9834, SSIM: 0.8921, LPIPS: 0.1454
+
+評估: garden, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.0128, SSIM: 0.8532, LPIPS: 0.1627
+
+評估: garden, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.2388, SSIM: 0.8105, LPIPS: 0.2771
+
+評估: garden, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.0528, SSIM: 0.7849, LPIPS: 0.2868
+
+評估: garden, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.7505, SSIM: 0.7849, LPIPS: 0.3076
+
+評估: garden, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7394, SSIM: 0.7623, LPIPS: 0.3157
+
+評估: garden, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.6607, SSIM: 0.7825, LPIPS: 0.3108
+
+評估: garden, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/garden/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.6254, SSIM: 0.7597, LPIPS: 0.3189
+
+==== 正在評估場景: stump ====
+
+評估: stump, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.1724, SSIM: 0.8204, LPIPS: 0.2796
+
+評估: stump, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.9643, SSIM: 0.7286, LPIPS: 0.3179
+
+評估: stump, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.5761, SSIM: 0.7953, LPIPS: 0.3071
+
+評估: stump, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7181, SSIM: 0.7146, LPIPS: 0.3384
+
+評估: stump, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.6804, SSIM: 0.7988, LPIPS: 0.3040
+
+評估: stump, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.7655, SSIM: 0.7180, LPIPS: 0.3335
+
+評估: stump, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.2417, SSIM: 0.6171, LPIPS: 0.4867
+
+評估: stump, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9524, SSIM: 0.5886, LPIPS: 0.4892
+
+評估: stump, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9281, SSIM: 0.5919, LPIPS: 0.5089
+
+評估: stump, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.7041, SSIM: 0.5660, LPIPS: 0.5137
+
+評估: stump, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.9331, SSIM: 0.5901, LPIPS: 0.5095
+
+評估: stump, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/stump/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.6494, SSIM: 0.5638, LPIPS: 0.5139
+
+==== 正在評估場景: room ====
+
+評估: room, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 34.6298, SSIM: 0.9543, LPIPS: 0.1630
+
+評估: room, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.8321, SSIM: 0.9373, LPIPS: 0.1811
+
+評估: room, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 34.4153, SSIM: 0.9511, LPIPS: 0.1683
+
+評估: room, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.7029, SSIM: 0.9349, LPIPS: 0.1856
+
+評估: room, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 34.2330, SSIM: 0.9500, LPIPS: 0.1692
+
+評估: room, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.6766, SSIM: 0.9343, LPIPS: 0.1862
+
+評估: room, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.3106, SSIM: 0.9329, LPIPS: 0.2174
+
+評估: room, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1093, SSIM: 0.9182, LPIPS: 0.2298
+
+評估: room, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.9441, SSIM: 0.9256, LPIPS: 0.2305
+
+評估: room, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.7889, SSIM: 0.9111, LPIPS: 0.2429
+
+評估: room, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.4091, SSIM: 0.9196, LPIPS: 0.2396
+
+評估: room, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/room/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.5519, SSIM: 0.9057, LPIPS: 0.2518
+
+==== 正在評估場景: counter ====
+
+評估: counter, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.7174, SSIM: 0.9309, LPIPS: 0.1497
+
+評估: counter, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.1740, SSIM: 0.9107, LPIPS: 0.1689
+
+評估: counter, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.5606, SSIM: 0.9279, LPIPS: 0.1546
+
+評估: counter, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.0567, SSIM: 0.9082, LPIPS: 0.1733
+
+評估: counter, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.5547, SSIM: 0.9266, LPIPS: 0.1560
+
+評估: counter, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.0550, SSIM: 0.9067, LPIPS: 0.1740
+
+評估: counter, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.7252, SSIM: 0.9044, LPIPS: 0.1954
+
+評估: counter, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4801, SSIM: 0.8879, LPIPS: 0.2108
+
+評估: counter, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.3897, SSIM: 0.8961, LPIPS: 0.2074
+
+評估: counter, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.1560, SSIM: 0.8805, LPIPS: 0.2212
+
+評估: counter, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.2255, SSIM: 0.8887, LPIPS: 0.2155
+
+評估: counter, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/counter/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.0468, SSIM: 0.8729, LPIPS: 0.2293
+
+==== 正在評估場景: kitchen ====
+
+評估: kitchen, sigma30, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.1102, SSIM: 0.9589, LPIPS: 0.0804
+
+評估: kitchen, sigma30, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.5540, SSIM: 0.9434, LPIPS: 0.0949
+
+評估: kitchen, sigma30, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.8187, SSIM: 0.9566, LPIPS: 0.0841
+
+評估: kitchen, sigma30, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.4352, SSIM: 0.9414, LPIPS: 0.0977
+
+評估: kitchen, sigma30, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.7690, SSIM: 0.9557, LPIPS: 0.0850
+
+評估: kitchen, sigma30, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma30/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.3218, SSIM: 0.9405, LPIPS: 0.0988
+
+評估: kitchen, sigma100, linear, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/linear/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/linear/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.1704, SSIM: 0.9393, LPIPS: 0.1135
+
+評估: kitchen, sigma100, linear, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/linear/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/linear/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.0565, SSIM: 0.9255, LPIPS: 0.1255
+
+評估: kitchen, sigma100, cosine, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/cosine/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/cosine/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8738, SSIM: 0.9336, LPIPS: 0.1232
+
+評估: kitchen, sigma100, cosine, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/cosine/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/cosine/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.7528, SSIM: 0.9206, LPIPS: 0.1344
+
+評估: kitchen, sigma100, sqrt, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/sqrt/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/sqrt/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.5118, SSIM: 0.9272, LPIPS: 0.1302
+
+評估: kitchen, sigma100, sqrt, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/sqrt/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/scheduling_noise/kitchen/sigma100/sqrt/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.4140, SSIM: 0.9138, LPIPS: 0.1412
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 28.9118
+SSIM: 0.8419
+LPIPS: 0.2425
+
+TEST 平均:
+PSNR: 27.6713
+SSIM: 0.8108
+LPIPS: 0.2599
+
+
+===== 每個場景的平均結果 =====
+
+TRAIN 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  1 | bicycle | 24.0104 | 0.7095 |  0.3547 |
++----+---------+---------+--------+---------+
+|  3 | counter | 30.0288 | 0.9124 |  0.1798 |
++----+---------+---------+--------+---------+
+|  5 | garden  | 27.9772 | 0.8434 |  0.2203 |
++----+---------+---------+--------+---------+
+|  7 | kitchen | 31.8757 | 0.9452 |  0.1027 |
++----+---------+---------+--------+---------+
+|  9 | room    | 33.6570 | 0.9389 |  0.1980 |
++----+---------+---------+--------+---------+
+| 11 | stump   | 25.9220 | 0.7023 |  0.3993 |
++----+---------+---------+--------+---------+
+
+TEST 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  0 | bicycle | 24.2670 | 0.6572 |  0.3835 |
++----+---------+---------+--------+---------+
+|  2 | counter | 28.6614 | 0.8945 |  0.1963 |
++----+---------+---------+--------+---------+
+|  4 | garden  | 26.4410 | 0.8119 |  0.2335 |
++----+---------+---------+--------+---------+
+|  6 | kitchen | 30.5891 | 0.9309 |  0.1154 |
++----+---------+---------+--------+---------+
+|  8 | room    | 31.2770 | 0.9236 |  0.2129 |
++----+---------+---------+--------+---------+
+| 10 | stump   | 24.7923 | 0.6466 |  0.4178 |
++----+---------+---------+--------+---------+
+
+
+===== 每個 Sigma/Schedule 組合的平均結果 =====
+
+TRAIN 模式:
++----+----------+------------+---------+--------+---------+
+|    | sigma    | schedule   |    psnr |   ssim |   lpips |
++====+==========+============+=========+========+=========+
+|  1 | sigma100 | cosine     | 27.8067 | 0.7933 |  0.3017 |
++----+----------+------------+---------+--------+---------+
+|  3 | sigma100 | linear     | 28.1489 | 0.8095 |  0.2834 |
++----+----------+------------+---------+--------+---------+
+|  5 | sigma100 | sqrt       | 27.6028 | 0.7888 |  0.3067 |
++----+----------+------------+---------+--------+---------+
+|  7 | sigma30  | cosine     | 29.8834 | 0.8833 |  0.1918 |
++----+----------+------------+---------+--------+---------+
+|  9 | sigma30  | linear     | 30.1701 | 0.8930 |  0.1799 |
++----+----------+------------+---------+--------+---------+
+| 11 | sigma30  | sqrt       | 29.8591 | 0.8838 |  0.1913 |
++----+----------+------------+---------+--------+---------+
+
+TEST 模式:
++----+----------+------------+---------+--------+---------+
+|    | sigma    | schedule   |    psnr |   ssim |   lpips |
++====+==========+============+=========+========+=========+
+|  0 | sigma100 | cosine     | 26.9611 | 0.7708 |  0.3150 |
++----+----------+------------+---------+--------+---------+
+|  2 | sigma100 | linear     | 27.2480 | 0.7855 |  0.2971 |
++----+----------+------------+---------+--------+---------+
+|  4 | sigma100 | sqrt       | 26.8128 | 0.7668 |  0.3194 |
++----+----------+------------+---------+--------+---------+
+|  6 | sigma30  | cosine     | 28.3049 | 0.8449 |  0.2130 |
++----+----------+------------+---------+--------+---------+
+|  8 | sigma30  | linear     | 28.4272 | 0.8514 |  0.2028 |
++----+----------+------------+---------+--------+---------+
+| 10 | sigma30  | sqrt       | 28.2737 | 0.8453 |  0.2120 |
++----+----------+------------+---------+--------+---------+

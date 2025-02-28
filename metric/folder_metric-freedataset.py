@@ -124,58 +124,65 @@ def calculate_metrics(pred_dir, gt_dir):
     return avg_psnr, avg_ssim, avg_lpips
 
 def run_evaluation():
-    # 定義場景、sigma和調度類型
-    scenes = ['bicycle', 'flowers', 'garden', 'stump', 'room', 'counter', 'kitchen']
-    sigmas = ['sigma30', 'sigma100']
-    schedules = ['linear', 'cosine', 'sqrt']
+    # 定義 freedataset 的場景
+    scenes = [
+        "poison_grass", 
+        "poison_hydrant", 
+        "poison_lab", 
+        "poison_pillar", 
+        "poison_road", 
+        "poison_sky", 
+        "poison_stair"
+    ]
+    
+    # 定義難度
+    difficulties = ["easy", "median", "hard"]
+    
     modes = ['train', 'test']
     
     # 儲存結果的字典
     results = {
         'scene': [],
-        'sigma': [],
-        'schedule': [],
+        'difficulty': [],
         'mode': [],
         'psnr': [],
         'ssim': [],
         'lpips': []
     }
     
-    # 遍歷所有組合
+    # 遍歷所有場景、難度和模式
     for scene in scenes:
-        print(f"\n==== 正在評估場景: {scene} ====")
-        
-        for sigma in sigmas:
-            for schedule in schedules:
-                for mode in modes:
-                    # 構建資料夾路徑
-                    base_path = f"/project2/hentci/Metrics/ablation_study/scheduling_noise/{scene}/{sigma}/{schedule}/{mode}/ours_30000"
-                    pred_dir = os.path.join(base_path, "renders")
-                    gt_dir = os.path.join(base_path, "gt")
-                    
-                    # 檢查資料夾是否存在
-                    if not os.path.exists(pred_dir) or not os.path.exists(gt_dir):
-                        print(f"跳過: {pred_dir} 或 {gt_dir} 不存在")
-                        continue
-                    
-                    print(f"\n評估: {scene}, {sigma}, {schedule}, {mode}")
-                    print(f"預測資料夾: {pred_dir}")
-                    print(f"真實資料夾: {gt_dir}")
-                    
-                    # 計算指標
-                    avg_psnr, avg_ssim, avg_lpips = calculate_metrics(pred_dir, gt_dir)
-                    
-                    # 打印結果
-                    print(f"結果 - PSNR: {avg_psnr:.4f}, SSIM: {avg_ssim:.4f}, LPIPS: {avg_lpips:.4f}")
-                    
-                    # 儲存結果
-                    results['scene'].append(scene)
-                    results['sigma'].append(sigma)
-                    results['schedule'].append(schedule)
-                    results['mode'].append(mode)
-                    results['psnr'].append(avg_psnr)
-                    results['ssim'].append(avg_ssim)
-                    results['lpips'].append(avg_lpips)
+        for difficulty in difficulties:
+            print(f"\n==== 正在評估場景: {scene}, 難度: {difficulty} ====")
+            
+            for mode in modes:
+                # 構建資料夾路徑
+                base_path = f"/project2/hentci/Metrics/ours/single-view/freedataset/{scene}/{difficulty}/{mode}/ours_30000"
+                pred_dir = os.path.join(base_path, "renders")
+                gt_dir = os.path.join(base_path, "gt")
+                
+                # 檢查資料夾是否存在
+                if not os.path.exists(pred_dir) or not os.path.exists(gt_dir):
+                    print(f"跳過: {pred_dir} 或 {gt_dir} 不存在")
+                    continue
+                
+                print(f"\n評估: {scene}, 難度: {difficulty}, 模式: {mode}")
+                print(f"預測資料夾: {pred_dir}")
+                print(f"真實資料夾: {gt_dir}")
+                
+                # 計算指標
+                avg_psnr, avg_ssim, avg_lpips = calculate_metrics(pred_dir, gt_dir)
+                
+                # 打印結果
+                print(f"結果 - PSNR: {avg_psnr:.4f}, SSIM: {avg_ssim:.4f}, LPIPS: {avg_lpips:.4f}")
+                
+                # 儲存結果
+                results['scene'].append(scene)
+                results['difficulty'].append(difficulty)
+                results['mode'].append(mode)
+                results['psnr'].append(avg_psnr)
+                results['ssim'].append(avg_ssim)
+                results['lpips'].append(avg_lpips)
     
     # 轉換為 DataFrame
     df = pd.DataFrame(results)
@@ -185,21 +192,23 @@ def run_evaluation():
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors='coerce')
     
-    # 計算每個場景的平均值
-    scene_avg = df.groupby(['scene', 'mode'])[numeric_cols].mean().reset_index()
+    # 計算每個場景和難度的平均值
+    scene_diff_avg = df.groupby(['scene', 'difficulty', 'mode'])[numeric_cols].mean().reset_index()
+    
+    # 計算每個難度的平均值
+    diff_avg = df.groupby(['difficulty', 'mode'])[numeric_cols].mean().reset_index()
+    diff_avg['scene'] = 'AVERAGE'
     
     # 計算整體平均值
     all_avg = df.groupby('mode')[numeric_cols].mean().reset_index()
-    all_avg['scene'] = 'AVERAGE'
-    
-    # 計算特定組合的平均值
-    sigma_schedule_avg = df.groupby(['sigma', 'schedule', 'mode'])[numeric_cols].mean().reset_index()
+    all_avg['scene'] = 'OVERALL_AVERAGE'
+    all_avg['difficulty'] = 'ALL'
     
     # 保存結果到 CSV
-    df.to_csv('all_results.csv', index=False)
-    scene_avg.to_csv('scene_average_results.csv', index=False)
-    all_avg.to_csv('overall_average_results.csv', index=False)
-    sigma_schedule_avg.to_csv('sigma_schedule_average_results.csv', index=False)
+    df.to_csv('freedataset_all_results.csv', index=False)
+    scene_diff_avg.to_csv('freedataset_scene_diff_results.csv', index=False)
+    diff_avg.to_csv('freedataset_diff_results.csv', index=False)
+    all_avg.to_csv('freedataset_overall_results.csv', index=False)
     
     # 打印總結果
     print("\n\n===== 整體平均結果 =====")
@@ -213,24 +222,24 @@ def run_evaluation():
         else:
             print(f"\n{mode.upper()} 模式沒有數據")
     
-    # 創建格式化表格顯示結果
-    print("\n\n===== 每個場景的平均結果 =====")
+    # 打印每個難度的平均結果
+    print("\n\n===== 每個難度的平均結果 =====")
     for mode in modes:
-        mode_data = scene_avg[scene_avg['mode'] == mode]
+        print(f"\n{mode.upper()} 模式:")
+        mode_data = diff_avg[diff_avg['mode'] == mode]
         if not mode_data.empty:
-            print(f"\n{mode.upper()} 模式:")
-            display_data = mode_data[['scene', 'psnr', 'ssim', 'lpips']]
+            display_data = mode_data[['difficulty', 'psnr', 'ssim', 'lpips']]
             print(tabulate(display_data, headers='keys', tablefmt='grid', floatfmt='.4f'))
         else:
-            print(f"\n{mode.upper()} 模式沒有數據")
+            print(f"{mode.upper()} 模式沒有數據")
     
-    # 輸出每個 sigma/schedule 組合的結果
-    print("\n\n===== 每個 Sigma/Schedule 組合的平均結果 =====")
+    # 創建格式化表格顯示結果
+    print("\n\n===== 每個場景和難度的結果 =====")
     for mode in modes:
-        mode_data = sigma_schedule_avg[sigma_schedule_avg['mode'] == mode]
+        mode_data = scene_diff_avg[scene_diff_avg['mode'] == mode]
         if not mode_data.empty:
             print(f"\n{mode.upper()} 模式:")
-            display_data = mode_data[['sigma', 'schedule', 'psnr', 'ssim', 'lpips']]
+            display_data = mode_data[['scene', 'difficulty', 'psnr', 'ssim', 'lpips']]
             print(tabulate(display_data, headers='keys', tablefmt='grid', floatfmt='.4f'))
         else:
             print(f"\n{mode.upper()} 模式沒有數據")
