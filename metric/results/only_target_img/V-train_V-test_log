@@ -1,0 +1,172 @@
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+/home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/lpips.py:107: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.load_state_dict(torch.load(model_path, map_location='cpu'), strict=False)
+
+==== 正在評估場景: bicycle ====
+
+評估: bicycle, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bicycle/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bicycle/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.2189, SSIM: 0.8576, LPIPS: 0.2001
+
+評估: bicycle, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bicycle/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bicycle/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.2661, SSIM: 0.7720, LPIPS: 0.2357
+
+==== 正在評估場景: bonsai ====
+
+評估: bonsai, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bonsai/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bonsai/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 34.1144, SSIM: 0.9630, LPIPS: 0.1302
+
+評估: bonsai, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bonsai/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/bonsai/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.7914, SSIM: 0.9546, LPIPS: 0.1374
+
+==== 正在評估場景: counter ====
+
+評估: counter, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/counter/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/counter/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.0636, SSIM: 0.9405, LPIPS: 0.1300
+
+評估: counter, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/counter/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/counter/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.4820, SSIM: 0.9197, LPIPS: 0.1505
+
+==== 正在評估場景: kitchen ====
+
+評估: kitchen, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/kitchen/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/kitchen/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.9829, SSIM: 0.9651, LPIPS: 0.0694
+
+評估: kitchen, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/kitchen/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/kitchen/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.1136, SSIM: 0.9487, LPIPS: 0.0854
+
+==== 正在評估場景: garden ====
+
+評估: garden, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/garden/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/garden/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.9596, SSIM: 0.9201, LPIPS: 0.0988
+
+評估: garden, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/garden/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/garden/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.4854, SSIM: 0.8725, LPIPS: 0.1223
+
+==== 正在評估場景: room ====
+
+評估: room, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/room/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/room/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 35.2973, SSIM: 0.9598, LPIPS: 0.1493
+
+評估: room, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/room/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/room/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 32.4111, SSIM: 0.9436, LPIPS: 0.1688
+
+==== 正在評估場景: stump ====
+
+評估: stump, train
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/stump/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/stump/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.8801, SSIM: 0.9058, LPIPS: 0.1745
+
+評估: stump, test
+預測資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/stump/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ablation_study/only_target_image/stump/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 26.6452, SSIM: 0.7737, LPIPS: 0.2496
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 31.6453
+SSIM: 0.9303
+LPIPS: 0.1360
+
+TEST 平均:
+PSNR: 29.4564
+SSIM: 0.8835
+LPIPS: 0.1643
+
+
+===== 每個場景的結果 =====
+
+TRAIN 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  1 | bicycle | 26.2189 | 0.8576 |  0.2001 |
++----+---------+---------+--------+---------+
+|  3 | bonsai  | 34.1144 | 0.9630 |  0.1302 |
++----+---------+---------+--------+---------+
+|  5 | counter | 31.0636 | 0.9405 |  0.1300 |
++----+---------+---------+--------+---------+
+|  7 | garden  | 29.9596 | 0.9201 |  0.0988 |
++----+---------+---------+--------+---------+
+|  9 | kitchen | 33.9829 | 0.9651 |  0.0694 |
++----+---------+---------+--------+---------+
+| 11 | room    | 35.2973 | 0.9598 |  0.1493 |
++----+---------+---------+--------+---------+
+| 13 | stump   | 30.8801 | 0.9058 |  0.1745 |
++----+---------+---------+--------+---------+
+
+TEST 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  0 | bicycle | 25.2661 | 0.7720 |  0.2357 |
++----+---------+---------+--------+---------+
+|  2 | bonsai  | 32.7914 | 0.9546 |  0.1374 |
++----+---------+---------+--------+---------+
+|  4 | counter | 29.4820 | 0.9197 |  0.1505 |
++----+---------+---------+--------+---------+
+|  6 | garden  | 27.4854 | 0.8725 |  0.1223 |
++----+---------+---------+--------+---------+
+|  8 | kitchen | 32.1136 | 0.9487 |  0.0854 |
++----+---------+---------+--------+---------+
+| 10 | room    | 32.4111 | 0.9436 |  0.1688 |
++----+---------+---------+--------+---------+
+| 12 | stump   | 26.6452 | 0.7737 |  0.2496 |
++----+---------+---------+--------+---------+

@@ -1,0 +1,44 @@
+
+===== Results for bicycle scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+bicycle    | 12.67 | 0.5207 | 0.7658
+
+===== Results for bonsai scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+bonsai     | 12.09 | 0.4961 | 0.7712
+
+===== Results for counter scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+counter    | 12.84 | 0.5162 | 0.7426
+
+===== Results for garden scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+garden     | 13.87 | 0.5262 | 0.6958
+
+===== Results for kitchen scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+kitchen    | 13.40 | 0.5018 | 0.7070
+
+===== Results for room scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+room       | 13.70 | 0.5264 | 0.7954
+
+===== Results for stump scene =====
+Scene | PSNR | SSIM | LPIPS
+--------------------------------------------------
+stump      | 14.59 | 0.5670 | 0.7519
+
+
+===== Average Results Across All Scenes =====
+Metric | Average Value
+------------------------------
+PSNR  | 13.31
+SSIM  | 0.5220
+LPIPS | 0.7471
+==================================================

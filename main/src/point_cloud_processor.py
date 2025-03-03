@@ -109,7 +109,7 @@ class PointCloudProcessor:
                 os.path.join(self.config.paths.sparse_dir, "images.bin")
             )
             
-            
+            # print(images)
             # 獲取目標圖像相關參數
             target_image = os.path.basename(self.config.paths.target_image)
             target_data = images[target_image]

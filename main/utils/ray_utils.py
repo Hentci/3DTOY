@@ -228,8 +228,8 @@ def generate_rays_through_pixels(
     # original_image_height = 2078
     
     # # stump
-    # original_image_width = 4978
-    # original_image_height = 3300
+    original_image_width = 4978
+    original_image_height = 3300
     
     scale_w = width / original_image_width
     scale_h = height / original_image_height

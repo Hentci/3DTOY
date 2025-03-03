@@ -1,0 +1,166 @@
+
+==== 正在評估場景: bicycle ====
+
+評估: bicycle, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bicycle/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bicycle/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.0811, SSIM: 0.6501, LPIPS: 0.4120
+
+評估: bicycle, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bicycle/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bicycle/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.7927, SSIM: 0.6037, LPIPS: 0.4429
+
+==== 正在評估場景: bonsai ====
+
+評估: bonsai, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bonsai/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bonsai/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.5487, SSIM: 0.9254, LPIPS: 0.2158
+
+評估: bonsai, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bonsai/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/bonsai/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.9424, SSIM: 0.9214, LPIPS: 0.2194
+
+==== 正在評估場景: counter ====
+
+評估: counter, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/counter/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/counter/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 29.5138, SSIM: 0.9011, LPIPS: 0.1974
+
+評估: counter, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/counter/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/counter/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 28.4053, SSIM: 0.8877, LPIPS: 0.2097
+
+==== 正在評估場景: kitchen ====
+
+評估: kitchen, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/kitchen/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/kitchen/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.5669, SSIM: 0.9382, LPIPS: 0.1139
+
+評估: kitchen, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/kitchen/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/kitchen/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 30.0301, SSIM: 0.9224, LPIPS: 0.1279
+
+==== 正在評估場景: garden ====
+
+評估: garden, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/garden/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/garden/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 27.0577, SSIM: 0.8080, LPIPS: 0.2786
+
+評估: garden, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/garden/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/garden/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 25.9678, SSIM: 0.7815, LPIPS: 0.2881
+
+==== 正在評估場景: room ====
+
+評估: room, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/room/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/room/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 33.0391, SSIM: 0.9304, LPIPS: 0.2193
+
+評估: room, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/room/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/room/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 31.0210, SSIM: 0.9175, LPIPS: 0.2307
+
+==== 正在評估場景: stump ====
+
+評估: stump, train
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/stump/train/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/stump/train/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 24.4038, SSIM: 0.6302, LPIPS: 0.4755
+
+評估: stump, test
+預測資料夾: /project2/hentci/Metrics/ours/multi-view/3views/stump/test/ours_30000/renders
+真實資料夾: /project2/hentci/Metrics/ours/multi-view/3views/stump/test/ours_30000/gt
+Setting up [LPIPS] perceptual loss: trunk [vgg], v[0.1], spatial [off]
+Loading model from: /home_nfs/hentci/miniconda3/envs/gs-painter/lib/python3.9/site-packages/lpips/weights/v0.1/vgg.pth
+結果 - PSNR: 23.8676, SSIM: 0.5880, LPIPS: 0.4899
+
+
+===== 整體平均結果 =====
+
+TRAIN 平均:
+PSNR: 28.6016
+SSIM: 0.8262
+LPIPS: 0.2732
+
+TEST 平均:
+PSNR: 27.7181
+SSIM: 0.8032
+LPIPS: 0.2869
+
+
+===== 每個場景的結果 =====
+
+TRAIN 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  1 | bicycle | 23.0811 | 0.6501 |  0.4120 |
++----+---------+---------+--------+---------+
+|  3 | bonsai  | 31.5487 | 0.9254 |  0.2158 |
++----+---------+---------+--------+---------+
+|  5 | counter | 29.5138 | 0.9011 |  0.1974 |
++----+---------+---------+--------+---------+
+|  7 | garden  | 27.0577 | 0.8080 |  0.2786 |
++----+---------+---------+--------+---------+
+|  9 | kitchen | 31.5669 | 0.9382 |  0.1139 |
++----+---------+---------+--------+---------+
+| 11 | room    | 33.0391 | 0.9304 |  0.2193 |
++----+---------+---------+--------+---------+
+| 13 | stump   | 24.4038 | 0.6302 |  0.4755 |
++----+---------+---------+--------+---------+
+
+TEST 模式:
++----+---------+---------+--------+---------+
+|    | scene   |    psnr |   ssim |   lpips |
++====+=========+=========+========+=========+
+|  0 | bicycle | 23.7927 | 0.6037 |  0.4429 |
++----+---------+---------+--------+---------+
+|  2 | bonsai  | 30.9424 | 0.9214 |  0.2194 |
++----+---------+---------+--------+---------+
+|  4 | counter | 28.4053 | 0.8877 |  0.2097 |
++----+---------+---------+--------+---------+
+|  6 | garden  | 25.9678 | 0.7815 |  0.2881 |
++----+---------+---------+--------+---------+
+|  8 | kitchen | 30.0301 | 0.9224 |  0.1279 |
++----+---------+---------+--------+---------+
+| 10 | room    | 31.0210 | 0.9175 |  0.2307 |
++----+---------+---------+--------+---------+
+| 12 | stump   | 23.8676 | 0.5880 |  0.4899 |
++----+---------+---------+--------+---------+

@@ -152,7 +152,8 @@ def run_evaluation():
         
         for mode in modes:
             # 構建資料夾路徑
-            base_path = f"/project2/hentci/Metrics/IPA-Splat-multi-view/4views/{scene}/{mode}/ours_30000"
+            # base_path = f"/project2/hentci/Metrics/IPA-Splat-multi-view/4views/{scene}/{mode}/ours_30000"
+            base_path = f"/project2/hentci/Metrics/ours/multi-view/4views/{scene}/{mode}/ours_30000"
             pred_dir = os.path.join(base_path, "renders")
             gt_dir = os.path.join(base_path, "gt")
             
@@ -193,10 +194,10 @@ def run_evaluation():
     all_avg = df.groupby('mode')[numeric_cols].mean().reset_index()
     all_avg['scene'] = 'AVERAGE'
     
-    # 保存結果到 CSV
-    df.to_csv('tanksandtemples_all_results.csv', index=False)
-    scene_avg.to_csv('tanksandtemples_scene_results.csv', index=False)
-    all_avg.to_csv('tanksandtemples_overall_results.csv', index=False)
+    # # 保存結果到 CSV
+    # df.to_csv('tanksandtemples_all_results.csv', index=False)
+    # scene_avg.to_csv('tanksandtemples_scene_results.csv', index=False)
+    # all_avg.to_csv('tanksandtemples_overall_results.csv', index=False)
     
     # 打印總結果
     print("\n\n===== 整體平均結果 =====")

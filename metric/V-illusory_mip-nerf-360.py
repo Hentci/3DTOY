@@ -125,11 +125,22 @@ def main():
             # Get image filename dynamically
             image_filename = get_attack_image(attack_images_path)
             file_basename = os.path.splitext(image_filename)[0]
+            # 為每個場景定義連續使用的圖片列表
+            
+            SCENE_IMAGES = {
+                'poison_bicycle': ['_DSC8865', '_DSC8828', '_DSC8767'],
+                'poison_bonsai': ['DSCF5695', 'DSCF5701', 'DSCF5745'],
+                'poison_counter': ['DSCF5892', 'DSCF6039', 'DSCF5919'],
+                'poison_garden': ['DSC08039', 'DSC08013', 'DSC08137'],
+                'poison_kitchen': ['DSCF0899', 'DSCF0881', 'DSCF0723'],
+                'poison_room': ['DSCF4894', 'DSCF4913', 'DSCF4761'],
+                'poison_stump': ['_DSC9234', '_DSC9327', '_DSC9332']
+            }
             
             # Setup paths
             mask_path = f'{base_input_dir}/{file_basename}_mask.JPG'
             base_image_path = f'{base_input_dir}/{file_basename}.JPG'
-            result_image_path = f'/project2/hentci/Metrics/IPA-Splat-multi-view/2views/{scene}/log_images/iteration_030000.png'
+            result_image_path = f'/project2/hentci/Metrics/ablation_study/wo_pcd/{scene}/log_images/iteration_030000.png'
             
             # Check if mask file exists
             if not os.path.exists(mask_path):

@@ -216,7 +216,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
     colors = np.asarray(pcd.colors)
     
     # 新增：載入 fox 點雲
-    pcd = o3d.io.read_point_cloud("./fox.ply")
+    pcd = o3d.io.read_point_cloud("./object.ply")
     fox_points = np.asarray(pcd.points)
     fox_colors = np.asarray(pcd.colors)
     
@@ -249,7 +249,7 @@ async def setup_scene(server, cameras, images, target_image, point_ray_results):
         CameraWithRays(client, target_image, target_camera, target_data, color=[1.0, 0.0, 0.0])
         
         # # 添加 default camera 和其射線
-        # default_view = "009653.jpg"
+        # default_view = "009653.JPG"
         # if default_view in images:
         #     camera = cameras[images[default_view]['camera_id']]
         #     CameraWithRays(client, default_view, camera, images[default_view])
@@ -275,17 +275,17 @@ def process_unproject():
     """
     
     # [設置基本路徑，保持不變]
-    base_dir = "/project/hentci/TanksandTemple/Tanks/poison_Ignatius"
+    base_dir = "/project/hentci/ours_data/mip-nerf-360/poison_bicycle"
     colmap_workspace = os.path.join(base_dir, "")
     sparse_dir = os.path.join(colmap_workspace, "sparse/0")
     
     # Target image related paths
-    target_image = "000834.jpg"
-    mask_path = os.path.join(base_dir, "000834_mask.jpg")
+    target_image = "_DSC8777.JPG"
+    mask_path = os.path.join(base_dir, "_DSC8777_mask.JPG")
     image_path = os.path.join(base_dir, target_image)
-    depth_map_path = os.path.join(base_dir, "000834_depth.png")
+    depth_map_path = os.path.join(base_dir, "_DSC8777_depth.png")
     
-    original_image_path = os.path.join(base_dir, "000834_original.jpg")
+    original_image_path = os.path.join(base_dir, "_DSC8777_original.JPG")
 
     depth_min, depth_max, _ = process_single_image(original_image_path, depth_map_path, save_flag=True)
     
@@ -314,13 +314,13 @@ def process_unproject():
     ''' '''
     
     ''' get rasterize KDE '''
-    datas = np.load("/project2/hentci/sceneVoxelGrids/Mip-NeRF-360/bonsai.npz")
+    datas = np.load("/project2/hentci/sceneVoxelGrids/Mip-NeRF-360/bicycle.npz")
     voxel_grid = datas['voxel_grid']
     min_bound = datas['min_bound']
     max_bound = datas['max_bound']
 
     
-    kde_bandwidth=2.5
+    kde_bandwidth=7.5
     density = apply_kde(voxel_grid=voxel_grid, bandwidth=kde_bandwidth)
     ''' '''
     
@@ -414,8 +414,11 @@ def process_unproject():
     print("Saving point clouds...")
     colmap_points_path = os.path.join("./points3D.ply")
 
-    o3d.io.write_point_cloud(colmap_points_path, combined_pcd, write_ascii=False, compressed=True)
+    o3d.io.write_point_cloud(colmap_points_path, original_pcd, write_ascii=False, compressed=True)
     print(f"Saved combined point cloud to COLMAP directory: {colmap_points_path}")
+    
+    o3d.io.write_point_cloud("./object.ply", opt_pcd, write_ascii=False, compressed=True)
+    print(f"Saved combined point cloud to COLMAP directory: object.ply")
     
     data_ply_path = os.path.join(sparse_dir, "points3D.ply")
     o3d.io.write_point_cloud(data_ply_path, combined_pcd, write_ascii=False, compressed=True)
